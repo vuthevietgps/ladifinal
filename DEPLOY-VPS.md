@@ -204,7 +204,7 @@ Bạn đã có hệ thống quản lý landing page hoàn chỉnh:
 
 ## 🔄 (Mới) Làm sạch sâu và triển khai lại từ GitHub
 
-Nếu VPS của bạn đã có ứng dụng cũ, hãy dùng các bước sau để dọn dẹp sâu và triển khai lại từ repo GitHub mới `quanlyladipage1`:
+Nếu VPS của bạn đã có ứng dụng cũ, hãy dùng các bước sau để dọn dẹp sâu và triển khai lại từ repo GitHub mới:
 
 ### 1) Làm sạch sâu VPS
 
@@ -217,7 +217,7 @@ sudo bash /root/cleanup-vps.sh
 
 ### 2) Triển khai lại từ GitHub mới
 
-Script triển khai 1 bước: cài gói cần thiết, clone repo `quanlyladipage1`, tạo venv, cài requirements, khởi tạo DB, tạo service systemd, cấu hình Nginx admin + wildcard, mở firewall và khởi động.
+Script triển khai 1 bước: cài gói cần thiết, clone repo, tạo venv, cài requirements, khởi tạo DB, tạo service systemd, cấu hình Nginx admin + wildcard, mở firewall và khởi động.
 
 Chạy tương tác (sẽ hỏi DOMAIN và có giữ landingpages hay không):
 
@@ -231,7 +231,7 @@ Hoặc chạy không cần hỏi (ví dụ):
 ```bash
 DOMAIN=example.com \
 BRANCH=main \
-REPO_URL=https://github.com/vuthevietgps/quanlyladipage1.git \
+REPO_URL=https://github.com/vuthevietgps/ladi.git \
 PRESERVE_LANDINGPAGES=true \
 sudo -E bash /root/redeploy-vps.sh
 ```

@@ -21,8 +21,8 @@ Hệ thống quản lý và phục vụ landing pages với wildcard subdomain, 
 
 ### Development
 ```bash
-git clone https://github.com/vuthevietgps/quanlyladipage.git
-cd quanlyladipage
+git clone https://github.com/vuthevietgps/ladi.git
+cd ladi
 python -m venv .venv
 .venv\Scripts\activate  # Windows
 source .venv/bin/activate  # Linux/Mac
@@ -35,11 +35,11 @@ Truy cập: http://localhost:5000
 ### Production Deployment
 ```bash
 # Trên VPS Ubuntu:
-wget https://raw.githubusercontent.com/vuthevietgps/quanlyladipage/main/cleanup-vps.sh
+wget https://raw.githubusercontent.com/vuthevietgps/ladi/main/cleanup-vps.sh
 chmod +x cleanup-vps.sh
 ./cleanup-vps.sh
 
-wget https://raw.githubusercontent.com/vuthevietgps/quanlyladipage/main/redeploy-vps.sh
+wget https://raw.githubusercontent.com/vuthevietgps/ladi/main/redeploy-vps.sh
 chmod +x redeploy-vps.sh
 ./redeploy-vps.sh
 ```
@@ -186,7 +186,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📞 Support
 
-- **GitHub Issues**: [Create Issue](https://github.com/vuthevietgps/quanlyladipage/issues)
+- **GitHub Issues**: [Create Issue](https://github.com/vuthevietgps/ladi/issues)
 - **Email**: support@yourdomain.com
 
 ---

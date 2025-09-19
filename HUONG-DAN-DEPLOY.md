@@ -16,7 +16,7 @@
 ssh root@YOUR_VPS_IP
 
 # Tải và chạy script deploy tự động
-wget -O /root/redeploy-vps.sh https://raw.githubusercontent.com/vuthevietgps/quanlyladipage1/main/redeploy-vps.sh
+wget -O /root/redeploy-vps.sh https://raw.githubusercontent.com/vuthevietgps/ladi/main/redeploy-vps.sh
 sudo bash /root/redeploy-vps.sh
 ```
 
@@ -77,7 +77,7 @@ apt install -y nginx git sqlite3 python3 python3-venv python3-pip ufw curl
 ### 2. Clone source code
 ```bash
 cd /var/www
-git clone https://github.com/vuthevietgps/quanlyladipage1.git quanlyladipage
+git clone https://github.com/vuthevietgps/ladi.git quanlyladipage
 cd quanlyladipage
 ```
 
@@ -308,7 +308,7 @@ sudo systemctl restart quanlyladipage
 5. **Nginx config error** → Kiểm tra syntax với `nginx -t`
 
 ### Liên hệ support:
-- **GitHub Issues**: https://github.com/vuthevietgps/quanlyladipage1/issues
+- **GitHub Issues**: https://github.com/vuthevietgps/ladi/issues
 - **Documentation**: Xem file `quytac.md` và `quytactaoindex.md`
 
 ---
