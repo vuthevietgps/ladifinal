@@ -1,45 +1,180 @@
-# HƯỚNG DẪN DEPLOY HỆ THỐNG QUẢN LÝ LANDING PAGE
+# HƯỚNG DẪN DEPLOY HỆ THỐNG QUẢN LÝ LANDING PAGE (CẬP NHẬT 2025)
 
 ## 🚀 QUICK START - DEPLOY TỰ ĐỘNG
 
 ### Yêu cầu VPS
-- **OS**: Ubuntu 20.04+ hoặc 22.04+ LTS
+- **OS**: Ubuntu 20.04+ hoặc 22.04+ LTS (đã test Ubuntu 24.04.3 LTS ✅)
 - **RAM**: Tối thiểu 2GB (khuyến nghị 4GB+)
 - **Storage**: 20GB+ free space
 - **Network**: Public IP với port 80, 443, 22 mở
-- **Domain**: Có wildcard DNS (*.yourdomain.com)
+- **Domain**: Có wildcard DNS (*.yourdomain.com) 
+- **Root access**: Quyền sudo để cài đặt packages
 
-### Bước 1: Deploy tự động từ GitHub
+### ⚠️ QUAN TRỌNG TRƯỚC KHI BẮt ĐẦU:
+1. **Cấu hình DNS**: Trỏ `@`, `*`, `admin` về IP VPS
+2. **Chờ DNS propagate**: 5-15 phút sau khi cấu hình
+3. **Backup dữ liệu cũ**: Nếu VPS đã có ứng dụng khác
+
+### Bước 1: Clean VPS (nếu cần)
+
+⚠️ **CHỈ CHẠY NẾU VPS ĐÃ CÓ ỨNG DỤNG CŨ:**
 
 ```bash
 # SSH vào VPS với quyền root
 ssh root@YOUR_VPS_IP
 
-# Tải và chạy script deploy tự động
+# Tải và chạy script cleanup sâu
+wget -O /root/cleanup-vps.sh https://raw.githubusercontent.com/vuthevietgps/ladi/main/cleanup-vps.sh
+sudo bash /root/cleanup-vps.sh
+```
+
+### Bước 2: Deploy tự động từ GitHub
+
+```bash
+# Tải và chạy script deploy tự động  
 wget -O /root/redeploy-vps.sh https://raw.githubusercontent.com/vuthevietgps/ladi/main/redeploy-vps.sh
 sudo bash /root/redeploy-vps.sh
 ```
 
 Script sẽ hỏi:
-- **Domain chính**: Ví dụ `hrxbachgia.shop`
+- **Domain chính**: Ví dụ `mydomain.com` 
 - **Giữ landing pages cũ**: Chọn `Y` nếu muốn giữ, `N` để fresh start
 
-### Bước 2: Cấu hình DNS
+### Bước 3: Fix lỗi thường gặp (nếu có)
 
-Tại nhà cung cấp domain, tạo các bản ghi:
-```
-Loại    Tên       Giá trị           TTL
-A       @         IP_VPS_CUA_BAN    300
-A       *         IP_VPS_CUA_BAN    300  
-A       admin     IP_VPS_CUA_BAN    300
+#### Nếu gặp lỗi "No module named 'app'":
+```bash
+cd /var/www/quanlyladipage
+
+# Kiểm tra cấu trúc - nếu code trong .tmp thì di chuyển:
+ls -la
+mv quanlyladipage.tmp/* . 2>/dev/null || true
+mv quanlyladipage.tmp/.* . 2>/dev/null || true
+rmdir quanlyladipage.tmp 2>/dev/null || true
+
+# Setup lại environment
+source venv/bin/activate
+pip install -r requirements.txt
+python -c "from app import create_app; from app.db import init_db; app = create_app(); init_db(app); print('✅ DB OK!')"
+
+# Fix permissions và restart
+sudo chown -R www-data:www-data /var/www/quanlyladipage
+sudo chmod 664 /var/www/quanlyladipage/database.db
+sudo systemctl restart quanlyladipage
 ```
 
-### Bước 3: Cài SSL (Khuyến nghị)
+### Bước 4: Cài SSL Certificate
+
+⚠️ **Chờ DNS propagate 5-15 phút trước khi chạy**
 
 ```bash
-# Sau khi DNS propagate (5-10 phút)
+# Cài certbot
 sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d admin.yourdomain.com -d "*.yourdomain.com"
+
+# Cài SSL cho admin trước (dễ hơn)
+sudo certbot --nginx -d admin.yourdomain.com
+
+# Sau đó cài SSL cho domain chính  
+sudo certbot --nginx -d yourdomain.com
+```
+
+**Lỗi thường gặp:**
+- **Domain redundant**: KHÔNG được cài `admin.domain.com` và `*.domain.com` cùng lúc
+- **DNS not resolve**: Chờ thêm hoặc check DNS config
+
+### Bước 5: Cấu hình Nginx routing (quan trọng)
+
+Script có thể tạo Nginx config chưa đúng. Fix bằng cách thay thế:
+
+```bash
+sudo tee /etc/nginx/sites-available/quanlyladipage > /dev/null << 'EOF'
+# Domain chính - Trang công ty
+server {
+    listen 80;
+    server_name yourdomain.com;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name yourdomain.com;
+    ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    location /static/ {
+        alias /var/www/quanlyladipage/static/;
+        expires 30d;
+    }
+}
+
+# Admin panel  
+server {
+    listen 80;
+    server_name admin.yourdomain.com;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name admin.yourdomain.com;
+    ssl_certificate /etc/letsencrypt/live/admin.yourdomain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/admin.yourdomain.com/privkey.pem;
+
+    location = / {
+        return 301 https://$server_name/admin-panel-xyz123/;
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    location /static/ {
+        alias /var/www/quanlyladipage/static/;
+        expires 30d;
+    }
+}
+
+# Wildcard subdomains
+server {
+    listen 80;
+    server_name *.yourdomain.com;
+    if ($host = yourdomain.com) { return 404; }
+    if ($host = admin.yourdomain.com) { return 404; }
+
+    root /var/www/landingpages;
+    index index.html;
+
+    location / {
+        set $subdomain "";
+        if ($host ~* "^([^.]+)\.yourdomain\.com$") { 
+            set $subdomain $1; 
+        }
+        try_files /$subdomain/index.html @fallback;
+    }
+
+    location @fallback { 
+        return 404 "Landing page không tồn tại"; 
+    }
+}
+EOF
+
+# Thay yourdomain.com bằng domain thực
+sudo sed -i 's/yourdomain.com/mydomain.com/g' /etc/nginx/sites-available/quanlyladipage
+
+# Test và reload
+sudo nginx -t && sudo systemctl reload nginx
 ```
 
 ## 📋 VERIFY DEPLOYMENT

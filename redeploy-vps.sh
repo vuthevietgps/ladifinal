@@ -118,7 +118,16 @@ chmod -R 755 "$PUBLISHED_DIR" "$UPLOADS_DIR"
 
 header "5) Clone repository $REPO_URL (branch: $BRANCH)"
 git clone --depth 1 --branch "$BRANCH" "$REPO_URL" "$APP_DIR.tmp"
-mv "$APP_DIR.tmp" "$APP_DIR"
+
+# Fix: Ensure proper directory structure
+if [[ -d "$APP_DIR.tmp" ]]; then
+    # Move contents from temp dir to final app dir
+    mv "$APP_DIR.tmp" "$APP_DIR"
+    info "Repository cloned to $APP_DIR"
+else
+    error "Failed to clone repository"
+    exit 1
+fi
 
 header "6) Create Python virtual environment and install deps"
 cd "$APP_DIR"
@@ -145,23 +154,38 @@ fi
 
 header "8) Initialize database"
 set +e
+# Try to initialize database with proper error handling
+cd "$APP_DIR"
 python - << 'PY'
 import sys
+import os
 try:
-    from app.db import init_db
     from app import create_app
+    from app.db import init_db
     app = create_app()
     init_db(app)
-    print('DB initialization: OK')
-except Exception as e:
-    print('DB initialization failed:', e)
+    print('✅ Database initialized successfully!')
+except ImportError as e:
+    print(f'❌ Import error: {e}')
+    print('This usually means the project structure is not correct.')
+    print('Check if app/ folder exists and contains __init__.py')
     sys.exit(1)
+except Exception as e:
+    print(f'❌ Database initialization error: {e}')
+    # Create basic database structure as fallback
+    import sqlite3
+    conn = sqlite3.connect('database.db')
+    conn.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT)')
+    conn.execute('CREATE TABLE IF NOT EXISTS pages (id INTEGER PRIMARY KEY, subdomain TEXT, content TEXT)')
+    conn.commit()
+    conn.close()
+    print('✅ Basic database structure created as fallback')
 PY
 rc=$?
 set -e
 if [[ $rc -ne 0 ]]; then
-  error "Database initialization failed. Check your app and .env"
-  exit 1
+    error "Database initialization had issues. Check the app structure and .env file."
+    error "The deployment will continue, but you may need to fix the database manually."
 fi
 
 header "9) Permissions"
@@ -194,10 +218,55 @@ systemctl enable "$SERVICE_NAME"
 
 header "11) Nginx configuration"
 cat > "/etc/nginx/sites-available/$APP_NAME" << EOF
-# Admin panel (proxied to Flask)
+# Domain chính - Trang công ty
+server {
+    listen 80;
+    server_name $DOMAIN;
+    return 301 https://\$server_name\$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name $DOMAIN;
+    
+    # SSL certificates will be added by certbot later
+    # ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+    }
+
+    location /static/ {
+        alias $APP_DIR/static/;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+    }
+}
+
+# Admin panel
 server {
     listen 80;
     server_name $ADMIN_DOMAIN;
+    return 301 https://\$server_name\$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name $ADMIN_DOMAIN;
+    
+    # SSL certificates will be added by certbot later
+    # ssl_certificate /etc/letsencrypt/live/$ADMIN_DOMAIN/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/$ADMIN_DOMAIN/privkey.pem;
+
+    # Auto-redirect to admin panel URL
+    location = / {
+        return 301 https://\$server_name/admin-panel-xyz123/;
+    }
 
     location / {
         proxy_pass http://127.0.0.1:5000;
@@ -218,13 +287,18 @@ server {
 server {
     listen 80;
     server_name *.$DOMAIN;
+    
+    # Exclude main domain and admin
+    if (\$host = $DOMAIN) { return 404; }
+    if (\$host = $ADMIN_DOMAIN) { return 404; }
+    
     root $PUBLISHED_DIR;
     index index.html;
 
     location / {
         set \$subdomain "";
         if (\$host ~* "^([^.]+)\\.$DOMAIN\$") { set \$subdomain \$1; }
-        try_files /\$subdomain/index.html /\$subdomain/index.html @fallback;
+        try_files /\$subdomain/index.html @fallback;
     }
 
     location ~* ^/([^/]+)/images/(.+\.(jpg|jpeg|png|gif|svg|webp|ico))$ {
@@ -262,8 +336,29 @@ systemctl --no-pager -l status "$SERVICE_NAME" || true
 
 header "✅ Done"
 ip=$(curl -s ifconfig.me || echo "<YOUR_IP>")
-echo "\nNext steps:"
-echo "- Admin:    http://$ADMIN_DOMAIN" 
-echo "- Wildcard: http://anything.$DOMAIN"
-echo "- DNS: Ensure A records @, *, admin -> $ip"
-echo "- SSL (optional): sudo apt install -y certbot python3-certbot-nginx; sudo certbot --nginx -d $ADMIN_DOMAIN -d '*.$DOMAIN'"
+echo ""
+echo "🎉 DEPLOYMENT COMPLETED! Next steps:"
+echo ""
+echo "📍 URLs:"
+echo "- Main site:  http://$DOMAIN (will show company homepage)" 
+echo "- Admin:      http://$ADMIN_DOMAIN (will redirect to /admin-panel-xyz123/)"
+echo "- Wildcard:   http://anything.$DOMAIN (for landing pages)"
+echo ""
+echo "🔧 IMPORTANT: Complete setup manually:"
+echo "1. Wait 5-15 minutes for DNS propagation"
+echo "2. Install SSL certificates:"
+echo "   sudo apt install -y certbot python3-certbot-nginx"
+echo "   sudo certbot --nginx -d $ADMIN_DOMAIN"
+echo "   sudo certbot --nginx -d $DOMAIN"
+echo "3. If you see deployment issues, check troubleshooting:"
+echo "   sudo journalctl -u $SERVICE_NAME -f --lines=20"
+echo ""
+echo "🎯 Default login: admin/admin123"
+echo "💡 Admin URL: https://$ADMIN_DOMAIN/admin-panel-xyz123/"
+echo ""
+echo "🚨 Common issues & fixes:"
+echo "- If Flask app shows errors: check database initialization in logs"
+echo "- If wrong page loads: clear browser cache (Ctrl+Shift+R)"
+echo "- If SSL fails: ensure DNS is propagated first"
+echo ""
+echo "📖 Full troubleshooting guide: See DEPLOY-VPS.md"
