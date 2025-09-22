@@ -5,7 +5,8 @@ FIELDS = [
     'id','subdomain','agent','global_site_tag',
     'phone_tracking','zalo_tracking','form_tracking',
     'hotline_phone','zalo_phone','google_form_link',
-    'status','original_filename','created_at','updated_at'
+    'status','original_filename','upload_type','folder_structure',
+    'created_at','updated_at'
 ]
 
 
@@ -68,4 +69,21 @@ def list_landings(filters: Dict[str, Any]) -> List[Dict[str, Any]]:
 def delete_landing(landing_id: int):
     db = get_db()
     db.execute("DELETE FROM landing_pages WHERE id=?", (landing_id,))
+    db.commit()
+
+
+def get_landing_files(landing_id: int) -> List[Dict[str, Any]]:
+    """Get all files for a landing page"""
+    db = get_db()
+    rows = db.execute(
+        "SELECT id, file_path, original_name, file_type, file_size, created_at FROM landing_files WHERE landing_id=? ORDER BY file_path",
+        (landing_id,)
+    ).fetchall()
+    return [dict(row) for row in rows]
+
+
+def delete_landing_files(landing_id: int):
+    """Delete all file records for a landing page"""
+    db = get_db()
+    db.execute("DELETE FROM landing_files WHERE landing_id=?", (landing_id,))
     db.commit()

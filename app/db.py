@@ -15,8 +15,21 @@ CREATE TABLE IF NOT EXISTS landing_pages (
     google_form_link TEXT,
     status TEXT NOT NULL DEFAULT 'active',
     original_filename TEXT,
+    upload_type TEXT NOT NULL DEFAULT 'single', -- 'single' or 'folder'
+    folder_structure TEXT, -- JSON string storing folder structure
     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
     updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS landing_files (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    landing_id INTEGER NOT NULL,
+    file_path TEXT NOT NULL, -- relative path within landing folder
+    original_name TEXT NOT NULL,
+    file_type TEXT, -- 'html', 'css', 'js', 'image', 'other'
+    file_size INTEGER,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (landing_id) REFERENCES landing_pages (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS agents (
@@ -53,7 +66,9 @@ def init_db(app):
         for col, ddl in [
             ('hotline_phone', "ALTER TABLE landing_pages ADD COLUMN hotline_phone TEXT"),
             ('zalo_phone', "ALTER TABLE landing_pages ADD COLUMN zalo_phone TEXT"),
-            ('google_form_link', "ALTER TABLE landing_pages ADD COLUMN google_form_link TEXT")
+            ('google_form_link', "ALTER TABLE landing_pages ADD COLUMN google_form_link TEXT"),
+            ('upload_type', "ALTER TABLE landing_pages ADD COLUMN upload_type TEXT NOT NULL DEFAULT 'single'"),
+            ('folder_structure', "ALTER TABLE landing_pages ADD COLUMN folder_structure TEXT")
         ]:
             if col not in existing_cols:
                 db.execute(ddl)

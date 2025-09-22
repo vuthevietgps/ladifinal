@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Length, ValidationError
+from flask_wtf.file import FileField, FileAllowed, FileRequired
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
+from wtforms.validators import DataRequired, Length, ValidationError, Optional
 
 class LoginForm(FlaskForm):
     username = StringField('Tên đăng nhập', validators=[
@@ -30,3 +31,58 @@ class ChangePasswordForm(FlaskForm):
     def validate_confirm_password(self, field):
         if field.data != self.new_password.data:
             raise ValidationError('Mật khẩu xác nhận không khớp')
+
+class LandingPageForm(FlaskForm):
+    """Form for creating/editing landing pages with both single file and folder upload options"""
+    subdomain = StringField('Subdomain', validators=[
+        DataRequired(message='Vui lòng nhập subdomain'),
+        Length(min=3, max=50, message='Subdomain phải từ 3-50 ký tự')
+    ])
+    agent = StringField('Agent', validators=[Optional()])
+    
+    # Upload type selection
+    upload_type = SelectField('Loại upload', choices=[
+        ('single', 'File đơn (index.html + ảnh)'),
+        ('folder', 'Folder hoàn chỉnh (.zip)')
+    ], default='single', validators=[DataRequired()])
+    
+    # Single file upload
+    html_file = FileField('File HTML', validators=[
+        FileAllowed(['html', 'htm'], 'Chỉ chấp nhận file HTML')
+    ])
+    images = FileField('Ảnh (tối đa 7 file)', render_kw={'multiple': True})
+    
+    # Folder upload
+    folder_zip = FileField('Folder (.zip)', validators=[
+        FileAllowed(['zip'], 'Chỉ chấp nhận file ZIP')
+    ])
+    
+    # Tracking fields
+    global_site_tag = TextAreaField('Global Site Tag', validators=[Optional()])
+    phone_tracking = TextAreaField('Phone Tracking', validators=[Optional()])
+    zalo_tracking = TextAreaField('Zalo/Messenger Tracking', validators=[Optional()])
+    form_tracking = TextAreaField('Form Tracking', validators=[Optional()])
+    
+    # Contact info
+    hotline_phone = StringField('Hotline Phone', validators=[Optional()])
+    zalo_phone = StringField('Zalo Phone', validators=[Optional()])
+    google_form_link = StringField('Google Form Link', validators=[Optional()])
+    
+    submit = SubmitField('Tạo Landing Page')
+    
+    def validate(self, extra_validators=None):
+        rv = FlaskForm.validate(self, extra_validators)
+        if not rv:
+            return False
+            
+        # Custom validation based on upload_type
+        if self.upload_type.data == 'single':
+            if not self.html_file.data:
+                self.html_file.errors.append('Vui lòng chọn file HTML')
+                return False
+        elif self.upload_type.data == 'folder':
+            if not self.folder_zip.data:
+                self.folder_zip.errors.append('Vui lòng chọn file ZIP chứa folder')
+                return False
+                
+        return True

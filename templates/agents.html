@@ -87,13 +87,36 @@ function initializeAgentManagement() {
         document.getElementById('btnAgentSave').addEventListener('click', async ()=>{
           const form = document.getElementById('agentForm');
           if(!form.reportValidity()) return;
+          
           const agentId = document.getElementById('agent_id').value;
           const fd = new FormData(form);
           let url = '/api/agents';
           let method = 'POST';
-          if(agentId){ url = '/api/agents/' + agentId; method='PUT'; }
-          const r = await fetch(url, {method, body: fd});
-          if(r.ok){ location.reload(); } else { const j = await r.json().catch(()=>({error:'Lỗi'})); alert(j.error||'Lỗi'); }
+          let loadingText = 'Đang thêm agent...';
+          
+          if(agentId){ 
+            url = '/api/agents/' + agentId; 
+            method='PUT'; 
+            loadingText = 'Đang cập nhật agent...';
+          }
+          
+          showLoading(loadingText);
+          
+          try {
+            const r = await fetch(url, {method, body: fd});
+            if(r.ok){ 
+              const result = await r.json();
+              showSuccess(result.message || (agentId ? 'Cập nhật agent thành công!' : 'Thêm agent thành công!'));
+              setTimeout(() => location.reload(), 1500);
+            } else { 
+              hideLoading();
+              const j = await r.json().catch(()=>({error:'Lỗi không xác định'})); 
+              alert('Lỗi: ' + (j.error || 'Không thể lưu agent'));
+            }
+          } catch(error) {
+            hideLoading();
+            alert('Lỗi kết nối: ' + error.message);
+          }
         });
 
         for(const btn of document.querySelectorAll('.btn-edit')){
@@ -109,10 +132,24 @@ function initializeAgentManagement() {
         
         for(const btn of document.querySelectorAll('.btn-delete')){
           btn.addEventListener('click', async (e)=>{
-            if(!confirm('Xóa agent này?')) return;
+            if(!confirm('Bạn có chắc chắn muốn xóa agent này?')) return;
+            
             const id = e.target.dataset.id;
-            const r = await fetch('/api/agents/' + id, {method:'DELETE'});
-            if(r.ok) location.reload(); else alert('Lỗi xóa');
+            showLoading('Đang xóa agent...');
+            
+            try {
+              const r = await fetch('/api/agents/' + id, {method:'DELETE'});
+              if(r.ok) {
+                showSuccess('Xóa agent thành công!');
+                setTimeout(() => location.reload(), 1500);
+              } else {
+                hideLoading();
+                alert('Lỗi khi xóa agent');
+              }
+            } catch(error) {
+              hideLoading();
+              alert('Lỗi kết nối: ' + error.message);
+            }
           })
         }
         

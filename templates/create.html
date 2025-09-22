@@ -1,6 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
-<h3>Thêm Landing Page</h3>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Thêm Landing Page</h3>
+  <button class="btn btn-outline-info btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#quickGuide">
+    <i class="fas fa-question-circle"></i> Hướng dẫn nhanh
+  </button>
+</div>
+
+<!-- Quick Guide Collapse -->
+<div class="collapse mb-4" id="quickGuide">
+  <div class="card">
+    <div class="card-header">
+      <h6 class="mb-0"><i class="fas fa-lightbulb"></i> Hướng dẫn nhanh tạo Landing Page</h6>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <h6 class="text-success">📁 Upload Folder (Duy nhất)</h6>
+          <ul class="small mb-3">
+            <li>Upload file <code>.zip</code> hoàn chỉnh</li>
+            <li>Chứa CSS, JS, ảnh và tất cả assets</li>
+            <li>Phù hợp cho mọi loại website</li>
+          </ul>
+        </div>
+      </div>
+      <div class="alert alert-warning small mb-0">
+        <i class="fas fa-exclamation-triangle"></i>
+        <strong>Lưu ý quan trọng:</strong>
+        <ul class="mb-0">
+          <li>Đảm bảo file <code>index.html</code> nằm ở thư mục gốc ZIP</li>
+          <li>Dùng đường dẫn tương đối: <code>images/logo.png</code> (không có dấu <code>/</code> đầu)</li>
+          <li>Kiểm tra file hoạt động trên local trước khi upload</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <form action="/api/landingpages" method="post" enctype="multipart/form-data" class="mt-3" id="createForm">
   <fieldset class="border rounded p-3 mb-3">
     <legend class="float-none w-auto px-2 small">Thông tin chung</legend>
@@ -18,16 +54,58 @@
           {% endfor %}
         </select>
       </div>
-      <div class="col-md-3">
-        <label class="form-label">File index.html</label>
-        <input type="file" name="file" accept=".html,.htm" class="form-control" required>
-      </div>
-      <div class="col-md-3">
+      <div class="col-md-6">
         <label class="form-label">Google Form Link</label>
         <input name="google_form_link" class="form-control" placeholder="https://docs.google.com/forms/...">
       </div>
     </div>
   </fieldset>
+  
+  <!-- Folder Upload (Default) -->
+  <fieldset class="border rounded p-3 mb-3">
+    <legend class="float-none w-auto px-2 small">Upload folder website</legend>
+    <!-- Hidden field to always use folder upload -->
+    <input type="hidden" name="upload_type" value="folder">
+    <div class="row g-3">
+      <div class="col-md-12">
+        <label class="form-label">File ZIP chứa folder website</label>
+        <input type="file" name="folder_zip" accept=".zip" class="form-control">
+        <div class="alert alert-info mt-2">
+          <h6><i class="fas fa-info-circle"></i> Cấu trúc ZIP chuẩn:</h6>
+          <div class="row">
+            <div class="col-md-6">
+              <strong class="text-success">✅ ĐÚNG:</strong>
+              <pre class="small bg-light p-2 rounded mt-1">your-site.zip
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   └── main.js
+└── images/
+    └── logo.png</pre>
+            </div>
+            <div class="col-md-6">
+              <strong class="text-danger">❌ SAI:</strong>
+              <pre class="small bg-light p-2 rounded mt-1">your-site.zip
+└── your-site/
+    ├── index.html
+    ├── css/
+    └── images/</pre>
+              <small class="text-muted">*Hệ thống sẽ tự động sửa lỗi này</small>
+            </div>
+          </div>
+          <hr class="my-2">
+          <ul class="mb-0 small">
+            <li><strong>File bắt buộc:</strong> <code>index.html</code> ở thư mục gốc</li>
+            <li><strong>Tối đa:</strong> 500 file, 500MB tổng dung lượng, 50MB/file</li>
+            <li><strong>Hỗ trợ:</strong> .html, .css, .js, .png, .jpg, .gif, .svg, .webp, .ico, .txt, .json</li>
+            <li><strong>Đường dẫn:</strong> Dùng <code>images/logo.png</code> thay vì <code>/images/logo.png</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  
   <fieldset class="border rounded p-3 mb-3">
     <legend class="float-none w-auto px-2 small">Tracking & Script</legend>
     <div class="row g-3">
@@ -59,20 +137,41 @@
   </fieldset>
   <div class="mt-3">
     <button class="btn btn-primary">Lưu</button>
-    <a href="/" class="btn btn-secondary">Hủy</a>
+    <a href="/admin-panel-xyz123/" class="btn btn-secondary">Hủy</a>
+    <a href="/static/docs/HUONG-DAN-TAO-FOLDER-LANDING.md" class="btn btn-outline-info ms-2" target="_blank">
+      <i class="fas fa-book"></i> Hướng dẫn chi tiết
+    </a>
   </div>
 </form>
 <script>
+  // Make folder upload required
+  document.querySelector('input[name="folder_zip"]').required = true;
+
   const form = document.getElementById('createForm');
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
     const fd = new FormData(form);
-    const r = await fetch('/api/landingpages', {method:'POST', body: fd});
-    if(r.ok){
-      window.location.href = '/';
-    } else {
-      const j = await r.json().catch(()=>({error:'Lỗi'}));
-      alert(j.error||'Lỗi');
+    
+    // Show loading overlay for folder upload
+    showLoading('Đang upload folder...');
+    
+    try {
+      const r = await fetch('/api/landingpages', {method:'POST', body: fd});
+      if(r.ok){
+        const result = await r.json();
+        showSuccess(result.message || 'Tạo landing page thành công!');
+        // Redirect after showing success message
+        setTimeout(() => {
+          window.location.href = '/admin-panel-xyz123/';
+        }, 2000);
+      } else {
+        hideLoading();
+        const j = await r.json().catch(()=>({error:'Lỗi không xác định'}));
+        alert('Lỗi: ' + (j.error || 'Không thể upload'));
+      }
+    } catch (error) {
+      hideLoading();
+      alert('Lỗi kết nối: ' + error.message);
     }
   })
 </script>

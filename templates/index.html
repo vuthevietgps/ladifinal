@@ -27,6 +27,7 @@
       <th>ID</th>
       <th>Subdomain</th>
       <th>Agent</th>
+      <th>Type</th>
       <th>Hotline</th>
       <th>Zalo Phone</th>
       <th>Google Form</th>
@@ -42,6 +43,13 @@
       <td>{{l.id}}</td>
       <td>{{l.subdomain}}</td>
       <td>{{l.agent}}</td>
+      <td>
+        {% if l.upload_type == 'folder' %}
+          <span class="badge bg-info">Folder</span>
+        {% else %}
+          <span class="badge bg-secondary">Single</span>
+        {% endif %}
+      </td>
       <td>{{l.hotline_phone}}</td>
       <td>{{l.zalo_phone}}</td>
       <td>
@@ -79,7 +87,7 @@
       </div>
       <div class="modal-body">
         <form id="createForm" enctype="multipart/form-data">
-          <input type="hidden" name="__fromModal" value="1">
+          <input type="hidden" name="upload_type" value="folder">
           <div class="row g-3">
             <div class="col-md-3">
               <label class="form-label">Subdomain</label>
@@ -94,16 +102,12 @@
                 {% endfor %}
               </select>
             </div>
-            <div class="col-md-3">
-              <label class="form-label">File index.html</label>
-              <input type="file" name="file" accept=".html,.htm" class="form-control" required>
+            <div class="col-md-6">
+              <label class="form-label">File ZIP chứa website</label>
+              <input type="file" name="folder_zip" accept=".zip" class="form-control" required>
+              <small class="text-muted">Upload file ZIP chứa toàn bộ website (index.html phải ở thư mục gốc)</small>
             </div>
-            <div class="col-md-3">
-              <label class="form-label">Ảnh Landing Page (Tối đa 7 ảnh)</label>
-              <input type="file" name="images" accept="image/*" class="form-control" multiple>
-              <small class="text-muted">Chọn tối đa 7 ảnh. Sẽ được đổi tên thành anh1.jpg, anh2.jpg, ...</small>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-12">
               <label class="form-label">Google Form Link</label>
               <input name="google_form_link" class="form-control" placeholder="https://docs.google.com/forms/...">
             </div>
@@ -113,13 +117,25 @@
             </div>
             <div class="col-12">
               <div class="alert alert-info">
-                <h6><i class="fas fa-info-circle"></i> Hướng dẫn sử dụng ảnh trong HTML:</h6>
-                <ul class="mb-0">
-                  <li>Ảnh sẽ được đặt tên: <code>anh1.jpg</code>, <code>anh2.png</code>, <code>anh3.gif</code>, ... (tối đa 7 ảnh)</li>
-                  <li>Trong HTML sử dụng: <code>&lt;img src="./anh1.jpg"&gt;</code></li>
-                  <li>Background: <code>background-image: url('./anh2.jpg')</code></li>
-                  <li>Thứ tự upload = thứ tự đặt tên</li>
-                </ul>
+                <h6><i class="fas fa-info-circle"></i> Cấu trúc ZIP chuẩn:</h6>
+                <div class="row">
+                  <div class="col-md-6">
+                    <strong class="text-success">✅ ĐÚNG:</strong>
+                    <pre class="small bg-light p-2 rounded mt-1">website.zip
+├── index.html
+├── css/style.css
+├── js/main.js
+└── images/logo.png</pre>
+                  </div>
+                  <div class="col-md-6">
+                    <strong class="text-danger">❌ SAI:</strong>
+                    <pre class="small bg-light p-2 rounded mt-1">website.zip
+└── website-folder/
+    ├── index.html
+    └── css/...</pre>
+                    <small class="text-muted">*Hệ thống tự động sửa lỗi này</small>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="col-md-3">
@@ -154,14 +170,40 @@
 </div>
 <script>
 async function changeStatus(id, status){
-  const r = await fetch(`/api/landingpages/${id}/status`, {method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({status})});
-  if(r.ok) location.reload(); else alert('Lỗi đổi trạng thái');
+  showLoading('Đang thay đổi trạng thái...');
+  try {
+    const r = await fetch(`/api/landingpages/${id}/status`, {method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({status})});
+    if(r.ok) {
+      showSuccess('Thay đổi trạng thái thành công!');
+      setTimeout(() => location.reload(), 1500);
+    } else {
+      hideLoading();
+      alert('Lỗi đổi trạng thái');
+    }
+  } catch(error) {
+    hideLoading();
+    alert('Lỗi kết nối: ' + error.message);
+  }
 }
+
 async function deleteLanding(id){
-  if(!confirm('Xóa mục này?')) return;
-  const r = await fetch(`/api/landingpages/${id}`, {method:'DELETE'});
-  if(r.ok) location.reload(); else alert('Lỗi xóa');
+  if(!confirm('Bạn có chắc chắn muốn xóa landing page này?')) return;
+  showLoading('Đang xóa...');
+  try {
+    const r = await fetch(`/api/landingpages/${id}`, {method:'DELETE'});
+    if(r.ok) {
+      showSuccess('Xóa landing page thành công!');
+      setTimeout(() => location.reload(), 1500);
+    } else {
+      hideLoading();
+      alert('Lỗi khi xóa');
+    }
+  } catch(error) {
+    hideLoading();
+    alert('Lỗi kết nối: ' + error.message);
+  }
 }
+
 for(const btn of document.querySelectorAll('.btn-toggle-status')){
   btn.addEventListener('click', ()=>{
     changeStatus(btn.dataset.id, btn.textContent.includes('Tạm dừng')?'paused':'active');
@@ -170,12 +212,29 @@ for(const btn of document.querySelectorAll('.btn-toggle-status')){
 for(const btn of document.querySelectorAll('.btn-delete')){
   btn.addEventListener('click', ()=> deleteLanding(btn.dataset.id));
 }
+
 document.getElementById('btnCreateSubmit').addEventListener('click', async ()=>{
   const form = document.getElementById('createForm');
   if(!form.reportValidity()) return;
+  
   const fd = new FormData(form);
-  const r = await fetch('/api/landingpages', {method:'POST', body: fd});
-  if(r.ok){ location.reload(); } else { const j = await r.json().catch(()=>({error:'Lỗi'})); alert(j.error||'Lỗi'); }
+  showLoading('Đang tạo landing page...');
+  
+  try {
+    const r = await fetch('/api/landingpages', {method:'POST', body: fd});
+    if(r.ok){ 
+      const result = await r.json();
+      showSuccess(result.message || 'Tạo landing page thành công!');
+      setTimeout(() => location.reload(), 2000);
+    } else { 
+      hideLoading();
+      const j = await r.json().catch(()=>({error:'Lỗi không xác định'})); 
+      alert('Lỗi: ' + (j.error || 'Không thể tạo landing page')); 
+    }
+  } catch(error) {
+    hideLoading();
+    alert('Lỗi kết nối: ' + error.message);
+  }
 });
 </script>
 {% endblock %}

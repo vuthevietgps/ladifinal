@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Store - Thời Trang Trendy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header-section">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="images/logo.png" alt="Fashion Store" height="40">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#products">Sản phẩm</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">Về chúng tôi</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
+                        <li class="nav-item">
+                            <button class="btn btn-primary btn-order ms-2" onclick="orderNow()">
+                                <i class="fas fa-shopping-cart"></i> Đặt hàng ngay
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-section">
+        <div class="hero-banner position-relative">
+            <img src="images/banner-main.jpg" alt="Fashion Banner" class="w-100">
+            <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="hero-content text-white">
+                                <h1 class="hero-title display-4 fw-bold mb-4">
+                                    Thời trang <span class="text-warning">Trendy</span><br>
+                                    Giá cả <span class="text-warning">Phải chăng</span>
+                                </h1>
+                                <p class="hero-subtitle lead mb-4">
+                                    Khám phá bộ sưu tập thời trang mới nhất với chất lượng cao và giá cả hợp lý
+                                </p>
+                                <div class="hero-buttons">
+                                    <button class="btn btn-warning btn-lg me-3" onclick="orderNow()">
+                                        <i class="fas fa-shopping-bag"></i> Mua ngay
+                                    </button>
+                                    <button class="btn btn-outline-light btn-lg" onclick="scrollToProducts()">
+                                        Xem sản phẩm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features-section py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-item text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-shipping-fast fa-3x text-primary"></i>
+                        </div>
+                        <h5>Miễn phí ship</h5>
+                        <p class="text-muted">Đơn hàng từ 300k</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-item text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-undo-alt fa-3x text-success"></i>
+                        </div>
+                        <h5>Đổi trả 7 ngày</h5>
+                        <p class="text-muted">Lỗi từ nhà sản xuất</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-item text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-medal fa-3x text-warning"></i>
+                        </div>
+                        <h5>Chất lượng cao</h5>
+                        <p class="text-muted">Cam kết chính hãng</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-item text-center">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-headset fa-3x text-info"></i>
+                        </div>
+                        <h5>Hỗ trợ 24/7</h5>
+                        <p class="text-muted">Tư vấn nhiệt tình</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products-section py-5" id="products">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-header text-center mb-5">
+                        <h2 class="section-title display-5 fw-bold">Sản phẩm <span class="text-primary">Hot</span></h2>
+                        <p class="section-subtitle text-muted">Những sản phẩm thời trang được yêu thích nhất</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <!-- Product 1 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="product-card card border-0 shadow-sm h-100">
+                        <div class="product-image position-relative">
+                            <img src="images/product-1.jpg" alt="Áo thun nữ" class="card-img-top">
+                            <div class="product-badge">
+                                <span class="badge bg-danger">-30%</span>
+                            </div>
+                            <div class="product-overlay">
+                                <button class="btn btn-primary btn-sm" onclick="orderProduct('Áo thun nữ basic')">
+                                    <i class="fas fa-cart-plus"></i> Thêm giỏ hàng
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="product-title">Áo thun nữ basic</h5>
+                            <p class="product-description text-muted">Chất liệu cotton 100%, form dáng suông, phù hợp mọi vóc dáng</p>
+                            <div class="product-price">
+                                <span class="price-old text-muted text-decoration-line-through">200.000đ</span>
+                                <span class="price-new text-danger fw-bold fs-5">140.000đ</span>
+                            </div>
+                            <div class="product-rating mt-2">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <span class="text-muted">(128 đánh giá)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="product-card card border-0 shadow-sm h-100">
+                        <div class="product-image position-relative">
+                            <img src="images/product-2.jpg" alt="Quần jean nam" class="card-img-top">
+                            <div class="product-badge">
+                                <span class="badge bg-success">Mới</span>
+                            </div>
+                            <div class="product-overlay">
+                                <button class="btn btn-primary btn-sm" onclick="orderProduct('Quần jean nam')">
+                                    <i class="fas fa-cart-plus"></i> Thêm giỏ hàng
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="product-title">Quần jean nam</h5>
+                            <p class="product-description text-muted">Jean cao cấp, form slim fit, màu xanh đậm trẻ trung</p>
+                            <div class="product-price">
+                                <span class="price-new text-danger fw-bold fs-5">350.000đ</span>
+                            </div>
+                            <div class="product-rating mt-2">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <span class="text-muted">(89 đánh giá)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="product-card card border-0 shadow-sm h-100">
+                        <div class="product-image position-relative">
+                            <img src="images/product-3.jpg" alt="Đầm công sở" class="card-img-top">
+                            <div class="product-badge">
+                                <span class="badge bg-warning">Best seller</span>
+                            </div>
+                            <div class="product-overlay">
+                                <button class="btn btn-primary btn-sm" onclick="orderProduct('Đầm công sở')">
+                                    <i class="fas fa-cart-plus"></i> Thêm giỏ hàng
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="product-title">Đầm công sở</h5>
+                            <p class="product-description text-muted">Thiết kế thanh lịch, phù hợp môi trường công sở</p>
+                            <div class="product-price">
+                                <span class="price-old text-muted text-decoration-line-through">450.000đ</span>
+                                <span class="price-new text-danger fw-bold fs-5">380.000đ</span>
+                            </div>
+                            <div class="product-rating mt-2">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <span class="text-muted">(256 đánh giá)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More Products -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="product-card card border-0 shadow-sm h-100">
+                        <div class="product-image position-relative">
+                            <img src="images/product-4.jpg" alt="Áo khoác hoodie" class="card-img-top">
+                            <div class="product-overlay">
+                                <button class="btn btn-primary btn-sm" onclick="orderProduct('Áo khoác hoodie')">
+                                    <i class="fas fa-cart-plus"></i> Thêm giỏ hàng
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="product-title">Áo khoác hoodie</h5>
+                            <p class="product-description text-muted">Phong cách street wear, chất liệu nỉ mềm mại</p>
+                            <div class="product-price">
+                                <span class="price-new text-danger fw-bold fs-5">280.000đ</span>
+                            </div>
+                            <div class="product-rating mt-2">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="far fa-star text-warning"></i>
+                                <span class="text-muted">(67 đánh giá)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="product-card card border-0 shadow-sm h-100">
+                        <div class="product-image position-relative">
+                            <img src="images/product-5.jpg" alt="Chân váy" class="card-img-top">
+                            <div class="product-overlay">
+                                <button class="btn btn-primary btn-sm" onclick="orderProduct('Chân váy xếp ly')">
+                                    <i class="fas fa-cart-plus"></i> Thêm giỏ hàng
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="product-title">Chân váy xếp ly</h5>
+                            <p class="product-description text-muted">Kiểu dáng xòe nhẹ, tôn dáng, dễ phối đồ</p>
+                            <div class="product-price">
+                                <span class="price-new text-danger fw-bold fs-5">190.000đ</span>
+                            </div>
+                            <div class="product-rating mt-2">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <span class="text-muted">(94 đánh giá)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="product-card card border-0 shadow-sm h-100">
+                        <div class="product-image position-relative">
+                            <img src="images/product-6.jpg" alt="Set đồ couple" class="card-img-top">
+                            <div class="product-badge">
+                                <span class="badge bg-info">Couple</span>
+                            </div>
+                            <div class="product-overlay">
+                                <button class="btn btn-primary btn-sm" onclick="orderProduct('Set đồ couple')">
+                                    <i class="fas fa-cart-plus"></i> Thêm giỏ hàng
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="product-title">Set đồ couple</h5>
+                            <p class="product-description text-muted">Bộ đôi áo thun matching, phong cách trẻ trung</p>
+                            <div class="product-price">
+                                <span class="price-old text-muted text-decoration-line-through">500.000đ</span>
+                                <span class="price-new text-danger fw-bold fs-5">420.000đ</span>
+                            </div>
+                            <div class="product-rating mt-2">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <span class="text-muted">(156 đánh giá)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <button class="btn btn-outline-primary btn-lg" onclick="orderNow()">
+                    <i class="fas fa-eye"></i> Xem tất cả sản phẩm
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lifestyle Section -->
+    <section class="lifestyle-section py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-header text-center mb-5">
+                        <h2 class="section-title display-5 fw-bold">Style <span class="text-primary">Inspiration</span></h2>
+                        <p class="section-subtitle text-muted">Cách phối đồ trendy từ các fashion blogger</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="lifestyle-item position-relative overflow-hidden rounded">
+                        <img src="images/model-1.jpg" alt="Style 1" class="w-100">
+                        <div class="lifestyle-overlay position-absolute bottom-0 start-0 w-100 p-4">
+                            <h4 class="text-white mb-2">Street Style</h4>
+                            <p class="text-white-50 mb-3">Phong cách đường phố năng động</p>
+                            <button class="btn btn-warning" onclick="orderNow()">Shop now</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="lifestyle-item position-relative overflow-hidden rounded">
+                        <img src="images/model-2.jpg" alt="Style 2" class="w-100">
+                        <div class="lifestyle-overlay position-absolute bottom-0 start-0 w-100 p-4">
+                            <h4 class="text-white mb-2">Office Look</h4>
+                            <p class="text-white-50 mb-3">Trang phục công sở thanh lịch</p>
+                            <button class="btn btn-warning" onclick="orderNow()">Shop now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="reviews-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-header text-center mb-5">
+                        <h2 class="section-title display-5 fw-bold">Khách hàng <span class="text-primary">nói gì</span></h2>
+                        <p class="section-subtitle text-muted">Những phản hồi tích cực từ khách hàng</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="review-card card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="review-stars mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                            <p class="review-text">"Chất lượng quần áo rất tốt, form dáng chuẩn như hình. Shop giao hàng nhanh và đóng gói cẩn thận. Sẽ ủng hộ shop lâu dài!"</p>
+                            <div class="reviewer-info d-flex align-items-center mt-3">
+                                <div class="reviewer-avatar me-3">
+                                    <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <span class="text-white fw-bold">H</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Hương Giang</h6>
+                                    <small class="text-muted">Hà Nội</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-4">
+                    <div class="review-card card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="review-stars mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                            <p class="review-text">"Mình rất hài lòng với chất lượng sản phẩm. Giá cả phải chăng mà chất lượng vượt mong đợi. Nhân viên tư vấn nhiệt tình."</p>
+                            <div class="reviewer-info d-flex align-items-center mt-3">
+                                <div class="reviewer-avatar me-3">
+                                    <div class="bg-success rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <span class="text-white fw-bold">T</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Thanh Tú</h6>
+                                    <small class="text-muted">TP.HCM</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-4">
+                    <div class="review-card card border-0 shadow-sm h-100">
+                        <div class="card-body">
+                            <div class="review-stars mb-3">
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                                <i class="fas fa-star text-warning"></i>
+                            </div>
+                            <p class="review-text">"Shop có nhiều mẫu đẹp, đa dạng size. Mình đã mua được nhiều set đồ ưng ý. Chất liệu vải mềm mại, mặc rất thoải mái."</p>
+                            <div class="reviewer-info d-flex align-items-center mt-3">
+                                <div class="reviewer-avatar me-3">
+                                    <div class="bg-info rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                        <span class="text-white fw-bold">L</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Linh Chi</h6>
+                                    <small class="text-muted">Đà Nẵng</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="display-5 fw-bold mb-4">Đừng bỏ lỡ cơ hội!</h2>
+                    <p class="lead mb-4">Ưu đãi đặc biệt - Giảm ngay 20% cho đơn hàng đầu tiên</p>
+                    <div class="cta-buttons">
+                        <button class="btn btn-warning btn-lg me-3" onclick="orderNow()">
+                            <i class="fas fa-shopping-cart"></i> Đặt hàng ngay
+                        </button>
+                        <button class="btn btn-outline-light btn-lg" onclick="callNow()">
+                            <i class="fas fa-phone"></i> Gọi tư vấn
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact-section py-5" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-header text-center mb-5">
+                        <h2 class="section-title display-5 fw-bold">Liên hệ <span class="text-primary">đặt hàng</span></h2>
+                        <p class="section-subtitle text-muted">Nhiều hình thức liên hệ tiện lợi</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="contact-info">
+                        <div class="contact-item d-flex align-items-center mb-4">
+                            <div class="contact-icon me-3">
+                                <i class="fas fa-phone-alt fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5>Hotline</h5>
+                                <p class="mb-0">
+                                    <a href="tel:0123456789" class="text-decoration-none">0123.456.789</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item d-flex align-items-center mb-4">
+                            <div class="contact-icon me-3">
+                                <i class="fab fa-facebook-messenger fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5>Zalo</h5>
+                                <p class="mb-0">
+                                    <a href="https://zalo.me/0123456789" class="text-decoration-none">0123.456.789</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item d-flex align-items-center mb-4">
+                            <div class="contact-icon me-3">
+                                <i class="fab fa-facebook fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5>Facebook</h5>
+                                <p class="mb-0">
+                                    <a href="#" class="text-decoration-none">Fashion Store Official</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item d-flex align-items-center mb-4">
+                            <div class="contact-icon me-3">
+                                <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5>Địa chỉ</h5>
+                                <p class="mb-0">123 Đường ABC, Quận XYZ, TP.HCM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-4">
+                    <div class="order-form card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Đặt hàng nhanh</h5>
+                            <form id="orderForm">
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" placeholder="Họ và tên *" required>
+                                </div>
+                                <div class="mb-3">
+                                    <input type="tel" class="form-control" placeholder="Số điện thoại *" required>
+                                </div>
+                                <div class="mb-3">
+                                    <textarea class="form-control" rows="3" placeholder="Địa chỉ giao hàng *" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <textarea class="form-control" rows="2" placeholder="Ghi chú đơn hàng (tùy chọn)"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 btn-lg">
+                                    <i class="fas fa-shopping-cart"></i> Đặt hàng ngay
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section py-4 bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2025 Fashion Store. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Action Buttons -->
+    <div class="floating-buttons">
+        <div class="floating-btn floating-phone">
+            <a href="tel:0123456789" class="btn btn-success rounded-circle p-3">
+                <i class="fas fa-phone-alt fa-lg"></i>
+            </a>
+        </div>
+        <div class="floating-btn floating-zalo">
+            <a href="https://zalo.me/0123456789" class="btn btn-info rounded-circle p-3">
+                <i class="fab fa-facebook-messenger fa-lg"></i>
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

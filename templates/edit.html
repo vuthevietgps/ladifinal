@@ -19,14 +19,10 @@
           {% endfor %}
         </select>
       </div>
-      <div class="col-md-3">
-        <label class="form-label">Upload file mới (tùy chọn)</label>
-        <input type="file" name="file" accept=".html,.htm" class="form-control">
-      </div>
-      <div class="col-md-3">
-        <label class="form-label">Upload ảnh mới (tùy chọn)</label>
-        <input type="file" name="images" accept="image/*" class="form-control" multiple>
-        <div class="form-text">Sẽ ghi đè ảnh cũ theo thứ tự: image1, image2, ...</div>
+      <div class="col-md-6">
+        <label class="form-label">Upload folder mới (tùy chọn)</label>
+        <input type="file" name="folder_zip" accept=".zip" class="form-control">
+        <div class="form-text">Upload file ZIP để thay thế toàn bộ folder website hiện tại</div>
       </div>
       <div class="col-md-3">
         <label class="form-label">Google Form Link</label>
@@ -103,12 +99,27 @@
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
     const fd = new FormData(form);
-    const r = await fetch('/api/landingpages/{{landing.id}}', {method:'PUT', body: fd});
-    if(r.ok){
-      window.location.href = '/';
-    } else {
-      const j = await r.json().catch(()=>({error:'Lỗi'}));
-      alert(j.error||'Lỗi');
+    
+    // Show loading overlay
+    showLoading('Đang cập nhật...');
+    
+    try {
+      const r = await fetch('/api/landingpages/{{landing.id}}', {method:'PUT', body: fd});
+      if(r.ok){
+        const result = await r.json();
+        showSuccess(result.message || 'Cập nhật landing page thành công!');
+        // Redirect after showing success message
+        setTimeout(() => {
+          window.location.href = '/admin-panel-xyz123/';
+        }, 2000);
+      } else {
+        hideLoading();
+        const j = await r.json().catch(()=>({error:'Lỗi không xác định'}));
+        alert('Lỗi: ' + (j.error || 'Không thể cập nhật'));
+      }
+    } catch (error) {
+      hideLoading();
+      alert('Lỗi kết nối: ' + error.message);
     }
   })
 </script>

@@ -1,5 +1,9 @@
 
 import os
+import json
+import zipfile
+import tempfile
+import shutil
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app, send_from_directory
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
@@ -14,39 +18,207 @@ bp = Blueprint('main', __name__)
 TRACKING_TEMPLATE_HEAD = """<!-- Global Site Tag -->\n{global_site_tag}\n<!-- /Global Site Tag -->"""
 TRACKING_TEMPLATE_BODY = """<!-- Tracking Codes -->\n<script>window.PHONE_TRACKING={phone_tracking!r};</script>\n<script>window.ZALO_TRACKING={zalo_tracking!r};</script>\n<script>window.FORM_TRACKING={form_tracking!r};</script>\n<!-- /Tracking Codes -->"""
 
-def save_uploaded_images(images, target_dir):
-    """Save uploaded images with naming convention: anh1.jpg, anh2.png, etc. (max 7 images)"""
-    if not images:
-        return []
-    
-    # Limit to 7 images
-    if len(images) > 7:
-        raise ValueError('Tối đa 7 ảnh được phép upload')
-    
-    saved_files = []
-    for i, image in enumerate(images, 1):
-        if image.filename:
-            # Get original file extension
-            original_ext = os.path.splitext(secure_filename(image.filename))[1].lower()
-            if not original_ext:
-                original_ext = '.jpg'  # Default extension
+def validate_zip_structure(zip_file):
+    """Pre-validate ZIP structure and provide helpful feedback"""
+    try:
+        with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+            file_list = zip_ref.namelist()
             
-            # Generate filename: anh1.jpg, anh2.png, etc.
-            new_filename = f"anh{i}{original_ext}"
-            filepath = os.path.join(target_dir, new_filename)
+            # Check for index.html at different levels
+            index_at_root = any(f.lower() in ['index.html', 'index.htm'] for f in file_list if '/' not in f)
             
-            try:
-                image.save(filepath)
-                saved_files.append(new_filename)
-            except Exception as e:
-                raise Exception(f'Lỗi lưu ảnh {new_filename}: {str(e)}')
-    
-    return saved_files
+            if index_at_root:
+                return {
+                    'status': 'valid',
+                    'message': 'ZIP structure is correct - index.html found at root level',
+                    'index_location': 'root'
+                }
+            
+            # Check for index.html in subfolders
+            subfolders_with_index = []
+            for file_path in file_list:
+                if '/' in file_path:
+                    parts = file_path.split('/')
+                    if len(parts) == 2 and parts[1].lower() in ['index.html', 'index.htm']:
+                        subfolders_with_index.append(parts[0])
+            
+            if subfolders_with_index:
+                return {
+                    'status': 'fixable',
+                    'message': f'index.html found in subfolder(s): {", ".join(subfolders_with_index)}. System will auto-extract from subfolder.',
+                    'index_location': 'subfolder',
+                    'subfolders': subfolders_with_index
+                }
+            
+            return {
+                'status': 'error',
+                'message': 'No index.html found in ZIP file (checked root and 1-level subfolders)',
+                'index_location': 'not_found'
+            }
+            
+    except zipfile.BadZipFile:
+        return {
+            'status': 'error',
+            'message': 'Invalid ZIP file format',
+            'index_location': 'not_found'
+        }
+    except Exception as e:
+        return {
+            'status': 'error',
+            'message': f'Error reading ZIP file: {str(e)}',
+            'index_location': 'not_found'
+        }
 
-# Serve published landing pages - Simple approach
+def extract_and_validate_folder(zip_file, target_dir):
+    """Extract ZIP file and validate folder structure with auto-subfolder detection"""
+    allowed_extensions = {'.html', '.htm', '.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.ico', '.txt', '.json'}
+    max_file_size = 50 * 1024 * 1024  # 50MB per file
+    max_total_size = 500 * 1024 * 1024  # 500MB total
+    max_files = 500  # Max files
+    
+    extracted_files = []
+    folder_structure = {}
+    total_size = 0
+    
+    with tempfile.TemporaryDirectory() as temp_dir:
+        # Extract to temp directory first
+        with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+            file_list = zip_ref.infolist()
+            
+            if len(file_list) > max_files:
+                raise ValueError(f'Quá nhiều file. Tối đa {max_files} file được phép.')
+            
+            # Validate each file
+            for file_info in file_list:
+                if file_info.is_dir():
+                    continue
+                    
+                # Check file size
+                if file_info.file_size > max_file_size:
+                    raise ValueError(f'File {file_info.filename} quá lớn. Tối đa 50MB mỗi file.')
+                
+                total_size += file_info.file_size
+                if total_size > max_total_size:
+                    raise ValueError('Tổng dung lượng folder quá lớn. Tối đa 500MB.')
+                
+                # Check file extension
+                _, ext = os.path.splitext(file_info.filename.lower())
+                if ext not in allowed_extensions:
+                    raise ValueError(f'File extension {ext} không được phép. Chỉ chấp nhận: {", ".join(allowed_extensions)}')
+                
+                # Check for dangerous file paths
+                if '..' in file_info.filename or file_info.filename.startswith('/'):
+                    raise ValueError(f'Đường dẫn file không an toàn: {file_info.filename}')
+            
+            # Extract all files
+            zip_ref.extractall(temp_dir)
+        
+        # Smart detection of index.html location
+        index_html_path = None
+        root_source_dir = None
+        
+        # First, try to find index.html at root level
+        for file in os.listdir(temp_dir):
+            if file.lower() in ['index.html', 'index.htm']:
+                index_html_path = os.path.join(temp_dir, file)
+                root_source_dir = temp_dir
+                break
+        
+        # If not found at root, look in subfolders (one level deep only)
+        if not index_html_path:
+            for item in os.listdir(temp_dir):
+                item_path = os.path.join(temp_dir, item)
+                if os.path.isdir(item_path):
+                    for file in os.listdir(item_path):
+                        if file.lower() in ['index.html', 'index.htm']:
+                            index_html_path = os.path.join(item_path, file)
+                            root_source_dir = item_path
+                            print(f"Found index.html in subfolder: {item}/")
+                            break
+                    if index_html_path:
+                        break
+        
+        if not index_html_path:
+            raise ValueError('Không tìm thấy file index.html trong folder (tìm kiếm ở root và subfolder level 1).')
+        
+        # Copy files from the detected source directory to target directory
+        for root, dirs, files in os.walk(root_source_dir):
+            for file in files:
+                src_path = os.path.join(root, file)
+                rel_path = os.path.relpath(src_path, root_source_dir)
+                dest_path = os.path.join(target_dir, rel_path)
+                
+                # Create directory if needed
+                os.makedirs(os.path.dirname(dest_path), exist_ok=True)
+                
+                # Copy file
+                shutil.copy2(src_path, dest_path)
+                
+                # Get file info
+                file_size = os.path.getsize(src_path)
+                _, ext = os.path.splitext(file.lower())
+                
+                # Determine file type
+                if ext in ['.html', '.htm']:
+                    file_type = 'html'
+                elif ext in ['.css']:
+                    file_type = 'css'
+                elif ext in ['.js']:
+                    file_type = 'js'
+                elif ext in ['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.ico']:
+                    file_type = 'image'
+                else:
+                    file_type = 'other'
+                
+                extracted_files.append({
+                    'path': rel_path,
+                    'original_name': file,
+                    'type': file_type,
+                    'size': file_size
+                })
+                
+                # Build folder structure
+                path_parts = rel_path.split(os.sep)
+                current = folder_structure
+                for part in path_parts[:-1]:
+                    if part not in current:
+                        current[part] = {}
+                    current = current[part]
+                current[path_parts[-1]] = {'type': file_type, 'size': file_size}
+    
+    return extracted_files, folder_structure
+
+def process_html_tracking_in_folder(target_dir, head_snippet, body_snippet):
+    """Process all HTML files in folder to inject tracking codes"""
+    processed_files = []
+    
+    for root, dirs, files in os.walk(target_dir):
+        for file in files:
+            if file.lower().endswith(('.html', '.htm')):
+                file_path = os.path.join(root, file)
+                rel_path = os.path.relpath(file_path, target_dir)
+                
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        content = f.read()
+                    
+                    # Inject tracking
+                    processed_content = inject_tracking(content, head_snippet, body_snippet)
+                    
+                    with open(file_path, 'w', encoding='utf-8') as f:
+                        f.write(processed_content)
+                        
+                    processed_files.append(rel_path)
+                except Exception as e:
+                    raise Exception(f'Lỗi xử lý file {rel_path}: {str(e)}')
+    
+    return processed_files
+
 @bp.route('/landing/<subdomain>')
 def serve_landing_simple(subdomain):
     """Serve published landing pages via /landing/<subdomain> URL"""
+    from flask import make_response
+    
     pub_root = current_app.config['PUBLISHED_ROOT']
     landing_dir = os.path.join(pub_root, subdomain)
     index_file = os.path.join(landing_dir, 'index.html')
@@ -58,21 +230,78 @@ def serve_landing_simple(subdomain):
     try:
         with open(index_file, 'r', encoding='utf-8') as f:
             content = f.read()
-        return content
+        
+        # Create response with anti-cache headers for debugging
+        response = make_response(content)
+        response.headers['Content-Type'] = 'text/html; charset=utf-8'
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        
+        return response
     except Exception as e:
         return f"<h1>Error loading landing page: {str(e)}</h1>", 500
 
 # Serve static assets for landing pages
 @bp.route('/landing/<subdomain>/<path:filename>')  
 def serve_landing_assets_simple(subdomain, filename):
-    """Serve static assets (images, etc.) for landing pages"""
+    """Serve static assets (CSS, JS, images, etc.) for landing pages with proper MIME types"""
+    from flask import make_response
+    
     pub_root = current_app.config['PUBLISHED_ROOT']
     landing_dir = os.path.join(pub_root, subdomain)
+    full_path = os.path.join(landing_dir, filename)
     
-    if not os.path.exists(os.path.join(landing_dir, filename)):
+    if not os.path.exists(full_path):
         return "File not found", 404
-        
-    return send_from_directory(landing_dir, filename)
+    
+    # Get file extension to determine MIME type
+    _, ext = os.path.splitext(filename.lower())
+    
+    # Set appropriate MIME types
+    mimetype = None
+    if ext == '.css':
+        mimetype = 'text/css'
+    elif ext == '.js':
+        mimetype = 'application/javascript'
+    elif ext in ['.jpg', '.jpeg']:
+        mimetype = 'image/jpeg'
+    elif ext == '.png':
+        mimetype = 'image/png'
+    elif ext == '.gif':
+        mimetype = 'image/gif'
+    elif ext == '.svg':
+        mimetype = 'image/svg+xml'
+    elif ext == '.webp':
+        mimetype = 'image/webp'
+    elif ext == '.ico':
+        mimetype = 'image/x-icon'
+    elif ext in ['.html', '.htm']:
+        mimetype = 'text/html'
+    elif ext == '.json':
+        mimetype = 'application/json'
+    elif ext == '.txt':
+        mimetype = 'text/plain'
+    
+    # Create response with proper headers
+    response = make_response(send_from_directory(landing_dir, filename, mimetype=mimetype))
+    
+    # Add cache headers for static assets (but allow no-cache for debugging)
+    if request.args.get('debug') == '1':
+        # Debug mode - no cache
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+    else:
+        # Production mode - cache
+        if ext in ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.ico']:
+            response.headers['Cache-Control'] = 'public, max-age=86400'  # 1 day cache
+            response.headers['Expires'] = 'Thu, 31 Dec 2037 23:55:55 GMT'
+    
+    # Security headers
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    
+    return response
 
 # Company homepage (public)
 @bp.route('/')
@@ -156,6 +385,7 @@ def api_create():
         return jsonify({'error':'Subdomain đã tồn tại'}), 400
 
     agent = request.form.get('agent','').strip()
+    upload_type = request.form.get('upload_type', 'single').strip()
     global_site_tag = request.form.get('global_site_tag','').strip()
     phone_tracking = request.form.get('phone_tracking','').strip()
     zalo_tracking = request.form.get('zalo_tracking','').strip()
@@ -164,14 +394,9 @@ def api_create():
     zalo_phone = request.form.get('zalo_phone','').strip()
     google_form_link = request.form.get('google_form_link','').strip()
 
-    file = request.files.get('file')
-    if not file or file.filename == '':
-        return jsonify({'error':'Chưa chọn file index.html'}), 400
-    filename = secure_filename(file.filename)
-    html_content = file.read().decode('utf-8', errors='ignore')
-
-    # Process uploaded images
-    images = request.files.getlist('images')
+    pub_root = current_app.config['PUBLISHED_ROOT']
+    target_dir = os.path.join(pub_root, subdomain)
+    os.makedirs(target_dir, exist_ok=True)
     
     head_snippet = TRACKING_TEMPLATE_HEAD.format(global_site_tag=global_site_tag)
     body_snippet = TRACKING_TEMPLATE_BODY.format(
@@ -179,45 +404,85 @@ def api_create():
         zalo_tracking=zalo_tracking,
         form_tracking=form_tracking,
     )
-    final_html = inject_tracking(html_content, head_snippet, body_snippet)
 
-    pub_root = current_app.config['PUBLISHED_ROOT']
-    target_dir = os.path.join(pub_root, subdomain)
-    os.makedirs(target_dir, exist_ok=True)
+    extracted_files = []
+    folder_structure = {}
+    original_filename = ''
     
-    # Save HTML file
-    target_file = os.path.join(target_dir, 'index.html')
-    with open(target_file, 'w', encoding='utf-8') as f:
-        f.write(final_html)
+    if upload_type == 'folder':
+        # Handle folder upload
+        zip_file = request.files.get('folder_zip')
+        if not zip_file or zip_file.filename == '':
+            return jsonify({'error':'Chưa chọn file ZIP'}), 400
+        
+        # Pre-validate ZIP structure
+        zip_validation = validate_zip_structure(zip_file)
+        if zip_validation['status'] == 'error':
+            return jsonify({'error': f'Lỗi ZIP file: {zip_validation["message"]}'}), 400
+            
+        try:
+            # Reset file pointer after validation
+            zip_file.seek(0)
+            
+            extracted_files, folder_structure = extract_and_validate_folder(zip_file, target_dir)
+            processed_html_files = process_html_tracking_in_folder(target_dir, head_snippet, body_snippet)
+            original_filename = secure_filename(zip_file.filename)
+            
+            # Prepare success message with structure info
+            success_message = f'Tạo thành công! Đã upload {len(extracted_files)} file từ folder.'
+            if zip_validation['status'] == 'fixable':
+                success_message += f' (Đã tự động extract từ subfolder: {zip_validation["subfolders"][0]})'
+            
+            # Save file metadata to database
+            landing_id = repository.create_landing({
+                'subdomain': subdomain,
+                'agent': agent,
+                'global_site_tag': global_site_tag,
+                'phone_tracking': phone_tracking,
+                'zalo_tracking': zalo_tracking,
+                'form_tracking': form_tracking,
+                'hotline_phone': hotline_phone,
+                'zalo_phone': zalo_phone,
+                'google_form_link': google_form_link,
+                'status': 'active',
+                'original_filename': original_filename,
+                'upload_type': 'folder',
+                'folder_structure': json.dumps(folder_structure)
+            })
+            
+            # Save individual file records
+            from .db import get_db
+            db = get_db()
+            for file_info in extracted_files:
+                db.execute(
+                    'INSERT INTO landing_files (landing_id, file_path, original_name, file_type, file_size) VALUES (?, ?, ?, ?, ?)',
+                    (landing_id, file_info['path'], file_info['original_name'], file_info['type'], file_info['size'])
+                )
+            db.commit()
+            
+            return jsonify({
+                'id': landing_id,
+                'message': success_message,
+                'upload_type': 'folder',
+                'files_count': len(extracted_files),
+                'html_files_processed': len(processed_html_files),
+                'structure_info': zip_validation['message']
+            })
+            
+        except ValueError as e:
+            # Clean up on validation error
+            if os.path.exists(target_dir):
+                shutil.rmtree(target_dir)
+            return jsonify({'error': str(e)}), 400
+        except Exception as e:
+            # Clean up on other errors
+            if os.path.exists(target_dir):
+                shutil.rmtree(target_dir)
+            return jsonify({'error': f'Lỗi xử lý folder: {str(e)}'}), 500
     
-    # Save uploaded images
-    try:
-        saved_images = save_uploaded_images(images, target_dir)
-    except ValueError as e:
-        return jsonify({'error': str(e)}), 400
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-    landing_id = repository.create_landing({
-        'subdomain': subdomain,
-        'agent': agent,
-        'global_site_tag': global_site_tag,
-        'phone_tracking': phone_tracking,
-        'zalo_tracking': zalo_tracking,
-        'form_tracking': form_tracking,
-        'hotline_phone': hotline_phone,
-        'zalo_phone': zalo_phone,
-        'google_form_link': google_form_link,
-        'status': 'active',
-        'original_filename': filename
-    })
-
-    return jsonify({
-        'id': landing_id, 
-        'message': f'Tạo thành công! Đã upload {len(saved_images)} ảnh: {", ".join(saved_images)}' if saved_images else 'Tạo thành công!',
-        'images_uploaded': len(saved_images),
-        'image_files': saved_images
-    })
+    else:
+        # Single file upload is no longer supported - only folder upload allowed
+        return jsonify({'error': 'Chỉ hỗ trợ upload folder (ZIP file). Vui lòng chọn upload_type=folder và tải lên file ZIP.'}), 400
 
 @bp.route('/api/landingpages/<int:landing_id>', methods=['PUT'])
 @login_required
@@ -226,6 +491,7 @@ def api_update(landing_id):
     if not landing:
         return jsonify({'error':'Không tồn tại'}), 404
 
+    # Only allow updating metadata, not files - use folder upload to replace entire landing page
     agent = request.form.get('agent', landing['agent']).strip()
     global_site_tag = request.form.get('global_site_tag', landing['global_site_tag'] or '').strip()
     phone_tracking = request.form.get('phone_tracking', landing['phone_tracking'] or '').strip()
@@ -235,63 +501,93 @@ def api_update(landing_id):
     zalo_phone = request.form.get('zalo_phone', landing.get('zalo_phone') or '').strip()
     google_form_link = request.form.get('google_form_link', landing.get('google_form_link') or '').strip()
 
-    file = request.files.get('file')
-    if file and file.filename:
-        filename = secure_filename(file.filename)
-        html_content = file.read().decode('utf-8', errors='ignore')
-    else:
-        # Re-read current file from disk
+    # Check if new folder upload is provided
+    zip_file = request.files.get('folder_zip')
+    if zip_file and zip_file.filename:
+        # If uploading new folder, process it completely
         pub_root = current_app.config['PUBLISHED_ROOT']
         target_dir = os.path.join(pub_root, landing['subdomain'])
-        with open(os.path.join(target_dir,'index.html'), 'r', encoding='utf-8') as f:
-            html_content = f.read()
-        filename = landing['original_filename']
-
-    # Process uploaded images if any
-    pub_root = current_app.config['PUBLISHED_ROOT']
-    target_dir = os.path.join(pub_root, landing['subdomain'])
-    
-    images = request.files.getlist('images')
-    saved_images = []
-    if images and any(img.filename for img in images):
+        
+        # Remove existing files
+        if os.path.exists(target_dir):
+            shutil.rmtree(target_dir)
+        os.makedirs(target_dir, exist_ok=True)
+        
+        # Validate and extract new ZIP
+        zip_validation = validate_zip_structure(zip_file)
+        if zip_validation['status'] == 'error':
+            return jsonify({'error': f'Lỗi ZIP file: {zip_validation["message"]}'}), 400
+        
         try:
-            saved_images = save_uploaded_images(images, target_dir)
-        except ValueError as e:
-            return jsonify({'error': str(e)}), 400
+            zip_file.seek(0)
+            head_snippet = TRACKING_TEMPLATE_HEAD.format(global_site_tag=global_site_tag)
+            body_snippet = TRACKING_TEMPLATE_BODY.format(
+                phone_tracking=phone_tracking,
+                zalo_tracking=zalo_tracking,
+                form_tracking=form_tracking,
+            )
+            
+            extracted_files, folder_structure = extract_and_validate_folder(zip_file, target_dir)
+            processed_html_files = process_html_tracking_in_folder(target_dir, head_snippet, body_snippet)
+            
+            # Update database with new folder info
+            repository.update_landing(landing_id, {
+                'agent': agent,
+                'global_site_tag': global_site_tag,
+                'phone_tracking': phone_tracking,
+                'zalo_tracking': zalo_tracking,
+                'form_tracking': form_tracking,
+                'hotline_phone': hotline_phone,
+                'zalo_phone': zalo_phone,
+                'google_form_link': google_form_link,
+                'original_filename': secure_filename(zip_file.filename),
+                'upload_type': 'folder',
+                'folder_structure': json.dumps(folder_structure)
+            })
+            
+            return jsonify({
+                'message': f'Cập nhật thành công! Đã upload {len(extracted_files)} file từ folder mới.',
+                'files_count': len(extracted_files),
+                'html_files_processed': len(processed_html_files)
+            })
+            
         except Exception as e:
-            return jsonify({'error': str(e)}), 500
-
-    head_snippet = TRACKING_TEMPLATE_HEAD.format(global_site_tag=global_site_tag)
-    body_snippet = TRACKING_TEMPLATE_BODY.format(
-        phone_tracking=phone_tracking,
-        zalo_tracking=zalo_tracking,
-        form_tracking=form_tracking,
-    )
-    final_html = inject_tracking(html_content, head_snippet, body_snippet)
-
-    os.makedirs(target_dir, exist_ok=True)
-    target_file = os.path.join(target_dir, 'index.html')
-    with open(target_file, 'w', encoding='utf-8') as f:
-        f.write(final_html)
-
-    repository.update_landing(landing_id, {
-        'agent': agent,
-        'global_site_tag': global_site_tag,
-        'phone_tracking': phone_tracking,
-        'zalo_tracking': zalo_tracking,
-        'form_tracking': form_tracking,
-        'hotline_phone': hotline_phone,
-        'zalo_phone': zalo_phone,
-        'google_form_link': google_form_link,
-        'original_filename': filename
-    })
-
-    result = {'message':'Cập nhật thành công'}
-    if saved_images:
-        result['images_uploaded'] = len(saved_images)
-        result['image_files'] = saved_images
+            return jsonify({'error': f'Lỗi xử lý folder: {str(e)}'}), 500
     
-    return jsonify(result)
+    else:
+        # Only update tracking metadata without changing files
+        pub_root = current_app.config['PUBLISHED_ROOT']
+        target_dir = os.path.join(pub_root, landing['subdomain'])
+        
+        head_snippet = TRACKING_TEMPLATE_HEAD.format(global_site_tag=global_site_tag)
+        body_snippet = TRACKING_TEMPLATE_BODY.format(
+            phone_tracking=phone_tracking,
+            zalo_tracking=zalo_tracking,
+            form_tracking=form_tracking,
+        )
+        
+        # Re-process existing HTML files with new tracking codes
+        try:
+            processed_html_files = process_html_tracking_in_folder(target_dir, head_snippet, body_snippet)
+            
+            repository.update_landing(landing_id, {
+                'agent': agent,
+                'global_site_tag': global_site_tag,
+                'phone_tracking': phone_tracking,
+                'zalo_tracking': zalo_tracking,
+                'form_tracking': form_tracking,
+                'hotline_phone': hotline_phone,
+                'zalo_phone': zalo_phone,
+                'google_form_link': google_form_link
+            })
+            
+            return jsonify({
+                'message': 'Cập nhật tracking codes thành công!',
+                'html_files_processed': len(processed_html_files)
+            })
+            
+        except Exception as e:
+            return jsonify({'error': f'Lỗi cập nhật tracking codes: {str(e)}'}), 500
 
 @bp.route('/api/landingpages/<int:landing_id>/status', methods=['PATCH'])
 @login_required
@@ -332,11 +628,6 @@ def api_delete(landing_id):
     return jsonify({'message':'Đã xóa'})
 
 # Basic HTML pages (reuse API via JS later if needed)
-@bp.route('/admin-panel-xyz123/create', methods=['GET'])
-@login_required
-def create_page():
-    return render_template('create.html', agents_list=agents.list_agents())
-
 @bp.route('/admin-panel-xyz123/edit/<int:landing_id>', methods=['GET'])
 @login_required  
 def edit_page(landing_id):

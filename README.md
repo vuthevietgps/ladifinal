@@ -1,21 +1,20 @@
-# 🚀 Quan Ly Landing Page - Hệ Thống Quản Lý Landing Page
+# 🚀 Landing Page Manager - Hệ Thống Quản Lý Landing Page
 
-Hệ thống quản lý và phục vụ landing pages với wildcard subdomain, tracking injection và quản lý Agent.
+Hệ thống quản lý và phục vụ landing pages với folder upload, tracking injection và quản lý Agent.
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-3.0.3-green.svg)](https://flask.palletsprojects.com)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3.3-purple.svg)](https://getbootstrap.com)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## 🎯 Tính Năng Chính
 
-- **🏗️ Quản lý Landing Pages**: CRUD hoàn chỉnh với file upload và preview
+- **📁 Folder Upload**: Upload toàn bộ website dưới dạng ZIP folder hoàn chỉnh
 - **👥 Quản lý Agents**: Phân công nhân viên phụ trách từng landing page  
-- **📊 Tracking Integration**: Tự động inject Google Analytics, Facebook Pixel, phone/zalo tracking
-- **🌐 Wildcard Subdomain**: Phục vụ `*.yourdomain.com` từ static files
-- **📱 Responsive UI**: Giao diện Bootstrap 5 với modal interactions
-- **🖼️ Image Management**: Upload, optimize và backup ảnh tự động
-- **🔒 Production Ready**: Systemd service, Nginx config, automated backups
+- **📊 Tracking Integration**: Tự động inject Google Analytics, phone/zalo/form tracking
+- **🌐 Landing Page Serving**: Phục vụ landing pages qua `/landing/{subdomain}`
+- **📱 Responsive UI**: Giao diện Bootstrap 5 với loading animations
+- **� Auto ZIP Processing**: Tự động phát hiện và sửa cấu trúc ZIP không chuẩn
+- **🔒 Authentication**: Flask-Login với admin panel bảo mật
 
 ## 🏁 Quick Start
 
@@ -29,6 +28,8 @@ source .venv/bin/activate  # Linux/Mac
 pip install -r requirements.txt
 python main.py
 ```
+
+Truy cập: http://localhost:5000/admin-panel-xyz123/
 
 Truy cập: http://localhost:5000
 
