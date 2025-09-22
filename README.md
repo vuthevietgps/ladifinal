@@ -36,16 +36,22 @@ Truy cập: http://localhost:5000
 ### Production Deployment
 ```bash
 # Trên VPS Ubuntu:
-wget https://raw.githubusercontent.com/vuthevietgps/ladi/main/cleanup-vps.sh
+wget https://raw.githubusercontent.com/vuthevietgps/ladifinal/main/cleanup-vps.sh
 chmod +x cleanup-vps.sh
 ./cleanup-vps.sh
 
-wget https://raw.githubusercontent.com/vuthevietgps/ladi/main/redeploy-vps.sh
+wget https://raw.githubusercontent.com/vuthevietgps/ladifinal/main/redeploy-vps.sh
 chmod +x redeploy-vps.sh
 ./redeploy-vps.sh
 ```
 
-Chi tiết: [HUONG-DAN-DEPLOY.md](HUONG-DAN-DEPLOY.md)
+Scripts sẽ tự động:
+- Dọn dẹp VPS và cài đặt dependencies
+- Clone code từ GitHub 
+- Cấu hình Python virtual environment
+- Setup Gunicorn + Systemd service
+- Cấu hình Nginx reverse proxy
+- Khởi động và kiểm tra services
 
 ## 📋 API Endpoints
 
