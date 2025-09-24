@@ -70,3 +70,21 @@ temp/
 test_*.html
 test_*.txt
 sample-images-*/
+
+# Archives & binaries (keep repo lean)
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.bz2
+*.xz
+*.tgz
+*.tar.gz
+*.exe
+*.msi
+*.dll
+*.bin
+
+# Specifically ignore build artifacts we might create locally
+phu-hieu-xe.zip
