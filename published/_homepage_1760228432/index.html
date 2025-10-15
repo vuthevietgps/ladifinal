@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hopagetest1 - Cửa hàng Điện thoại</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1>HopaPhone</h1>
+      <nav>
+        <a href="#phones">Điện thoại</a>
+        <a href="#deals">Khuyến mãi</a>
+        <a href="#contact">Liên hệ</a>
+      </nav>
+    </div>
+  </header>
+
+  <section id="hero" class="hero">
+    <div class="container">
+      <h2>Flagship 2025</h2>
+      <p>Mạnh mẽ, sang trọng, giá tốt. Giao nhanh 2h tại HN/HCM.</p>
+      <button class="btn-primary" onclick="scrollToId('phones')">Xem sản phẩm</button>
+    </div>
+  </section>
+
+  <section id="phones" class="grid">
+    <article class="card">
+      <img src="images/iphone.svg" alt="iPhone" />
+      <h3>iPhone 15 Pro Max</h3>
+      <p>Giá từ <strong>29.990.000đ</strong></p>
+      <button class="btn-primary" onclick="buy('iPhone 15 Pro Max')">Mua ngay</button>
+    </article>
+    <article class="card">
+      <img src="images/samsung.svg" alt="Samsung" />
+      <h3>Samsung S24 Ultra</h3>
+      <p>Giá từ <strong>28.990.000đ</strong></p>
+      <button class="btn-primary" onclick="buy('Samsung S24 Ultra')">Mua ngay</button>
+    </article>
+    <article class="card">
+      <img src="images/xiaomi.svg" alt="Xiaomi" />
+      <h3>Xiaomi 14</h3>
+      <p>Giá từ <strong>18.990.000đ</strong></p>
+      <button class="btn-primary" onclick="buy('Xiaomi 14')">Mua ngay</button>
+    </article>
+  </section>
+
+  <footer id="contact" class="footer">
+    <div class="container">
+      <p>Hotline: 0901 234 567 • Zalo: 0901 234 567</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

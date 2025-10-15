@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex mb-3">
+  <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#modalCreate">Thêm mới</button>
+  <form class="row row-cols-lg-auto g-2 align-items-center" method="get">
+    <div class="col">
+      <input type="text" class="form-control" name="q" placeholder="Tìm subdomain" value="{{filters.q}}">
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" name="agent" placeholder="Agent" value="{{filters.agent}}">
+    </div>
+    <div class="col">
+      <select name="status" class="form-select">
+        <option value="">Trạng thái</option>
+        <option value="active" {% if filters.status=='active' %}selected{% endif %}>Active</option>
+        <option value="paused" {% if filters.status=='paused' %}selected{% endif %}>Paused</option>
+      </select>
+    </div>
+    <div class="col">
+      <button class="btn btn-secondary">Lọc</button>
+    </div>
+  </form>
+</div>
+<table class="table table-striped table-bordered table-sm">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+  <th>Subdomain</th>
+      <th>Agent</th>
+      <th>Loại</th>
+      <th>Sử dụng</th>
+      <th>Hotline</th>
+      <th>Zalo Phone</th>
+      <th>Google Form</th>
+      <th>Tracking (Phone/Zalo/Form)</th>
+      <th>Link</th>
+      <th>Trạng thái</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for l in landings %}
+    <tr>
+      <td>{{l.id}}</td>
+      <td>{{l.subdomain}}</td>
+      <td>{{l.agent}}</td>
+      <td>
+        {% if l.page_type == 'homepage' %}
+          <span class="badge bg-primary">Trang chủ</span>
+        {% else %}
+          <span class="badge bg-info">Ladipage</span>
+        {% endif %}
+      </td>
+      <td>
+        {% if l.page_type == 'homepage' %}
+          <div class="form-check">
+            <input class="form-check-input homepage-toggle" type="checkbox" 
+                   data-id="{{l.id}}" 
+                   {% if l.is_active == 1 %}checked{% endif %}>
+            <label class="form-check-label text-success">{{ "✓ Đang dùng" if l.is_active == 1 else "Chưa dùng" }}</label>
+          </div>
+        {% else %}
+          <span class="text-muted">-</span>
+        {% endif %}
+      </td>
+      <td>{{l.hotline_phone}}</td>
+      <td>{{l.zalo_phone}}</td>
+      <td>
+        {% if l.google_form_link %}<a href="{{l.google_form_link}}" target="_blank">Form</a>{% endif %}
+      </td>
+      <td>
+        <small class="d-block">P: {{l.phone_tracking}}</small>
+        <small class="d-block">Z: {{l.zalo_tracking}}</small>
+        <small class="d-block">F: {{l.form_tracking}}</small>
+      </td>
+      <td>
+        <a href="{% if l.page_type=='homepage' %}/{% else %}/landing/{{l.subdomain}}{% endif %}" target="_blank" class="btn btn-sm btn-outline-success">
+          <i class="fas fa-external-link-alt"></i> Xem
+        </a>
+      </td>
+      <td>
+        {% if l.status=='active' %}<span class="badge bg-success">Active</span>{% else %}<span class="badge bg-warning text-dark">Paused</span>{% endif %}
+      </td>
+      <td>
+        <a class="btn btn-sm btn-outline-primary" href="/admin-panel-xyz123/edit/{{l.id}}">Sửa</a>
+        <button data-id="{{l.id}}" class="btn btn-sm btn-outline-warning btn-toggle-status">{{'Tạm dừng' if l.status=='active' else 'Kích hoạt'}}</button>
+        <button data-id="{{l.id}}" class="btn btn-sm btn-outline-danger btn-delete">Xóa</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<!-- Modal Create -->
+<div class="modal fade" id="modalCreate" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Thêm Landing Page</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="createForm" enctype="multipart/form-data">
+          <input type="hidden" name="upload_type" value="folder">
+          <div class="row g-3">
+            <div class="col-md-3">
+              <label class="form-label">Loại giao diện</label>
+              <select name="page_type" class="form-select" id="modalPageType">
+                <option value="landing" selected>Trang ladipage</option>
+                <option value="homepage">Trang chủ</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Subdomain</label>
+              <input name="subdomain" id="modalSubdomain" class="form-control" required pattern="[a-z0-9-]{1,40}" placeholder="ladi1">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Agent</label>
+              <select name="agent" class="form-select">
+                <option value="">-- Chọn Agent --</option>
+                {% for a in agents_list %}
+                  <option value="{{a.name}}">{{a.name}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">File ZIP chứa website</label>
+              <input type="file" name="folder_zip" accept=".zip" class="form-control" required>
+              <small class="text-muted">Upload file ZIP chứa toàn bộ website (index.html phải ở thư mục gốc)</small>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Google Form Link</label>
+              <input name="google_form_link" class="form-control" placeholder="https://docs.google.com/forms/...">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Global Site Tag</label>
+              <textarea name="global_site_tag" class="form-control" rows="3" placeholder="<!-- gtag -->"></textarea>
+            </div>
+            <div class="col-12">
+              <div class="alert alert-info">
+                <h6><i class="fas fa-info-circle"></i> Cấu trúc ZIP chuẩn:</h6>
+                <div class="row">
+                  <div class="col-md-6">
+                    <strong class="text-success">✅ ĐÚNG:</strong>
+                    <pre class="small bg-light p-2 rounded mt-1">website.zip
+├── index.html
+├── css/style.css
+├── js/main.js
+└── images/logo.png</pre>
+                  </div>
+                  <div class="col-md-6">
+                    <strong class="text-danger">❌ SAI:</strong>
+                    <pre class="small bg-light p-2 rounded mt-1">website.zip
+└── website-folder/
+    ├── index.html
+    └── css/...</pre>
+                    <small class="text-muted">*Hệ thống tự động sửa lỗi này</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Phone Tracking</label>
+              <input name="phone_tracking" class="form-control">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Form Tracking</label>
+              <input name="form_tracking" class="form-control">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Zalo/Messenger Tracking</label>
+              <input name="zalo_tracking" class="form-control">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Hotline Phone</label>
+              <input name="hotline_phone" class="form-control">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Zalo Phone</label>
+              <input name="zalo_phone" class="form-control">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button class="btn btn-primary" id="btnCreateSubmit">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+async function changeStatus(id, status){
+  showLoading('Đang thay đổi trạng thái...');
+  try {
+    const r = await fetch(`/api/landingpages/${id}/status`, {method:'PATCH', headers:{'Content-Type':'application/json'}, body: JSON.stringify({status})});
+    if(r.ok) {
+      showSuccess('Thay đổi trạng thái thành công!');
+      setTimeout(() => location.reload(), 1500);
+    } else {
+      hideLoading();
+      alert('Lỗi đổi trạng thái');
+    }
+  } catch(error) {
+    hideLoading();
+    alert('Lỗi kết nối: ' + error.message);
+  }
+}
+
+async function deleteLanding(id){
+  if(!confirm('Bạn có chắc chắn muốn xóa landing page này?')) return;
+  showLoading('Đang xóa...');
+  try {
+    const r = await fetch(`/api/landingpages/${id}`, {method:'DELETE'});
+    if(r.ok) {
+      showSuccess('Xóa landing page thành công!');
+      setTimeout(() => location.reload(), 1500);
+    } else {
+      hideLoading();
+      alert('Lỗi khi xóa');
+    }
+  } catch(error) {
+    hideLoading();
+    alert('Lỗi kết nối: ' + error.message);
+  }
+}
+
+for(const btn of document.querySelectorAll('.btn-toggle-status')){
+  btn.addEventListener('click', ()=>{
+    changeStatus(btn.dataset.id, btn.textContent.includes('Tạm dừng')?'paused':'active');
+  })
+}
+for(const btn of document.querySelectorAll('.btn-delete')){
+  btn.addEventListener('click', ()=> deleteLanding(btn.dataset.id));
+}
+
+// Load agents for dropdown
+async function loadAgents() {
+  try {
+    const response = await fetch('/api/agents');
+    if (response.ok) {
+      const data = await response.json();
+      const agentSelect = document.querySelector('select[name="agent"]');
+      
+      // Clear existing options except first one
+      agentSelect.innerHTML = '<option value="">-- Chọn Agent --</option>';
+      
+      // Add agents to dropdown
+      if (data.agents && data.agents.length > 0) {
+        data.agents.forEach(agent => {
+          const option = document.createElement('option');
+          option.value = agent.name;
+          option.textContent = agent.name;
+          agentSelect.appendChild(option);
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Error loading agents:', error);
+  }
+}
+
+// Load agents when modal opens
+document.getElementById('modalCreate').addEventListener('shown.bs.modal', loadAgents);
+
+document.getElementById('btnCreateSubmit').addEventListener('click', async ()=>{
+  const form = document.getElementById('createForm');
+  if(!form.reportValidity()) return;
+  
+  const fd = new FormData(form);
+  showLoading('Đang tạo landing page...');
+  
+  try {
+    const r = await fetch('/api/landingpages', {method:'POST', body: fd});
+    if(r.ok){ 
+      const result = await r.json();
+      showSuccess(result.message || 'Tạo landing page thành công!');
+      setTimeout(() => location.reload(), 2000);
+    } else { 
+      hideLoading();
+      const j = await r.json().catch(()=>({error:'Lỗi không xác định'})); 
+      alert('Lỗi: ' + (j.error || 'Không thể tạo landing page')); 
+    }
+  } catch(error) {
+    hideLoading();
+    alert('Lỗi kết nối: ' + error.message);
+  }
+});
+
+// Homepage activation toggle
+document.addEventListener('DOMContentLoaded', function() {
+  const homepageToggles = document.querySelectorAll('.homepage-toggle');
+  
+  homepageToggles.forEach(toggle => {
+    toggle.addEventListener('change', async function() {
+      const homepageId = this.dataset.id;
+      const isChecked = this.checked;
+      
+      if (!isChecked) {
+        this.checked = true; // Prevent unchecking - must have one active
+        alert('Phải có ít nhất 1 homepage được sử dụng. Hãy chọn homepage khác trước khi bỏ chọn.');
+        return;
+      }
+      
+      showLoading('Đang kích hoạt homepage...');
+      
+      try {
+        const response = await fetch(`/api/homepage/${homepageId}/activate`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'}
+        });
+        
+        if (response.ok) {
+          showSuccess('Homepage đã được kích hoạt!');
+          setTimeout(() => location.reload(), 1500);
+        } else {
+          hideLoading();
+          const result = await response.json().catch(() => ({message: 'Lỗi không xác định'}));
+          alert('Lỗi: ' + result.message);
+          this.checked = false;
+        }
+      } catch (error) {
+        hideLoading();
+        alert('Lỗi kết nối: ' + error.message);
+        this.checked = false;
+      }
+    });
+  });
+});
+
+// Toggle subdomain requirement based on Loại giao diện in modal
+(function(){
+  const sel = document.getElementById('modalPageType');
+  const sub = document.getElementById('modalSubdomain');
+  function sync(){
+    const isHomepage = sel && sel.value === 'homepage';
+    if(sub){
+      sub.required = !isHomepage;
+      sub.disabled = isHomepage;
+      sub.placeholder = isHomepage ? 'Không cần cho Trang chủ' : 'ladi1';
+    }
+  }
+  if(sel){ sel.addEventListener('change', sync); sync(); }
+})();
+</script>
+{% endblock %}

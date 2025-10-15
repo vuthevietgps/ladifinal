@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Store - Thời Trang Cao Cấp</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1><i class="fas fa-tshirt"></i> FashionStore</h1>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="#home">Trang Chủ</a></li>
+                    <li><a href="#products">Sản Phẩm</a></li>
+                    <li><a href="#about">Giới Thiệu</a></li>
+                    <li><a href="#contact">Liên Hệ</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="btn-contact" onclick="showContact()">
+                    <i class="fas fa-phone"></i> Gọi Ngay: 0901234567
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Thời Trang Cao Cấp</h2>
+            <p>Khám phá bộ sưu tập thời trang mới nhất với phong cách hiện đại và chất lượng tốt nhất</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="showProducts()">Xem Sản Phẩm</button>
+                <button class="btn-secondary" onclick="showContact()">Liên Hệ Ngay</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="fashion-showcase">
+                <div class="showcase-item">👔</div>
+                <div class="showcase-item">👗</div>
+                <div class="showcase-item">👖</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products">
+        <div class="container">
+            <h2>Sản Phẩm Nổi Bật</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <div class="product-placeholder">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Áo Sơ Mi Nam</h3>
+                        <p class="price">299.000đ</p>
+                        <button class="btn-buy" onclick="orderProduct('Áo Sơ Mi Nam')">Đặt Hàng</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <div class="product-placeholder">
+                            <i class="fas fa-female"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Váy Dạ Hội</h3>
+                        <p class="price">899.000đ</p>
+                        <button class="btn-buy" onclick="orderProduct('Váy Dạ Hội')">Đặt Hàng</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <div class="product-placeholder">
+                            <i class="fas fa-hat-cowboy"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Mũ Thời Trang</h3>
+                        <p class="price">199.000đ</p>
+                        <button class="btn-buy" onclick="orderProduct('Mũ Thời Trang')">Đặt Hàng</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <div class="product-placeholder">
+                            <i class="fas fa-shoe-prints"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Giày Sneaker</h3>
+                        <p class="price">599.000đ</p>
+                        <button class="btn-buy" onclick="orderProduct('Giày Sneaker')">Đặt Hàng</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <div class="product-placeholder">
+                            <i class="fas fa-vest"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Blazer Nam</h3>
+                        <p class="price">1.299.000đ</p>
+                        <button class="btn-buy" onclick="orderProduct('Blazer Nam')">Đặt Hàng</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <div class="product-placeholder">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Túi Xách Nữ</h3>
+                        <p class="price">799.000đ</p>
+                        <button class="btn-buy" onclick="orderProduct('Túi Xách Nữ')">Đặt Hàng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Về Chúng Tôi</h2>
+                    <p>FashionStore là cửa hàng thời trang hàng đầu với hơn 10 năm kinh nghiệm trong ngành. Chúng tôi cam kết mang đến cho khách hàng những sản phẩm thời trang chất lượng cao với giá cả hợp lý.</p>
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> Chất lượng cao cấp</li>
+                        <li><i class="fas fa-check"></i> Giá cả hợp lý</li>
+                        <li><i class="fas fa-check"></i> Giao hàng nhanh chóng</li>
+                        <li><i class="fas fa-check"></i> Bảo hành 1 năm</li>
+                    </ul>
+                </div>
+                <div class="about-stats">
+                    <div class="stat">
+                        <h3>10+</h3>
+                        <p>Năm Kinh Nghiệm</p>
+                    </div>
+                    <div class="stat">
+                        <h3>5000+</h3>
+                        <p>Khách Hàng Hài Lòng</p>
+                    </div>
+                    <div class="stat">
+                        <h3>1000+</h3>
+                        <p>Sản Phẩm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Liên Hệ Với Chúng Tôi</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Hotline</h4>
+                            <p>0901234567</p>
+                            <button class="btn-call" onclick="callHotline()">Gọi Ngay</button>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-comments"></i>
+                        <div>
+                            <h4>Zalo</h4>
+                            <p>0901234567</p>
+                            <button class="btn-zalo" onclick="chatZalo()">Chat Zalo</button>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Địa Chỉ</h4>
+                            <p>123 Đường ABC, Quận 1, TP.HCM</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <h3>Đăng Ký Nhận Thông Tin</h3>
+                    <form id="contactForm" onsubmit="submitForm(event)">
+                        <input type="text" placeholder="Họ và tên *" required>
+                        <input type="tel" placeholder="Số điện thoại *" required>
+                        <input type="email" placeholder="Email">
+                        <textarea placeholder="Tin nhắn"></textarea>
+                        <button type="submit" class="btn-submit">Gửi Thông Tin</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-tshirt"></i> FashionStore</h4>
+                    <p>Thời trang cao cấp cho mọi người</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên Hệ</h4>
+                    <p><i class="fas fa-phone"></i> 0901234567</p>
+                    <p><i class="fas fa-envelope"></i> info@fashionstore.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Theo Dõi Chúng Tôi</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FashionStore. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Fixed Contact Buttons -->
+    <div class="fixed-contact">
+        <button class="fixed-phone" onclick="callHotline()" title="Gọi hotline">
+            <i class="fas fa-phone"></i>
+        </button>
+        <button class="fixed-zalo" onclick="chatZalo()" title="Chat Zalo">
+            <i class="fas fa-comments"></i>
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

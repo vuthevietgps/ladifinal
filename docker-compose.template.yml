@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  web:
+    image: vutheviet/ladipage:latest
+    container_name: [DOMAIN_NAME]-web
+    restart: unless-stopped
+    volumes:
+      - ./uploads:/app/uploads
+      - ./published:/app/published
+      - ./database:/app/database
+    environment:
+      - FLASK_ENV=production
+    ports:
+      - "[PORT]:5000"  # Port tự do: 8083, 8084, 8085...
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.[DOMAIN_NAME].rule=Host(`[DOMAIN].com`) || Host(`www.[DOMAIN].com`)"
+      - "traefik.http.routers.[DOMAIN_NAME].entrypoints=websecure"
+      - "traefik.http.services.[DOMAIN_NAME].loadbalancer.server.port=5000"
+      - "traefik.http.routers.[DOMAIN_NAME]-http.rule=Host(`[DOMAIN].com`) || Host(`www.[DOMAIN].com`)"
+      - "traefik.http.routers.[DOMAIN_NAME]-http.entrypoints=web"
+      - "traefik.http.routers.[DOMAIN_NAME]-http.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    networks:
+      - traefik-network
+
+networks:
+  traefik-network:
+    external: true

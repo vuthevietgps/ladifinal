@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ladipage Test 2 - Cốc giữ nhiệt</title>
+  <!-- Intentionally using absolute paths to validate our rewrite on upload -->
+  <link rel="stylesheet" href="/landing/2/css/style.css" />
+</head>
+<body>
+  <header class="hero">
+    <h1>Cốc giữ nhiệt Inox 304</h1>
+    <p>Giữ nóng/lạnh lên đến 8 giờ. Bền bỉ, an toàn cho sức khỏe.</p>
+    <a class="cta" href="#order">Mua ngay</a>
+  </header>
+
+  <section class="features">
+    <div class="card">
+      <img src="/landing/2/images/cup.svg" alt="Cốc giữ nhiệt" />
+      <h3>Giữ nhiệt lâu</h3>
+      <p>Uống nóng hay lạnh đều giữ ngon trong nhiều giờ.</p>
+    </div>
+    <div class="card">
+      <img src="/landing/2/images/cup.svg" alt="Cốc giữ nhiệt" />
+      <h3>Chất liệu an toàn</h3>
+      <p>Inox 304 chống gỉ, không bám mùi.</p>
+    </div>
+    <div class="card">
+      <img src="/landing/2/images/cup.svg" alt="Cốc giữ nhiệt" />
+      <h3>Thiết kế đẹp</h3>
+      <p>Phù hợp văn phòng, du lịch, thể thao.</p>
+    </div>
+  </section>
+
+  <section id="order" class="order">
+    <h2>Đặt hàng nhanh</h2>
+    <form onsubmit="return submitOrder(event)">
+      <input type="text" placeholder="Họ và tên" required />
+      <input type="tel" placeholder="Số điện thoại" required />
+      <select required>
+        <option value="">Chọn dung tích</option>
+        <option value="350">350ml</option>
+        <option value="500">500ml</option>
+        <option value="750">750ml</option>
+      </select>
+      <button type="submit">Đặt mua</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Cup Store. All rights reserved.</p>
+  </footer>
+
+  <script src="/landing/2/js/script.js"></script>
+</body>
+</html>

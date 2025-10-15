@@ -1,0 +1,37 @@
+services:
+  phuhieutoanquoc:
+    image: ${DOCKER_IMAGE:-vutheviet/ladifinal:latest}
+    container_name: phuhieutoanquoc-app
+    restart: unless-stopped
+    environment:
+      - FLASK_ENV=production
+      - SECRET_KEY=${SECRET_KEY}
+      - PORT=${PORT:-5001}
+      - PUBLISHED_ROOT=/app/published
+      - UPLOAD_FOLDER=/app/uploads
+    volumes:
+      - ./uploads:/app/uploads
+      - ./published:/app/published
+      - ./logs:/app/logs
+      - ./data:/app/data
+      # Persist SQLite database
+      - ./ladifinal/database.db:/app/ladifinal/database.db
+    ports:
+      - "${PORT:-5001}:${PORT:-5001}"
+    networks:
+      - traefik-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${PORT:-5001}/health"]
+      interval: 30s
+      timeout: 3s
+      start_period: 10s
+      retries: 3
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.phuhieutoanquoc.rule=Host(`${DOMAIN:-phuhieutoanquoc.shop}`)"
+      - "traefik.http.services.phuhieutoanquoc.loadbalancer.server.port=${PORT:-5001}"
+      - "traefik.docker.network=traefik-network"
+
+networks:
+  traefik-network:
+    external: true

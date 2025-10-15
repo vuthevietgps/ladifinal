@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Sửa Landing Page #{{landing.id}}</h3>
+<form action="/api/landingpages/{{landing.id}}" method="post" enctype="multipart/form-data" class="mt-3" id="editForm">
+  <input type="hidden" name="_method" value="PUT">
+  <fieldset class="border rounded p-3 mb-3">
+    <legend class="float-none w-auto px-2 small">Thông tin chung</legend>
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label class="form-label">Loại giao diện</label>
+        <input class="form-control" value="{{ 'Trang chủ' if landing.page_type=='homepage' else 'Ladipage' }}" disabled>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Subdomain</label>
+        <input value="{{landing.subdomain}}" class="form-control" disabled>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Agent</label>
+        <select name="agent" class="form-select">
+          <option value="">-- Chọn Agent --</option>
+          {% for a in agents_list %}
+            <option value="{{a.name}}" {% if landing.agent == a.name %}selected{% endif %}>{{a.name}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Upload folder mới (tùy chọn)</label>
+        <input type="file" name="folder_zip" accept=".zip" class="form-control">
+        <div class="form-text">Upload file ZIP để thay thế toàn bộ folder website hiện tại</div>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Google Form Link</label>
+        <input name="google_form_link" class="form-control" value="{{landing.google_form_link}}" placeholder="https://docs.google.com/forms/...">
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="border rounded p-3 mb-3">
+    <legend class="float-none w-auto px-2 small">Tracking & Script</legend>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Global Site Tag</label>
+        <textarea name="global_site_tag" class="form-control" rows="4">{{landing.global_site_tag}}</textarea>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Phone Tracking</label>
+        <input name="phone_tracking" class="form-control" value="{{landing.phone_tracking}}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Form Tracking</label>
+        <input name="form_tracking" class="form-control" value="{{landing.form_tracking}}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Zalo/Messenger Tracking</label>
+        <input name="zalo_tracking" class="form-control" value="{{landing.zalo_tracking}}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Hotline Phone</label>
+        <input name="hotline_phone" class="form-control" value="{{landing.hotline_phone}}">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Zalo Phone</label>
+        <input name="zalo_phone" class="form-control" value="{{landing.zalo_phone}}">
+      </div>
+    </div>
+  </fieldset>
+  
+  <fieldset class="border rounded p-3 mb-3">
+    <legend class="float-none w-auto px-2 small">File & Ảnh</legend>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">File index.html (Tùy chọn)</label>
+        <input type="file" name="file" accept=".html,.htm" class="form-control">
+        <div class="form-text">Hiện tại: {{landing.original_filename}}</div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Cập nhật ảnh (Tối đa 7 ảnh)</label>
+        <input type="file" name="images" accept="image/*" class="form-control" multiple>
+        <small class="text-muted">Chọn ảnh mới sẽ thay thế tất cả ảnh cũ. Đặt tên: anh1.jpg, anh2.png, ...</small>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="alert alert-info">
+          <h6><i class="fas fa-info-circle"></i> Hướng dẫn sử dụng ảnh trong HTML:</h6>
+          <ul class="mb-0">
+            <li>Ảnh sẽ được đặt tên: <code>anh1.jpg</code>, <code>anh2.png</code>, <code>anh3.gif</code>, ... (tối đa 7 ảnh)</li>
+            <li>Trong HTML sử dụng: <code>&lt;img src="./anh1.jpg"&gt;</code></li>
+            <li>Background: <code>background-image: url('./anh2.jpg')</code></li>
+            <li>Thứ tự upload = thứ tự đặt tên</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  
+  <div class="mt-3">
+    <button class="btn btn-primary">Cập nhật</button>
+    <a href="/" class="btn btn-secondary">Hủy</a>
+  </div>
+</form>
+<script>
+  const form = document.getElementById('editForm');
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(form);
+    
+    // Show loading overlay
+    showLoading('Đang cập nhật...');
+    
+    try {
+      const r = await fetch('/api/landingpages/{{landing.id}}', {method:'PUT', body: fd});
+      if(r.ok){
+        const result = await r.json();
+        showSuccess(result.message || 'Cập nhật landing page thành công!');
+        // Redirect after showing success message
+        setTimeout(() => {
+          window.location.href = '/admin-panel-xyz123/';
+        }, 2000);
+      } else {
+        hideLoading();
+        const j = await r.json().catch(()=>({error:'Lỗi không xác định'}));
+        alert('Lỗi: ' + (j.error || 'Không thể cập nhật'));
+      }
+    } catch (error) {
+      hideLoading();
+      alert('Lỗi kết nối: ' + error.message);
+    }
+  })
+</script>
+{% endblock %}

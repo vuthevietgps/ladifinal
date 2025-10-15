@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <title>Quản lý Landing Pages</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Loading Spinner Styles */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      backdrop-filter: blur(2px);
+    }
+    .loading-spinner {
+      text-align: center;
+      color: white;
+    }
+    .loading-spinner .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loading-text {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body class="bg-light">
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loadingText">Đang tải lên...</div>
+  </div>
+</div>
+
+<div class="d-flex" style="min-height:100vh;">
+  <aside class="bg-dark text-white p-3" style="width:240px;">
+    <h5 class="mb-4">Landing Manager</h5>
+    <ul class="nav nav-pills flex-column mb-4">
+      <li class="nav-item"><a class="nav-link text-white {% if request.path == '/admin-panel-xyz123/' %}active bg-primary{% endif %}" href="/admin-panel-xyz123/">Trang chủ</a></li>
+      <li class="nav-item"><a class="nav-link text-white {% if request.path == '/admin-panel-xyz123/homepage' %}active bg-primary{% endif %}" href="/admin-panel-xyz123/homepage">Quản lý Homepage</a></li>
+      <li class="nav-item"><a class="nav-link text-white {% if request.path == '/admin-panel-xyz123/landing' %}active bg-primary{% endif %}" href="/admin-panel-xyz123/landing">Quản lý Landing Pages</a></li>
+      <li class="nav-item"><a class="nav-link text-white {% if request.path.startswith('/admin-panel-xyz123/agents') %}active bg-primary{% endif %}" href="/admin-panel-xyz123/agents">Quản lý Agent</a></li>
+    </ul>
+    
+    <!-- User info and logout -->
+    {% if current_user.is_authenticated %}
+    <div class="mt-auto pt-4 border-top border-secondary">
+      <div class="d-flex align-items-center mb-2">
+        <i class="fas fa-user me-2"></i>
+        <span class="small">{{ current_user.username }}</span>
+      </div>
+      <a href="/logout" class="btn btn-outline-light btn-sm w-100">
+        <i class="fas fa-sign-out-alt me-1"></i> Đăng xuất
+      </a>
+    </div>
+    {% endif %}
+    
+    <div class="small opacity-75 mt-3">
+      <div>&copy; {{2025}}</div>
+    </div>
+  </aside>
+  <main class="flex-grow-1 p-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for cat,msg in messages %}
+          <div class="alert alert-{{cat}} alert-dismissible fade show" role="alert">{{msg}}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Global loading functions
+  function showLoading(text = 'Đang tải lên...') {
+    const overlay = document.getElementById('loadingOverlay');
+    const loadingText = document.getElementById('loadingText');
+    loadingText.textContent = text;
+    overlay.style.display = 'flex';
+  }
+  
+  function hideLoading() {
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.style.display = 'none';
+  }
+  
+  function showSuccess(message, duration = 3000) {
+    hideLoading();
+    // Create success toast
+    const toast = document.createElement('div');
+    toast.className = 'toast show position-fixed top-0 start-50 translate-middle-x mt-3';
+    toast.style.zIndex = '10000';
+    toast.innerHTML = `
+      <div class="toast-header bg-success text-white">
+        <i class="fas fa-check-circle me-2"></i>
+        <strong class="me-auto">Thành công</strong>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+      </div>
+      <div class="toast-body bg-light">
+        ${message}
+      </div>
+    `;
+    document.body.appendChild(toast);
+    
+    // Auto remove after duration
+    setTimeout(() => {
+      if (toast.parentNode) {
+        toast.parentNode.removeChild(toast);
+      }
+    }, duration);
+  }
+</script>
+</body>
+</html>

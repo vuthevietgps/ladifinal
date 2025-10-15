@@ -1,0 +1,28 @@
+# Cloudflare DNS Configuration for thelaixedanang.shop
+# Add these records in Cloudflare DNS dashboard
+
+# A Record
+Type: A
+Name: @ (or thelaixedanang.shop)
+IPv4: YOUR_SERVER_IP
+TTL: Auto
+Proxy: Enabled (Orange cloud)
+
+# CNAME Record for www
+Type: CNAME  
+Name: www
+Target: thelaixedanang.shop
+TTL: Auto
+Proxy: Enabled (Orange cloud)
+
+# Optional: Redirect www to non-www or vice versa
+# Page Rules (in Cloudflare dashboard):
+# URL: www.thelaixedanang.shop/*
+# Setting: Forwarding URL (301 Redirect)
+# Target: https://thelaixedanang.shop/$1
+
+# SSL/TLS Settings:
+# - SSL/TLS encryption mode: Full (strict)
+# - Edge Certificates: Universal SSL enabled
+# - Always Use HTTPS: ON
+# - Minimum TLS Version: 1.2

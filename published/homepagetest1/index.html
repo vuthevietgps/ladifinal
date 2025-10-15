@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homepagetest1 - Cửa hàng Điện thoại</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1>PhoneHub</h1>
+      <nav>
+        <a href="#phones">Điện thoại</a>
+        <a href="#deals">Khuyến mãi</a>
+        <a href="#contact">Liên hệ</a>
+      </nav>
+    </div>
+  </header>
+
+  <section id="hero" class="hero">
+    <div class="container">
+      <h2>iPhone 15 Pro Max</h2>
+      <p>Hiệu năng vượt trội, camera đỉnh cao. Trả góp 0%.</p>
+      <button class="btn-primary" onclick="scrollToId('phones')">Xem sản phẩm</button>
+    </div>
+  </section>
+
+  <section id="phones" class="grid">
+    <article class="card">
+      <img src="images/iphone15.jpg" alt="iPhone 15">
+      <h3>iPhone 15</h3>
+      <p>Giá chỉ từ <strong>19.990.000đ</strong></p>
+      <button class="btn-primary" onclick="buy('iPhone 15')">Mua ngay</button>
+    </article>
+    <article class="card">
+      <img src="images/s23ultra.jpg" alt="Samsung S23 Ultra">
+      <h3>Samsung S23 Ultra</h3>
+      <p>Giá chỉ từ <strong>20.990.000đ</strong></p>
+      <button class="btn-primary" onclick="buy('Samsung S23 Ultra')">Mua ngay</button>
+    </article>
+    <article class="card">
+      <img src="images/xiaomi13.jpg" alt="Xiaomi 13">
+      <h3>Xiaomi 13</h3>
+      <p>Giá chỉ từ <strong>12.990.000đ</strong></p>
+      <button class="btn-primary" onclick="buy('Xiaomi 13')">Mua ngay</button>
+    </article>
+  </section>
+
+  <footer id="contact" class="footer">
+    <div class="container">
+      <p>Hotline: 0901 234 567 • Zalo: 0901 234 567</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

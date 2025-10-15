@@ -1,0 +1,34 @@
+tunnel: 13835f7d-46a0-48f7-bb67-333f39ee33d1
+credentials-file: /home/admin-001/.cloudflared/13835f7d-46a0-48f7-bb67-333f39ee33d1.json
+
+ingress:
+  # Existing domains
+  - hostname: htxbachgia.shop
+    service: http://127.0.0.1:8088
+    originRequest:
+      noTLSVerify: true
+      connectTimeout: 30s
+      tlsTimeout: 30s
+  
+  - hostname: phuhieutoanquoc.shop
+    service: http://127.0.0.1:8081
+    originRequest:
+      noTLSVerify: true
+      connectTimeout: 30s
+      tlsTimeout: 30s
+  
+  # Template for new domains:
+  # - hostname: [DOMAIN].com
+  #   service: http://127.0.0.1:[PORT]
+  #   originRequest:
+  #     noTLSVerify: true
+  #     connectTimeout: 30s
+  #     tlsTimeout: 30s
+  # - hostname: www.[DOMAIN].com
+  #   service: http://127.0.0.1:[PORT]
+  #   originRequest:
+  #     noTLSVerify: true
+  #     connectTimeout: 30s
+  #     tlsTimeout: 30s
+  
+  - service: http_status:404

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Máy Tính Chất Lượng Cao</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <h1>💻 TechStore</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home">Trang Chủ</a></li>
+                    <li><a href="#products">Sản Phẩm</a></li>
+                    <li><a href="#services">Dịch Vụ</a></li>
+                    <li><a href="#contact">Liên Hệ</a></li>
+                </ul>
+                <div class="hotline">
+                    📞 <strong>Hotline: 0901234567</strong>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Máy Tính Chất Lượng Cao</h1>
+                    <p>Khám phá bộ sưu tập máy tính mới nhất với hiệu năng vượt trội và giá cả hợp lý</p>
+                    <div class="hero-buttons">
+                        <a href="#products" class="btn btn-primary">Xem Sản Phẩm</a>
+                        <a href="#contact" class="btn btn-outline">Tư Vấn Ngay</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="/images/laptop-main.jpg" alt="Laptop Gaming" class="main-image">
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="products">
+            <div class="container">
+                <h2>Sản Phẩm Nổi Bật</h2>
+                <div class="product-grid">
+                    <!-- Laptop Gaming -->
+                    <div class="product-card">
+                        <div class="product-badge">HOT</div>
+                        <img src="/images/laptop-gaming.jpg" alt="Laptop Gaming" class="product-image">
+                        <h3>Laptop Gaming ROG Strix</h3>
+                        <div class="product-specs">
+                            <p>• Intel Core i7-13700H</p>
+                            <p>• RTX 4060 8GB</p>
+                            <p>• RAM 16GB DDR5</p>
+                            <p>• SSD 512GB NVMe</p>
+                        </div>
+                        <div class="price">25.990.000đ</div>
+                        <button class="btn btn-primary" onclick="orderProduct('Laptop Gaming ROG Strix', '25990000')">Đặt Hàng</button>
+                    </div>
+
+                    <!-- PC Văn Phòng -->
+                    <div class="product-card">
+                        <img src="/images/pc-office.jpg" alt="PC Văn Phòng" class="product-image">
+                        <h3>PC Văn Phòng Intel</h3>
+                        <div class="product-specs">
+                            <p>• Intel Core i5-13400</p>
+                            <p>• Intel UHD 730</p>
+                            <p>• RAM 8GB DDR4</p>
+                            <p>• SSD 256GB</p>
+                        </div>
+                        <div class="price">8.990.000đ</div>
+                        <button class="btn btn-primary" onclick="orderProduct('PC Văn Phòng Intel', '8990000')">Đặt Hàng</button>
+                    </div>
+
+                    <!-- Workstation -->
+                    <div class="product-card">
+                        <div class="product-badge">PRO</div>
+                        <img src="/images/workstation.jpg" alt="Workstation" class="product-image">
+                        <h3>Workstation Cao Cấp</h3>
+                        <div class="product-specs">
+                            <p>• Intel Xeon W-3235</p>
+                            <p>• Quadro RTX 4000</p>
+                            <p>• RAM 32GB ECC</p>
+                            <p>• SSD 1TB + HDD 2TB</p>
+                        </div>
+                        <div class="price">45.990.000đ</div>
+                        <button class="btn btn-primary" onclick="orderProduct('Workstation Cao Cấp', '45990000')">Đặt Hàng</button>
+                    </div>
+
+                    <!-- Mini PC -->
+                    <div class="product-card">
+                        <img src="/images/mini-pc.jpg" alt="Mini PC" class="product-image">
+                        <h3>Mini PC Compact</h3>
+                        <div class="product-specs">
+                            <p>• AMD Ryzen 5 5600G</p>
+                            <p>• Vega 7 Graphics</p>
+                            <p>• RAM 16GB DDR4</p>
+                            <p>• SSD 512GB</p>
+                        </div>
+                        <div class="price">12.990.000đ</div>
+                        <button class="btn btn-primary" onclick="orderProduct('Mini PC Compact', '12990000')">Đặt Hàng</button>
+                    </div>
+
+                    <!-- All-in-One -->
+                    <div class="product-card">
+                        <img src="/images/all-in-one.jpg" alt="All-in-One PC" class="product-image">
+                        <h3>All-in-One 24 inch</h3>
+                        <div class="product-specs">
+                            <p>• Intel Core i5-12400</p>
+                            <p>• Intel UHD 730</p>
+                            <p>• RAM 8GB DDR4</p>
+                            <p>• SSD 256GB</p>
+                        </div>
+                        <div class="price">15.990.000đ</div>
+                        <button class="btn btn-primary" onclick="orderProduct('All-in-One 24 inch', '15990000')">Đặt Hàng</button>
+                    </div>
+
+                    <!-- Server -->
+                    <div class="product-card">
+                        <div class="product-badge">ENTERPRISE</div>
+                        <img src="/images/server.jpg" alt="Server" class="product-image">
+                        <h3>Server Doanh Nghiệp</h3>
+                        <div class="product-specs">
+                            <p>• Dual Xeon Silver 4214</p>
+                            <p>• RAM 64GB ECC</p>
+                            <p>• SSD 2TB NVMe</p>
+                            <p>• RAID Controller</p>
+                        </div>
+                        <div class="price">89.990.000đ</div>
+                        <button class="btn btn-primary" onclick="orderProduct('Server Doanh Nghiệp', '89990000')">Đặt Hàng</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="services">
+            <div class="container">
+                <h2>Dịch Vụ Của Chúng Tôi</h2>
+                <div class="services-grid">
+                    <div class="service-item">
+                        <div class="service-icon">🔧</div>
+                        <h3>Lắp Ráp Máy Tính</h3>
+                        <p>Tư vấn và lắp ráp máy tính theo nhu cầu sử dụng với giá tốt nhất</p>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">🛠️</div>
+                        <h3>Sửa Chữa & Bảo Trì</h3>
+                        <p>Dịch vụ sửa chữa, nâng cấp và bảo trì máy tính chuyên nghiệp</p>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">🚚</div>
+                        <h3>Giao Hàng Tận Nơi</h3>
+                        <p>Giao hàng miễn phí trong nội thành, cài đặt và hướng dẫn sử dụng</p>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">🛡️</div>
+                        <h3>Bảo Hành Chính Hãng</h3>
+                        <p>Bảo hành chính hãng từ 12-36 tháng, hỗ trợ kỹ thuật 24/7</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Liên Hệ Đặt Hàng</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h3>Thông Tin Liên Hệ</h3>
+                        <div class="contact-item">
+                            <strong>📍 Địa chỉ:</strong>
+                            <p>123 Đường Công Nghệ, Quận 1, TP.HCM</p>
+                        </div>
+                        <div class="contact-item">
+                            <strong>📞 Hotline:</strong>
+                            <p>0901234567 (24/7)</p>
+                        </div>
+                        <div class="contact-item">
+                            <strong>📧 Email:</strong>
+                            <p>info@techstore.vn</p>
+                        </div>
+                        <div class="contact-item">
+                            <strong>🕒 Giờ làm việc:</strong>
+                            <p>T2-T7: 8:00 - 21:00<br>CN: 9:00 - 18:00</p>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <h3>Đặt Hàng Ngay</h3>
+                        <form id="orderForm">
+                            <div class="form-group">
+                                <label>Họ và tên *</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Số điện thoại *</label>
+                                <input type="tel" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label>Sản phẩm quan tâm</label>
+                                <select name="product">
+                                    <option value="">Chọn sản phẩm</option>
+                                    <option value="laptop-gaming">Laptop Gaming ROG Strix</option>
+                                    <option value="pc-office">PC Văn Phòng Intel</option>
+                                    <option value="workstation">Workstation Cao Cấp</option>
+                                    <option value="mini-pc">Mini PC Compact</option>
+                                    <option value="all-in-one">All-in-One 24 inch</option>
+                                    <option value="server">Server Doanh Nghiệp</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Ghi chú</label>
+                                <textarea name="note" rows="3" placeholder="Nhu cầu sử dụng, yêu cầu đặc biệt..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full">Gửi Yêu Cầu</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>💻 TechStore</h3>
+                    <p>Chuyên cung cấp máy tính chất lượng cao với giá tốt nhất thị trường. Uy tín - Chất lượng - Bảo hành tốt.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên Kết Nhanh</h4>
+                    <ul>
+                        <li><a href="#products">Sản phẩm</a></li>
+                        <li><a href="#services">Dịch vụ</a></li>
+                        <li><a href="#contact">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Hỗ Trợ</h4>
+                    <ul>
+                        <li><a href="#">Chính sách bảo hành</a></li>
+                        <li><a href="#">Hướng dẫn mua hàng</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TechStore. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

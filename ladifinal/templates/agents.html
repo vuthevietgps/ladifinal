@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex mb-3">
+  <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#modalAgent">Thêm mới Agent</button>
+</div>
+<table class="table table-bordered table-striped table-sm">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Tên Đại lý</th>
+      <th>Số điện thoại</th>
+      <th>Created</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody id="agentTbody">
+    {% for a in agents %}
+    <tr data-id="{{a.id}}" data-name="{{a.name}}" data-phone="{{a.phone}}">
+      <td>{{a.id}}</td>
+      <td class="agent-name">{{a.name}}</td>
+      <td class="agent-phone">{{a.phone}}</td>
+      <td>{{a.created_at}}</td>
+      <td>
+        <button class="btn btn-sm btn-outline-primary btn-edit" data-id="{{a.id}}">Sửa</button>
+        <button class="btn btn-sm btn-outline-danger btn-delete" data-id="{{a.id}}">Xóa</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Modal Add/Edit -->
+<div class="modal fade" id="modalAgent" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAgentTitle">Thêm Agent</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="agentForm">
+          <input type="hidden" name="agent_id" id="agent_id">
+          <div class="mb-3">
+            <label class="form-label">Tên Đại lý</label>
+            <input name="name" id="name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Số điện thoại</label>
+            <input name="phone" id="phone" class="form-control">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+        <button class="btn btn-primary" id="btnAgentSave">Lưu</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+// Wait for DOM and Bootstrap to be ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Small delay to ensure Bootstrap is fully initialized
+    setTimeout(function() {        
+        if (typeof bootstrap === 'undefined') {
+            alert('Trang web chưa tải hoàn tất. Vui lòng refresh trang.');
+            return;
+        }
+        
+        initializeAgentManagement();
+    }, 200);
+});
+
+function initializeAgentManagement() {
+    try {
+        const modalEl = document.getElementById('modalAgent');
+        const bsModal = new bootstrap.Modal(modalEl);
+
+        function resetForm(){
+          document.getElementById('agent_id').value='';
+          document.getElementById('name').value='';
+          document.getElementById('phone').value='';
+          document.getElementById('modalAgentTitle').textContent='Thêm Agent';
+        }
+        modalEl.addEventListener('hidden.bs.modal', resetForm);
+
+        document.getElementById('btnAgentSave').addEventListener('click', async ()=>{
+          const form = document.getElementById('agentForm');
+          if(!form.reportValidity()) return;
+          
+          const agentId = document.getElementById('agent_id').value;
+          const fd = new FormData(form);
+          let url = '/api/agents';
+          let method = 'POST';
+          let loadingText = 'Đang thêm agent...';
+          
+          if(agentId){ 
+            url = '/api/agents/' + agentId; 
+            method='PUT'; 
+            loadingText = 'Đang cập nhật agent...';
+          }
+          
+          showLoading(loadingText);
+          
+          try {
+            const r = await fetch(url, {method, body: fd});
+            if(r.ok){ 
+              const result = await r.json();
+              showSuccess(result.message || (agentId ? 'Cập nhật agent thành công!' : 'Thêm agent thành công!'));
+              setTimeout(() => location.reload(), 1500);
+            } else { 
+              hideLoading();
+              const j = await r.json().catch(()=>({error:'Lỗi không xác định'})); 
+              alert('Lỗi: ' + (j.error || 'Không thể lưu agent'));
+            }
+          } catch(error) {
+            hideLoading();
+            alert('Lỗi kết nối: ' + error.message);
+          }
+        });
+
+        for(const btn of document.querySelectorAll('.btn-edit')){
+          btn.addEventListener('click', (e)=>{
+            const tr = e.target.closest('tr');
+            document.getElementById('agent_id').value=tr.dataset.id;
+            document.getElementById('name').value=tr.dataset.name;
+            document.getElementById('phone').value=tr.dataset.phone;
+            document.getElementById('modalAgentTitle').textContent='Sửa Agent';
+            bsModal.show();
+          });
+        }
+        
+        for(const btn of document.querySelectorAll('.btn-delete')){
+          btn.addEventListener('click', async (e)=>{
+            if(!confirm('Bạn có chắc chắn muốn xóa agent này?')) return;
+            
+            const id = e.target.dataset.id;
+            showLoading('Đang xóa agent...');
+            
+            try {
+              const r = await fetch('/api/agents/' + id, {method:'DELETE'});
+              if(r.ok) {
+                showSuccess('Xóa agent thành công!');
+                setTimeout(() => location.reload(), 1500);
+              } else {
+                hideLoading();
+                alert('Lỗi khi xóa agent');
+              }
+            } catch(error) {
+              hideLoading();
+              alert('Lỗi kết nối: ' + error.message);
+            }
+          })
+        }
+        
+    } catch (error) {
+        console.error('Error initializing agent management:', error);
+        alert('Có lỗi khi khởi tạo trang. Vui lòng refresh trang.');
+    }
+}
+</script>
+{% endblock %}
