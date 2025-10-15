@@ -1,18 +1,19 @@
-# Landing Page Manager - Modular Architecture
+# 🚀 Ladipage System - Complete Landing Page Management
 
-## Overview
+Hệ thống tạo và quản lý landing page chuyên nghiệp với Flask, hỗ trợ tải lên ZIP và triển khai tự động.
 
-A powerful Flask-based landing page management system with modular architecture, supporting multi-site deployment, ZIP-based page uploads, and comprehensive analytics tracking.
-
-**Current Version**: Modular Architecture (Oct 2025)
+**Current Version**: Complete System with Ho Chieu Service (Oct 2025)
 **Package Size**: 45.52KB (optimized)
 **Architecture**: 6 modular blueprints for maintainability
 
-### Key Features
-- 🏗️ **Modular Architecture**: Clean separation with 6 route modules
-- 🚀 **Multi-site Ready**: Template-based deployment system
-- 📦 **ZIP Upload System**: Easy landing page deployment
-- 📊 **Analytics Integration**: Auto-inject tracking codes
+## ✨ Tính năng chính
+
+- 📱 **Landing Page Management**: Tạo, chỉnh sửa và quản lý landing page
+- � **Homepage Management**: Quản lý trang chủ với khả năng thay đổi nhanh
+- � **Agent System**: Hệ thống quản lý đại lý và phân quyền
+- � **ZIP Upload**: Hỗ trợ tải lên file ZIP với cấu trúc chuẩn
+- 🔄 **Auto Rewrite**: Tự động chuyển đổi đường dẫn asset khi deploy
+- 📊 **Analytics**: Theo dõi và phân tích lưu lượng truy cập
 - 🔐 **Secure Admin Panel**: Role-based access control
 - 🐳 **Docker Optimized**: Production-ready containerization
 
