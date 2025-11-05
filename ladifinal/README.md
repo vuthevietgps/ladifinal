@@ -226,3 +226,23 @@ Distributed under the MIT License. See `LICENSE` for more information.
 **Phát triển bởi**: [vuthevietgps](https://github.com/vuthevietgps)  
 **Version**: 1.0.0  
 **Last Updated**: September 2025
+
+## 🔖 RFID Lái Xe - Landing mẫu
+
+Đã thêm landing page bán thẻ lái xe RFID tại thư mục `rfid-lai-xe/` theo đúng QUYTAC (đường dẫn asset tuyệt đối `/css`, `/js`, `/images`).
+
+- Xuất bản nhanh ra thư mục phục vụ:
+
+```powershell
+python .\publish_rfid.py
+```
+
+- Chạy ứng dụng local và truy cập trang:
+
+```powershell
+python .\main.py
+```
+
+Sau đó mở: http://localhost:5000/landing/rfid-lai-xe
+
+Form đặt hàng gửi về API công khai: `POST /api/submit-order` và lưu tại `orders/orders.csv` (UTF-8). Bạn có thể mở file này để xem các đơn hàng mới.

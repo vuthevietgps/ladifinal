@@ -88,7 +88,8 @@ def init_users_table():
             'INSERT INTO users (username, password_hash, created_at) VALUES (?, ?, datetime("now"))',
             ('admin', password_hash)
         )
-        print("✅ Created default admin user: admin/admin123")
+        # Avoid Unicode emoji in Windows console (cp1252) to prevent UnicodeEncodeError
+        print("Created default admin user: admin/admin123")
     
     conn.commit()
     conn.close()
