@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mua Giấy Phép Vào Phố Cấm - Xử Lý Ngay Trong Ngày</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; }
+        
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.7); } 50% { box-shadow: 0 0 0 10px rgba(243, 156, 18, 0); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 10px rgba(243, 156, 18, 0.5); } 50% { text-shadow: 0 0 20px rgba(243, 156, 18, 1); } }
+    </style>
+</head>
+<body>
+
+<!-- Floating Contact Buttons -->
+<div style="position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 1000;">
+    <a href="https://zalo.me/0363614511" style="width: 60px; height: 60px; background: linear-gradient(135deg, #f39c12, #e67e22); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 28px; box-shadow: 0 5px 20px rgba(243, 156, 18, 0.4); animation: bounce 2s infinite, pulse 3s infinite; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 8px 30px rgba(243, 156, 18, 0.6)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 20px rgba(243, 156, 18, 0.4)'">
+        <i class="fab fa-telegram" style="font-size: 32px;"></i>
+    </a>
+    <a href="tel:0363614511" style="width: 60px; height: 60px; background: linear-gradient(135deg, #27ae60, #229954); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 28px; box-shadow: 0 5px 20px rgba(39, 174, 96, 0.4); animation: shake 3s infinite; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.15)'; this.style.boxShadow='0 8px 30px rgba(39, 174, 96, 0.6)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 5px 20px rgba(39, 174, 96, 0.4)'">
+        <i class="fas fa-phone" style="font-size: 28px;"></i>
+    </a>
+</div>
+
+<!-- Header -->
+<header style="background: white; padding: 15px 0; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 24px; font-weight: bold; color: #f39c12;"><i class="fas fa-bolt" style="margin-right: 8px;"></i>Giấy Phép Nhanh</div>
+        <a href="tel:0363614511" style="background: #f39c12; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">
+            <i class="fas fa-phone" style="margin-right: 5px;"></i> 0363614511
+        </a>
+    </div>
+</header>
+
+<!-- Hero -->
+<section style="background: linear-gradient(135deg, #f39c12, #e67e22); color: white; padding: 80px 0; text-align: center; position: relative; overflow: hidden;">
+    <div style="position: absolute; top: -50%; right: -10%; width: 500px; height: 500px; background: rgba(255,255,255,0.05); border-radius: 50%; pointer-events: none;"></div>
+    <div style="position: absolute; bottom: -30%; left: -5%; width: 400px; height: 400px; background: rgba(255,255,255,0.03); border-radius: 50%; pointer-events: none;"></div>
+    
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2;">
+        <div style="font-size: 72px; margin-bottom: 20px; animation: glow 2s infinite;">
+            <i class="fas fa-rocket"></i>
+        </div>
+        <h1 style="font-size: 44px; margin: 0 0 20px 0; font-weight: 900; line-height: 1.3;">MUA GIẤY PHÉP VÀO PHỐ CẤM</h1>
+        <h2 style="font-size: 28px; margin: 0 0 30px 0; font-weight: 300; opacity: 0.95;">Xử lý ngay trong ngày</h2>
+        <p style="font-size: 20px; margin: 0 0 40px 0; opacity: 0.9;">Nhận làm giấy phép xe tải • Đúng tuyến • Đúng giờ • Đúng quy định</p>
+        
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <a href="#order" style="background: white; color: #f39c12; padding: 18px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.2)'">
+                <i class="fas fa-shopping-cart" style="margin-right: 8px;"></i> Mua Ngay
+            </a>
+            <a href="#process" style="background: rgba(255,255,255,0.2); color: white; padding: 18px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 16px; border: 2px solid white; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.3)'; this.style.transform='translateY(-3px)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.transform='translateY(0)'">
+                <i class="fas fa-clock" style="margin-right: 8px;"></i> Quy Trình Nhanh
+            </a>
+        </div>
+        
+        <div style="margin-top: 50px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; border-left: 4px solid white; backdrop-filter: blur(10px);">
+            <p style="font-size: 16px; margin: 0; font-weight: 500;"><i class="fas fa-bolt" style="margin-right: 10px;"></i>⚡ Trễ 1 chuyến = mất hợp đồng – xử lý ngay hôm nay!</p>
+        </div>
+        
+        <!-- Countdown Timer -->
+        <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); padding: 30px; border-radius: 10px; margin-top: 30px; max-width: 500px; margin-left: auto; margin-right: auto; border: 2px solid rgba(255,255,255,0.3);">
+            <h3 style="font-size: 22px; margin: 0 0 15px 0; color: #fff;">🎁 ƯU ĐÃI ĐẶC BIỆT HÔM NAY</h3>
+            <p style="font-size: 16px; margin: 0 0 20px 0; color: #fff; opacity: 0.95;">Giảm ngay 30% phí xử lý cho 10 khách hàng đầu tiên!</p>
+            <div style="display: flex; justify-content: center; gap: 15px; margin-bottom: 15px;">
+                <div style="background: rgba(255,255,255,0.95); padding: 15px 20px; border-radius: 8px; min-width: 80px;">
+                    <div id="hours" style="font-size: 32px; font-weight: bold; color: #f39c12;">00</div>
+                    <div style="font-size: 12px; color: #666; text-transform: uppercase;">Giờ</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 15px 20px; border-radius: 8px; min-width: 80px;">
+                    <div id="minutes" style="font-size: 32px; font-weight: bold; color: #f39c12;">00</div>
+                    <div style="font-size: 12px; color: #666; text-transform: uppercase;">Phút</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.95); padding: 15px 20px; border-radius: 8px; min-width: 80px;">
+                    <div id="seconds" style="font-size: 32px; font-weight: bold; color: #f39c12;">00</div>
+                    <div style="font-size: 12px; color: #666; text-transform: uppercase;">Giây</div>
+                </div>
+            </div>
+            <p style="font-size: 14px; margin: 0; color: #fff; opacity: 0.9;">⚡ Chỉ còn <span id="slotsLeft" style="font-weight: bold; font-size: 18px; color: #fff;">8</span> suất ưu đãi!</p>
+        </div>
+    </div>
+</section>
+
+<!-- Check Section -->
+<section style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); padding: 80px 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <h2 style="font-size: 42px; text-align: center; margin-bottom: 50px; color: #d68910;">✅ BẠN ĐANG TÌM "MUA GIẤY PHÉP VÀO PHỐ CẤM"?</h2>
+        
+        <div style="background: white; padding: 40px; border-radius: 12px; border-left: 5px solid #f39c12; margin-bottom: 30px;">
+            <p style="font-size: 18px; color: #333; margin: 0 0 30px 0;">Nếu bạn:</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); padding: 25px; border-radius: 8px; border-left: 4px solid #f39c12;">
+                    <h3 style="margin-bottom: 10px; font-size: 18px; color: #d68910;"><i class="fas fa-check-circle" style="margin-right: 8px;"></i>Đã Xác Định Cần</h3>
+                    <p style="font-size: 14px; color: #666;">Cần giấy phép để xe vào phố cấm</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); padding: 25px; border-radius: 8px; border-left: 4px solid #f39c12;">
+                    <h3 style="margin-bottom: 10px; font-size: 18px; color: #d68910;"><i class="fas fa-bolt" style="margin-right: 8px;"></i>Cần Xử Lý Nhanh</h3>
+                    <p style="font-size: 14px; color: #666;">Kịp giao hàng / chạy xe ngay</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); padding: 25px; border-radius: 8px; border-left: 4px solid #f39c12;">
+                    <h3 style="margin-bottom: 10px; font-size: 18px; color: #d68910;"><i class="fas fa-user-check" style="margin-right: 8px;"></i>Không Muốn Tự Làm</h3>
+                    <p style="font-size: 14px; color: #666;">Không muốn hồ sơ bị trả</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); padding: 25px; border-radius: 8px; border-left: 4px solid #f39c12;">
+                    <h3 style="margin-bottom: 10px; font-size: 18px; color: #d68910;"><i class="fas fa-certificate" style="margin-right: 8px;"></i>Muốn Giấy Hợp Lệ</h3>
+                    <p style="font-size: 14px; color: #666;">Dùng được ngay – không rủi ro</p>
+                </div>
+            </div>
+        </div>
+        
+        <div style="background: linear-gradient(135deg, #f39c12, #e67e22); color: white; padding: 30px; border-radius: 10px; text-align: center; font-size: 20px; font-weight: bold; box-shadow: 0 10px 30px rgba(243, 156, 18, 0.3);">
+            <i class="fas fa-arrow-right" style="margin-right: 10px;"></i>
+            Chúng tôi xử lý đúng thứ bạn đang cần
+        </div>
+    </div>
+</section>
+
+<!-- Solution Section -->
+<section style="background: white; padding: 80px 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <h2 style="font-size: 42px; text-align: center; margin-bottom: 50px; color: #f39c12;">⚡ GIẢI PHÁP NGẮN GỌN – LÀM LÀ RA GIẤY</h2>
+        
+        <div style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); padding: 40px; border-radius: 12px; border-top: 5px solid #f39c12; box-shadow: 0 8px 25px rgba(243, 156, 18, 0.1);">
+            <h3 style="font-size: 24px; margin-bottom: 30px; text-align: center; color: #d68910;">✅ DỊCH VỤ MUA GIẤY PHÉP XE TẢI VÀO PHỐ CẤM (TRỌN GÓI)</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+                <div style="background: white; padding: 30px; border-radius: 10px; border-left: 4px solid #f39c12; text-align: center;">
+                    <div style="font-size: 48px; color: #f39c12; margin-bottom: 15px;"><i class="fas fa-search"></i></div>
+                    <h3 style="margin-bottom: 10px; color: #f39c12; font-size: 18px;">Kiểm Tra Điều Kiện</h3>
+                    <p style="font-size: 14px; color: #555;">Ngay khi liên hệ – 5 phút biết kết quả</p>
+                </div>
+                
+                <div style="background: white; padding: 30px; border-radius: 10px; border-left: 4px solid #f39c12; text-align: center;">
+                    <div style="font-size: 48px; color: #f39c12; margin-bottom: 15px;"><i class="fas fa-map"></i></div>
+                    <h3 style="margin-bottom: 10px; color: #f39c12; font-size: 18px;">Xác Định Tuyến</h3>
+                    <p style="font-size: 14px; color: #555;">Tuyến đường – khu vực – khung giờ</p>
+                </div>
+                
+                <div style="background: white; padding: 30px; border-radius: 10px; border-left: 4px solid #f39c12; text-align: center;">
+                    <div style="font-size: 48px; color: #f39c12; margin-bottom: 15px;"><i class="fas fa-file-alt"></i></div>
+                    <h3 style="margin-bottom: 10px; color: #f39c12; font-size: 18px;">Soạn & Nộp Hồ Sơ</h3>
+                    <p style="font-size: 14px; color: #555;">Xin giấy phép vào phố cấm</p>
+                </div>
+                
+                <div style="background: white; padding: 30px; border-radius: 10px; border-left: 4px solid #f39c12; text-align: center;">
+                    <div style="font-size: 48px; color: #f39c12; margin-bottom: 15px;"><i class="fas fa-award"></i></div>
+                    <h3 style="margin-bottom: 10px; color: #f39c12; font-size: 18px;">Bàn Giao Giấy Phép</h3>
+                    <p style="font-size: 14px; color: #555;">Hợp lệ – sử dụng được ngay</p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; background: white; padding: 25px; border-radius: 8px; text-align: center; border: 2px solid #f39c12;">
+                <p style="font-size: 18px; color: #333; font-weight: bold; margin: 0;"><i class="fas fa-hand-point-right" style="margin-right: 10px; color: #f39c12;"></i>Bạn chỉ cần gửi thông tin xe – còn lại chúng tôi làm</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Speed Section -->
+<section style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); padding: 80px 0;" id="process">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <h2 style="font-size: 42px; text-align: center; margin-bottom: 50px; color: #27ae60;">⏱ XỬ LÝ NHANH – KHÔNG CHỜ ĐỢI</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 40px;">
+            <div style="background: white; padding: 35px; border-radius: 10px; border-top: 5px solid #27ae60; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
+                <div style="font-size: 56px; color: #27ae60; margin-bottom: 15px;"><i class="fas fa-clock"></i></div>
+                <h3 style="margin-bottom: 12px; color: #27ae60; font-size: 20px;">⏳ 5 Phút</h3>
+                <p style="font-size: 15px; color: #7f8c8d; margin: 0;">Kiểm tra điều kiện xe</p>
+            </div>
+            
+            <div style="background: white; padding: 35px; border-radius: 10px; border-top: 5px solid #f39c12; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
+                <div style="font-size: 56px; color: #f39c12; margin-bottom: 15px;"><i class="fas fa-file-contract"></i></div>
+                <h3 style="margin-bottom: 12px; color: #f39c12; font-size: 20px;">📄 Trong Ngày</h3>
+                <p style="font-size: 15px; color: #7f8c8d; margin: 0;">Chuẩn bị hồ sơ</p>
+            </div>
+            
+            <div style="background: white; padding: 35px; border-radius: 10px; border-top: 5px solid #3498db; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
+                <div style="font-size: 56px; color: #3498db; margin-bottom: 15px;"><i class="fas fa-check-double"></i></div>
+                <h3 style="margin-bottom: 12px; color: #3498db; font-size: 20px;">🚦 Đúng Hẹn</h3>
+                <p style="font-size: 15px; color: #7f8c8d; margin: 0;">Nhận giấy phép – đúng cam kết</p>
+            </div>
+        </div>
+        
+        <div style="background: white; padding: 30px; border-radius: 10px; border-left: 5px solid #e74c3c;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div style="padding: 20px; text-align: center; background: #ffebee; border-radius: 8px;">
+                    <h4 style="color: #c0392b; margin-bottom: 10px;"><i class="fas fa-times-circle" style="margin-right: 8px;"></i>⚠ Không Nhận Hồ Sơ</h4>
+                    <p style="margin: 0; color: #666;">Không đủ điều kiện</p>
+                </div>
+                <div style="padding: 20px; text-align: center; background: #ffebee; border-radius: 8px;">
+                    <h4 style="color: #c0392b; margin-bottom: 10px;"><i class="fas fa-ban" style="margin-right: 8px;"></i>⚠ Không Hứa Suông</h4>
+                    <p style="margin: 0; color: #666;">Làm được mới nhận</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 80px 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <h2 style="font-size: 42px; text-align: center; margin-bottom: 50px; color: #2c3e50;">💬 KHÁCH ĐÃ MUA & CHẠY ỔN</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+            <div style="background: white; padding: 30px; border-radius: 10px; border-top: 5px solid #f39c12; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
+                <div style="color: #f39c12; font-size: 18px; margin-bottom: 10px;">⭐⭐⭐⭐⭐</div>
+                <p style="font-size: 14px; color: #555; margin-bottom: 15px; font-style: italic;">"Tôi tìm mua giấy phép vào phố cấm để chạy gấp. Gửi thông tin là bên này xử lý ngay, có giấy đúng giờ để vào giao hàng."</p>
+                <p style="margin: 0; font-weight: bold; color: #2c3e50;">👨‍💼 Anh Nguyễn Văn Hùng – Chủ xe tải giao hàng</p>
+            </div>
+            
+            <div style="background: white; padding: 30px; border-radius: 10px; border-top: 5px solid #f39c12; box-shadow: 0 5px 15px rgba(0,0,0,0.08);">
+                <div style="color: #f39c12; font-size: 18px; margin-bottom: 10px;">⭐⭐⭐⭐⭐</div>
+                <p style="font-size: 14px; color: #555; margin-bottom: 15px; font-style: italic;">"Cần mua giấy phép xe tải vào phố cấm cho nhiều tuyến. Được tư vấn rõ, làm nhanh, có giấy là chạy thẳng."</p>
+                <p style="margin: 0; font-weight: bold; color: #2c3e50;">👨‍💼 Anh Trần Minh Tuấn – Đơn vị vận chuyển</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Not Wait -->
+<section style="background: linear-gradient(135deg, #ffe8e8, #ffcdd2); padding: 80px 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <h2 style="font-size: 42px; text-align: center; margin-bottom: 50px; color: #c0392b;">🔥 VÌ SAO KHÔNG NÊN CHỜ?</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px;">
+            <div style="background: white; padding: 30px; border-radius: 10px; border-left: 5px solid #e74c3c; text-align: center;">
+                <div style="font-size: 48px; color: #e74c3c; margin-bottom: 15px;"><i class="fas fa-shield-halved"></i></div>
+                <h3 style="margin-bottom: 10px; color: #e74c3c; font-size: 18px;">🚓 Kiểm Tra Bất Ngờ</h3>
+                <p style="font-size: 14px; color: #666;">Phố cấm kiểm tra bất kỳ lúc nào</p>
+            </div>
+            
+            <div style="background: white; padding: 30px; border-radius: 10px; border-left: 5px solid #e74c3c; text-align: center;">
+                <div style="font-size: 48px; color: #e74c3c; margin-bottom: 15px;"><i class="fas fa-hand"></i></div>
+                <h3 style="margin-bottom: 10px; color: #e74c3c; font-size: 18px;">⛔ Bị Chặn Ngay</h3>
+                <p style="font-size: 14px; color: #666;">Không giấy phép = không được vào</p>
+            </div>
+            
+            <div style="background: white; padding: 30px; border-radius: 10px; border-left: 5px solid #e74c3c; text-align: center;">
+                <div style="font-size: 48px; color: #e74c3c; margin-bottom: 15px;"><i class="fas fa-hourglass-end"></i></div>
+                <h3 style="margin-bottom: 10px; color: #e74c3c; font-size: 18px;">⏳ Mất Hợp Đồng</h3>
+                <p style="font-size: 14px; color: #666;">Trễ 1 chuyến = mất uy tín</p>
+            </div>
+        </div>
+        
+        <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 30px; border-radius: 10px; text-align: center; font-size: 20px; font-weight: bold; box-shadow: 0 10px 30px rgba(231, 76, 60, 0.3);">
+            <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+            Mua giấy phép sớm = chủ động chạy xe, không bị động
+        </div>
+    </div>
+</section>
+
+<!-- CTA with Form -->
+<section style="background: linear-gradient(135deg, #2c3e50, #34495e); color: white; padding: 80px 0;" id="order">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <h2 style="font-size: 42px; text-align: center; margin-bottom: 15px;">📞 LIÊN HỆ NGAY – XỬ LÝ LIỀN</h2>
+        <p style="text-align: center; font-size: 18px; margin-bottom: 40px; opacity: 0.9;">👉 Kiểm tra xe MIỄN PHÍ – không ràng buộc</p>
+        
+        <!-- Contact Form -->
+        <div style="max-width: 600px; margin: 0 auto 40px; background: white; padding: 40px; border-radius: 12px; text-align: left; box-shadow: 0 15px 40px rgba(0,0,0,0.3);">
+            <h3 style="color: #333; font-size: 22px; margin-bottom: 25px; text-align: center;"><i class="fas fa-shopping-cart" style="margin-right: 8px;"></i>Đăng Ký Mua Giấy Phép</h3>
+            <form action="#" method="post" style="display: flex; flex-direction: column; gap: 15px;">
+                <div>
+                    <label style="display: block; color: #333; font-weight: bold; margin-bottom: 6px;">Họ và Tên *</label>
+                    <input type="text" name="name" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; transition: all 0.3s ease;" placeholder="Nguyễn Văn A" onmouseover="this.style.borderColor='#f39c12'" onmouseout="this.style.borderColor='#ddd'">
+                </div>
+                <div>
+                    <label style="display: block; color: #333; font-weight: bold; margin-bottom: 6px;">Số Điện Thoại *</label>
+                    <input type="tel" name="phone" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; transition: all 0.3s ease;" placeholder="0363614511" onmouseover="this.style.borderColor='#f39c12'" onmouseout="this.style.borderColor='#ddd'">
+                </div>
+                <div>
+                    <label style="display: block; color: #333; font-weight: bold; margin-bottom: 6px;">Biển Số Xe *</label>
+                    <input type="text" name="plate" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; transition: all 0.3s ease;" placeholder="51C-12345" onmouseover="this.style.borderColor='#f39c12'" onmouseout="this.style.borderColor='#ddd'">
+                </div>
+                <div>
+                    <label style="display: block; color: #333; font-weight: bold; margin-bottom: 6px;">Khu Vực Cần Vào *</label>
+                    <input type="text" name="area" required style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; transition: all 0.3s ease;" placeholder="Ví dụ: Quận 1, trung tâm..." onmouseover="this.style.borderColor='#f39c12'" onmouseout="this.style.borderColor='#ddd'">
+                </div>
+                <div>
+                    <label style="display: block; color: #333; font-weight: bold; margin-bottom: 6px;">Khung Giờ Cần Vào</label>
+                    <select name="time" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#f39c12'" onmouseout="this.style.borderColor='#ddd'">
+                        <option value="">-- Chọn khung giờ --</option>
+                        <option value="6-9">6:00 - 9:00</option>
+                        <option value="9-12">9:00 - 12:00</option>
+                        <option value="12-15">12:00 - 15:00</option>
+                        <option value="15-18">15:00 - 18:00</option>
+                        <option value="18-22">18:00 - 22:00</option>
+                        <option value="22-6">22:00 - 6:00</option>
+                    </select>
+                </div>
+                <div>
+                    <label style="display: block; color: #333; font-weight: bold; margin-bottom: 6px;">Ghi Chú</label>
+                    <textarea name="note" rows="3" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 14px; box-sizing: border-box; resize: vertical; transition: all 0.3s ease;" placeholder="Nhu cầu cụ thể, thời gian cần..." onmouseover="this.style.borderColor='#f39c12'" onmouseout="this.style.borderColor='#ddd'"></textarea>
+                </div>
+                <button type="submit" style="background: linear-gradient(135deg, #f39c12, #e67e22); color: white; padding: 15px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 8px 20px rgba(243, 156, 18, 0.3)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                    <i class="fas fa-shopping-cart" style="margin-right: 8px;"></i> MUA NGAY
+                </button>
+            </form>
+            <p style="text-align: center; margin-top: 12px; color: #7f8c8d; font-size: 12px;"><i class="fas fa-lock" style="margin-right: 5px;"></i>Thông tin của bạn được bảo mật tuyệt đối</p>
+        </div>
+        
+        <div style="text-align: center;">
+            <p style="font-size: 18px; margin-bottom: 25px;">— Hoặc liên hệ trực tiếp —</p>
+            
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a href="https://zalo.me/0363614511" style="background: white; color: #f39c12; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 16px; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 5px 15px rgba(255,255,255,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 25px rgba(255,255,255,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(255,255,255,0.2)'">
+                    <i class="fab fa-telegram" style="font-size: 18px;"></i> CHAT ZALO
+                </a>
+                <a href="tel:0363614511" style="background: #27ae60; color: white; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 16px; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 25px rgba(39, 174, 96, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                    <i class="fas fa-phone" style="font-size: 18px;"></i> GỌI: 0363614511
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Final Alert -->
+<section style="background: linear-gradient(135deg, #e67e22, #d35400); color: white; padding: 60px 0;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; text-align: center;">
+        <div style="background: rgba(0,0,0,0.15); padding: 40px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px);">
+            <h3 style="font-size: 32px; margin: 0 0 15px 0;"><i class="fas fa-bolt" style="margin-right: 10px;"></i>⚡ KHÔNG CHỜ ĐỢI – XỬ LÝ NGAY</h3>
+            <p style="font-size: 18px; margin: 0 0 20px 0; opacity: 0.95;">Nhận hồ sơ & xử lý ngay trong ngày</p>
+            <p style="font-size: 20px; font-weight: bold; margin: 0 0 25px 0;">🎯 Liên hệ hôm nay – chạy xe hợp lệ, không lo rủi ro</p>
+            <a href="https://zalo.me/0363614511" style="background: white; color: #e67e22; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; font-size: 16px; display: inline-block; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.3)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                <i class="fab fa-telegram" style="margin-right: 8px;"></i> LIÊN HỆ NGAY
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer style="background: #1a1a1a; color: white; padding: 50px 0 20px; text-align: center; font-size: 13px;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <p style="margin-bottom: 12px;"><strong>📞 Hotline:</strong> <a href="tel:0363614511" style="color: #f39c12; text-decoration: none; font-weight: bold;">0363614511</a> | <strong>Zalo:</strong> <a href="https://zalo.me/0363614511" style="color: #f39c12; text-decoration: none; font-weight: bold;">0363614511</a></p>
+        <p style="margin-bottom: 12px;"><strong>⏰ Giờ làm việc:</strong> 8:00 - 22:00 (Hàng ngày) • <strong>🆘 Hỗ trợ:</strong> 24/7</p>
+        <p style="margin-top: 20px; opacity: 0.7;">&copy; 2026 Dịch Vụ Mua Giấy Phép Vào Phố Cấm. Tất cả quyền lợi được bảo lưu.</p>
+    </div>
+</footer>
+
+<script>
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            const target = document.querySelector(a.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+    
+    // Countdown Timer - Reset về 23:59:59 mỗi ngày lúc 0:00
+    function updateCountdown() {
+        const now = new Date();
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        
+        const diff = tomorrow - now;
+        
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        
+        // Random slots left between 5-8
+        const slotsElement = document.getElementById('slotsLeft');
+        if (!slotsElement.dataset.initialized) {
+            slotsElement.dataset.initialized = 'true';
+            slotsElement.textContent = Math.floor(Math.random() * 4) + 5;
+        }
+    }
+    
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+</script>
+
+</body>
+</html>

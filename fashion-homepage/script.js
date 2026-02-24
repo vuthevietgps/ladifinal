@@ -130,26 +130,55 @@ function toggleMobileMenu() {
     nav.classList.toggle('active');
 }
 
-// Add click tracking for analytics
+// Modern click tracking using Advanced Tracking Library
 function trackClick(element, action) {
-    // Analytics tracking code would go here
-    console.log(`Tracked: ${action} on ${element}`);
+    // Use Advanced Tracking if available
+    if (window.tracker) {
+        window.tracker.trackClick(element, action);
+    } else {
+        console.log(`Tracked: ${action} on ${element}`);
+    }
+}
+
+// Setup product tracking
+function setupProductTracking() {
+    if (!window.tracker) return;
     
-    // Example Google Analytics event (uncomment if GA is installed)
-    // if (typeof gtag !== 'undefined') {
-    //     gtag('event', action, {
-    //         event_category: 'engagement',
-    //         event_label: element
-    //     });
-    // }
+    // Track product views when they come into viewport
+    const productObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.dataset.tracked) {
+                const productName = entry.target.querySelector('h3')?.textContent || 'Unknown Product';
+                const priceText = entry.target.querySelector('.price')?.textContent;
+                const price = priceText ? parseInt(priceText.replace(/\D/g, '')) : null;
+                
+                window.tracker.trackProductView(productName, price);
+                entry.target.dataset.tracked = 'true';
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    document.querySelectorAll('.product-card').forEach(card => {
+        productObserver.observe(card);
+    });
 }
 
 // Add event listeners for tracking
 document.addEventListener('DOMContentLoaded', function() {
-    // Track button clicks
+    // Setup product view tracking
+    setupProductTracking();
+    
+    // Track buy button clicks with product info
     document.querySelectorAll('.btn-buy').forEach(btn => {
         btn.addEventListener('click', function() {
-            const productName = this.closest('.product-card').querySelector('h3').textContent;
+            const productCard = this.closest('.product-card');
+            const productName = productCard.querySelector('h3')?.textContent || 'Unknown';
+            const priceText = productCard.querySelector('.price')?.textContent;
+            const price = priceText ? parseInt(priceText.replace(/\D/g, '')) : null;
+            
+            if (window.tracker) {
+                window.tracker.trackAddToCart(productName, price);
+            }
             trackClick('product_button', `order_${productName}`);
         });
     });
@@ -159,12 +188,14 @@ document.addEventListener('DOMContentLoaded', function() {
         trackClick('header_contact', 'click_contact');
     });
     
+    // Phone tracking is auto-handled by advanced-tracking.js for tel: links
     document.querySelectorAll('.btn-call').forEach(btn => {
         btn.addEventListener('click', function() {
             trackClick('contact_phone', 'click_call');
         });
     });
     
+    // Zalo tracking is auto-handled by advanced-tracking.js for zalo.me links
     document.querySelectorAll('.btn-zalo').forEach(btn => {
         btn.addEventListener('click', function() {
             trackClick('contact_zalo', 'click_zalo');

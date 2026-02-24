@@ -127,27 +127,63 @@
               <label class="form-label">Google Form Link</label>
               <input name="google_form_link" class="form-control" placeholder="https://docs.google.com/forms/...">
             </div>
+            
+            <!-- Advanced Tracking Section -->
+            <div class="col-12 mt-3">
+              <h6 class="fw-bold text-primary"><i class="fas fa-chart-line"></i> Advanced Analytics & Tracking</h6>
+              <p class="small text-muted mb-2">Tích hợp Google Analytics 4 và Facebook Pixel để theo dõi hiệu quả chi tiết</p>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="form-label">
+                <i class="fab fa-google"></i> Google Analytics 4 ID
+                <span class="badge bg-success">Recommended</span>
+              </label>
+              <input name="ga_tracking_id" class="form-control" placeholder="G-XXXXXXXXXX">
+              <small class="text-muted">Ví dụ: G-1A2B3C4D5E hoặc để trống nếu chưa có</small>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="form-label">
+                <i class="fab fa-facebook"></i> Facebook Pixel ID
+                <span class="badge bg-primary">Recommended</span>
+              </label>
+              <input name="fb_pixel_id" class="form-control" placeholder="1234567890123456">
+              <small class="text-muted">Ví dụ: 123456789012345 hoặc để trống nếu chưa có</small>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">
+                <i class="fab fa-tiktok"></i> TikTok Pixel ID
+              </label>
+              <input name="tiktok_pixel_id" class="form-control" placeholder="XXXXXXXXXXXXXXXXXX">
+              <small class="text-muted">Ví dụ: C5XXXXXXXXXXXXXX hoặc để trống nếu chưa có</small>
+            </div>
+
             <div class="col-12">
-              <label class="form-label">Global Site Tag (Google Analytics)</label>
-              <textarea name="global_site_tag" class="form-control" rows="3" placeholder="<!-- Global site tag (gtag.js) - Google Analytics -->"></textarea>
+              <label class="form-label">Global Site Tag (Legacy - Optional)</label>
+              <textarea name="global_site_tag" class="form-control" rows="2" placeholder="<!-- Custom tracking code (optional) -->"></textarea>
+              <small class="text-muted">Dành cho tracking code tùy chỉnh khác (không bắt buộc)</small>
             </div>
-            <div class="col-md-3">
-              <label class="form-label">Phone Tracking</label>
-              <input name="phone_tracking" class="form-control" placeholder="JavaScript tracking code">
+            
+            <div class="col-md-4">
+              <label class="form-label">Phone Tracking Code</label>
+              <input name="phone_tracking" class="form-control" placeholder="Optional custom code">
             </div>
-            <div class="col-md-3">
-              <label class="form-label">Form Tracking</label>
-              <input name="form_tracking" class="form-control" placeholder="Form submission tracking">
+            <div class="col-md-4">
+              <label class="form-label">Form Tracking Code</label>
+              <input name="form_tracking" class="form-control" placeholder="Optional custom code">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <label class="form-label">Zalo/Messenger Tracking</label>
-              <input name="zalo_tracking" class="form-control" placeholder="Chat tracking code">
+              <input name="zalo_tracking" class="form-control" placeholder="Optional custom code">
             </div>
-            <div class="col-md-3">
+            
+            <div class="col-md-6">
               <label class="form-label">Hotline Phone</label>
               <input name="hotline_phone" class="form-control" placeholder="0901234567">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
               <label class="form-label">Zalo Phone</label>
               <input name="zalo_phone" class="form-control" placeholder="0901234567">
             </div>

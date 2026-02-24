@@ -8,6 +8,9 @@ CREATE TABLE IF NOT EXISTS landing_pages (
     page_type TEXT NOT NULL DEFAULT 'landing',
     agent TEXT,
     global_site_tag TEXT,
+    ga_tracking_id TEXT,
+    fb_pixel_id TEXT,
+    tiktok_pixel_id TEXT,
     phone_tracking TEXT,
     zalo_tracking TEXT,
     form_tracking TEXT,
@@ -72,7 +75,8 @@ def init_db(app):
             ('google_form_link', "ALTER TABLE landing_pages ADD COLUMN google_form_link TEXT"),
             ('upload_type', "ALTER TABLE landing_pages ADD COLUMN upload_type TEXT NOT NULL DEFAULT 'single'"),
             ('folder_structure', "ALTER TABLE landing_pages ADD COLUMN folder_structure TEXT"),
-            ('is_active', "ALTER TABLE landing_pages ADD COLUMN is_active INTEGER DEFAULT 0")
+            ('is_active', "ALTER TABLE landing_pages ADD COLUMN is_active INTEGER DEFAULT 0"),
+            ('tiktok_pixel_id', "ALTER TABLE landing_pages ADD COLUMN tiktok_pixel_id TEXT")
         ]:
             if col not in existing_cols:
                 db.execute(ddl)

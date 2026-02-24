@@ -59,15 +59,26 @@ MIME_TYPES = {
 }
 
 # Tracking Template Configuration
-TRACKING_TEMPLATE_HEAD = """<!-- Global Site Tag -->
+TRACKING_TEMPLATE_HEAD = """<!-- Analytics & Tracking -->
 {global_site_tag}
-<!-- /Global Site Tag -->"""
+<script>
+window.TRACKING_CONFIG = {{
+    gaId: {ga_id_json},
+    fbPixelId: {fb_pixel_id_json},
+    tiktokPixelId: {tiktok_pixel_id_json},
+    autoTrack: true
+}};
+</script>
+<script src="/static/js/advanced-tracking.js" defer></script>
+<!-- /Analytics & Tracking -->"""
 
-TRACKING_TEMPLATE_BODY = """<!-- Tracking Codes -->
-<script>window.PHONE_TRACKING={phone_tracking!r};</script>
-<script>window.ZALO_TRACKING={zalo_tracking!r};</script>
-<script>window.FORM_TRACKING={form_tracking!r};</script>
-<!-- /Tracking Codes -->"""
+TRACKING_TEMPLATE_BODY = """<!-- Custom Tracking Events -->
+<script>
+window.PHONE_TRACKING = {phone_tracking_json};
+window.ZALO_TRACKING = {zalo_tracking_json};
+window.FORM_TRACKING = {form_tracking_json};
+</script>
+<!-- /Custom Tracking Events -->"""
 
 # Database Configuration
 LANDING_PAGE_STATUSES = ('active', 'paused')

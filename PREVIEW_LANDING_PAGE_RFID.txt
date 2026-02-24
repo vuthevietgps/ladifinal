@@ -1,0 +1,220 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                   🚗 LANDING PAGE THẺ LÁI XE RFID                          ║
+║                        PREVIEW STRUCTURE                                   ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+┌─ NAVIGATION BAR ─────────────────────────────────────────────────────────┐
+│  🚗 Thẻ Lái Xe RFID    │   Về Dịch Vụ  │  Lợi Ích  │  Đánh Giá  │ Liên Hệ │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌─ HERO SECTION (Sticky Buttons on Right) ──────────────────────────────────┐
+│                                                              💬│              
+│                                                              📞│              
+│                         🚨 QUAN TRỌNG - Đọc Ngay!                          │
+│                                                                            │
+│                    Bạn Đã Có Thẻ Lái Xe RFID Hợp Lệ Chưa?               │
+│                                                                            │
+│     Hỗ trợ tư vấn & thủ tục đăng ký thẻ lái xe RFID đúng quy định      │
+│                                                                            │
+│     ✓ Tư vấn miễn phí        ✓ Không cần đặt cọc        ✓ Trọn gói      │
+│                                                                            │
+│              [👉 Nhận Tư Vấn Ngay]  [💬 Chat Zalo Ngay]                │
+│                                                                            │
+│                           [Thẻ RFID Icon]                                 │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌─ WARNING SECTION (Red Background) ────────────────────────────────────────┐
+│                                                                            │
+│   😣 Rất Nhiều Người Chỉ Phát Hiện Thiếu RFID Khi Đã Bị Kiểm Tra       │
+│                                                                            │
+│   Bạn có chắc chắn rằng:                                                 │
+│                                                                            │
+│   ┌─────────────────────┬──────────────────────┬──────────────────────┐ │
+│   │        ❓           │         ❓           │         ❓           │ │
+│   │  Đã có thẻ RFID    │  Đã kích hoạt &      │  Hồ sơ không         │ │
+│   │  đúng chuẩn?       │  đồng bộ dữ liệu?   │  bị thiếu?           │ │
+│   └─────────────────────┴──────────────────────┴──────────────────────┘ │
+│                                                                            │
+│   ⚠️ THỰC TẾ: Rất nhiều người chỉ phát hiện khi đã bị kiểm tra hoặc      │
+│      yêu cầu bổ sung hồ sơ                                               │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌─ ABOUT RFID SECTION ──────────────────────────────────────────────────────┐
+│                                                                            │
+│          🤔 Thẻ Lái Xe RFID Là Gì & Dùng Để Làm Gì?                     │
+│                                                                            │
+│   Thẻ lái xe RFID (Radio Frequency Identification) là thẻ thông minh     │
+│   sử dụng sóng vô tuyến để nhận dạng tự động                            │
+│                                                                            │
+│   ┌──────────────┬──────────────┬──────────────┬──────────────┐          │
+│   │     👤      │      ⏱️      │      📍      │      💳      │          │
+│   │   Định Danh │  Quản Lý     │  Giám Sát    │   Quản Lý    │          │
+│   │   Tài Xế   │  Thời Gian   │  Hành Trình  │   Dữ Liệu    │          │
+│   └──────────────┴──────────────┴──────────────┴──────────────┘          │
+│                                                                            │
+│   📌 Quan Trọng: Thành phần bắt buộc trong thiết bị giám sát hành       │
+│       trình đối với xe kinh doanh vận tải tại Việt Nam                   │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌─ CONSEQUENCES SECTION ────────────────────────────────────────────────────┐
+│                                                                            │
+│   ⚠️ Nếu Thiếu Thẻ RFID Hợp Lệ, Bạn Có Thể Gặp...                      │
+│                                                                            │
+│   ┌──────────┬──────────┬──────────┬──────────┐                          │
+│   │   📋    │    🔄   │    🛠️    │    🚨   │                          │
+│   │  Hồ sơ  │ Dữ liệu │ Yêu cầu  │ Nguy cơ │                          │
+│   │ không   │ không   │ bổ sung  │ bị xử   │                          │
+│   │ đầy đủ  │ đồng bộ │ điều chỉnh│ phạt   │                          │
+│   └──────────┴──────────┴──────────┴──────────┘                          │
+│                                                                            │
+│   ⚡ CHỈ THIẾU 1 CHI TIẾT NHỎ → ẢNH HƯỞNG TOÀN BỘ HỒ SƠ PHÁP LÝ!    │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌─ SOLUTION SECTION ────────────────────────────────────────────────────────┐
+│                                                                            │
+│           🎯 Giải Pháp Đúng – Gọn – An Toàn                             │
+│                                                                            │
+│   ✅ Tư Vấn Chuyên Sâu      Tư vấn bạn có thuộc diện bắt buộc          │
+│   ✅ Hỗ Trợ Chuẩn Quy Định  Đúng chuẩn theo quy định hiện hành         │
+│   ✅ Thủ Tục Trọn Gói        Hỗ trợ trọn gói                            │
+│   ✅ Kích Hoạt & Đồng Bộ    Hướng dẫn kích hoạt & đồng bộ dữ liệu     │
+│   ✅ Giao Thẻ Tận Nơi       Giao tận nơi khách hàng                    │
+│                                                                            │
+│   💬 BẠN CHỈ CẦN GỬI THÔNG TIN – HỖ TRỢ MIỄN PHÍ – KHÔNG CẦN CỌC     │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌─ TESTIMONIALS SECTION ────────────────────────────────────────────────────┐
+│                                                                            │
+│              💬 Feedback Thực Tế Từ Khách Hàng                           │
+│                                                                            │
+│   ┌────────────────────────┬────────────────────────┬────────────────┐  │
+│   │  ⭐⭐⭐⭐⭐          │  ⭐⭐⭐⭐⭐          │  ⭐⭐⭐⭐⭐      │  │
+│   │                        │                        │                │  │
+│   │ "Trước không để ý     │ "Bên tư vấn rất      │ "Làm đồng loạt │  │
+│   │  đến thẻ RFID, đến    │  rõ ràng, hướng      │  cho tài xế    │  │
+│   │  lúc được nhắc mới    │  dẫn từng bước nên   │  rất tiện,     │  │
+│   │  biết là bắt buộc."   │  làm đúng ngay từ    │  dữ liệu đồng  │  │
+│   │                        │  đầu."               │  bộ rõ ràng."  │  │
+│   │  👤 Anh Tuấn          │  👤 Chị Hạnh        │  👤 Anh Minh   │  │
+│   │  Tài Xế              │  Chủ Xe             │  Quản Lý Đội Xe│  │
+│   └────────────────────────┴────────────────────────┴────────────────┘  │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌─ COMMITMENT SECTION ──────────────────────────────────────────────────────┐
+│                                                                            │
+│                    🎯 Cam Kết Của Chúng Tôi                             │
+│                                                                            │
+│   ✔️ Tư Vấn          ✔️ Không       ✔️ Không      ✔️ Đồng Hành
+│      Đúng Quy          Thổi Phồng    Đặt Cọc      Đến Cùng
+│      Định
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌─ FORM SECTION (Blue Background) ──────────────────────────────────────────┐
+│                                                                            │
+│                   📝 Nhận Tư Vấn Miễn Phí Ngay                          │
+│                                                                            │
+│              Gửi thông tin để nhận tư vấn chuyên sâu                    │
+│                                                                            │
+│          ┌──────────────────────────────────────────┐                   │
+│          │ Họ & Tên         ..................... │                   │
+│          │ Số Điện Thoại    ..................... │                   │
+│          │ Loại Xe          ▼ Xe Tải ........... │                   │
+│          │                                         │                   │
+│          │   [👉 Nhận Tư Vấn Miễn Phí]             │                   │
+│          │                                         │                   │
+│          │ ✓ Thông tin sẽ được bảo mật tuyệt đối │                   │
+│          └──────────────────────────────────────────┘                   │
+│                                                                            │
+│   [Submit → Tự động mở Zalo với thông tin đã điền]                     │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌─ CTA FINAL SECTION ───────────────────────────────────────────────────────┐
+│                                                                            │
+│          🚀 Hãy Kiểm Tra & Đăng Ký Thẻ RFID Ngay                        │
+│                                                                            │
+│   Để kiểm tra bạn đã đủ hồ sơ RFID hay chưa, hướng dẫn làm đúng        │
+│   ngay từ đầu, tránh thiếu sót khi bị kiểm tra                          │
+│                                                                            │
+│         [📞 Gọi: 0363 614 511]    [💬 Zalo: 0363 614 511]              │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+┌─ FOOTER ──────────────────────────────────────────────────────────────────┐
+│                                                                            │
+│              © 2026 Dịch Vụ Thẻ Lái Xe RFID                              │
+│                                                                            │
+│   Hỗ trợ 24/7 | 📞 0363 614 511 | 💬 Zalo                              │
+│                                                                            │
+└──────────────────────────────────────────────────────────────────────────┘
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                        FLOATING BUTTONS (Sticky)                          ║
+║                                                                            ║
+║                  💬 Zalo         📞 Hotline                               ║
+║                  (Bottom Right)  (Bottom Right)                           ║
+║                  Bounce Animation                                         ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+KEY FEATURES:
+═════════════════════════════════════════════════════════════════════════════
+
+✅ RESPONSIVE DESIGN
+   • Desktop: Full width, optimized layout
+   • Tablet: 2-column grids adapt to 1 column
+   • Mobile: Single column, touch-friendly buttons
+
+✅ INTERACTIVE ELEMENTS
+   • Smooth scroll navigation
+   • Form auto-submits to Zalo
+   • Floating buttons with bounce animation
+   • Ripple effect on button clicks
+   • Hover animations on cards
+
+✅ CONVERSION OPTIMIZED
+   • Multiple CTAs (Form, Phone, Zalo)
+   • Clear problem-solution structure
+   • Social proof (3 testimonials)
+   • Risk reversal (commitments)
+   • Clear value proposition (Free, No deposit, Full support)
+
+✅ FAST & LIGHTWEIGHT
+   • HTML: 16 KB
+   • CSS: 11 KB (Compact)
+   • JS: 6 KB (Vanilla, no framework)
+   • Total: ~33 KB = Ultra-fast loading
+
+✅ PROFESSIONAL APPEARANCE
+   • Modern color scheme (Blue/Yellow/Red)
+   • Clean typography (Plus Jakarta Sans + Inter)
+   • Proper spacing and alignment
+   • Consistent branding throughout
+
+═════════════════════════════════════════════════════════════════════════════
+
+COLOR PALETTE:
+   Primary:   #2563eb (Xanh đậm - Trust)
+   Secondary: #f59e0b (Vàng cam - Action)
+   Danger:    #dc2626 (Đỏ - Alert)
+   Success:   #059669 (Xanh lá - Positive)
+
+═════════════════════════════════════════════════════════════════════════════
+
+ANIMATION EFFECTS:
+   • Pulse: Alert badge
+   • Float: RFID card in hero
+   • Bounce: Floating buttons
+   • Fade-in: Scroll animations
+   • Ripple: Button clicks
+   • Scale: Hover effects
+   • Smooth scroll: Navigation
+
+═════════════════════════════════════════════════════════════════════════════

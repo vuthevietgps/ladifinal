@@ -20,6 +20,52 @@ from .exceptions import ValidationError, FileUploadError, ZipProcessingError, Su
 
 bp = Blueprint('main', __name__)
 
+@bp.route('/giayphep-vanttai-landing')
+def giayphep_vanttai_landing():
+    """Landing page for giấy phép kinh doanh vận tải service"""
+    return send_from_directory('../../giayphep-vanttai-landing', 'index.html')
+
+@bp.route('/css/giayphep-vanttai-landing.css')
+def giayphep_vanttai_styles():
+    """CSS for giấy phép kinh doanh vận tải landing page"""
+    return send_from_directory('../../giayphep-vanttai-landing', 'giayphep-vanttai-landing.css', mimetype='text/css')
+
+@bp.route('/js/giayphep-vanttai-landing.js')
+def giayphep_vanttai_script():
+    """JS for giấy phép kinh doanh vận tải landing page"""
+    return send_from_directory('../../giayphep-vanttai-landing', 'giayphep-vanttai-landing.js', mimetype='application/javascript')
+
+@bp.route('/phu-hieu-xe')
+def phu_hieu_xe():
+    """Landing page for phù hiệu xe service"""
+    return render_template('landing_phu_hieu_xe.html')
+
+@bp.route('/phu-hieu-xe-can-gap')
+def phu_hieu_xe_can_gap():
+    """Landing page for xe đang chạy thiếu phù hiệu service"""
+    return send_from_directory('../../phu-hieu-xe-can-gap', 'index.html')
+
+@bp.route('/cap-giay-phep-vao-pho-cam')
+def cap_giay_phep_vao_pho_cam():
+    """Landing page for xe bị chặn vì phố cấm service"""
+    return send_from_directory('../../cap-giay-phep-vao-pho-cam', 'index.html')
+
+@bp.route('/mua-giay-phep-vao-pho-cam')
+def mua_giay_phep_vao_pho_cam():
+    """Landing page for mua giấy phép vào phố cấm - xử lý nhanh"""
+    return send_from_directory('../../mua-giay-phep-vao-pho-cam', 'index.html')
+
+@bp.route('/the-tap-huan-nghiep-vu-van-tai')
+def the_tap_huan_nghiep_vu_van_tai():
+    """Landing page for thẻ tập huấn nghiệp vụ vận tải gấp"""
+    return send_from_directory('../../the-tap-huan-nghiep-vu-van-tai', 'index.html')
+
+@bp.route('/phu-hieu-xe-check-new/')
+def phu_hieu_xe_check():
+    """Landing page for phù hiệu xe check service"""
+    with open(os.path.join(current_app.static_folder, 'phu-hieu-xe-check-new', 'index.html'), 'r', encoding='utf-8') as f:
+        return f.read()
+
 def validate_zip_structure(zip_file):
     """Pre-validate ZIP structure and provide helpful feedback"""
     try:
@@ -251,6 +297,27 @@ def process_html_tracking_in_folder(target_dir, head_snippet, body_snippet):
 def dev_published(sub, filename):
     root = current_app.config['PUBLISHED_ROOT']
     return send_from_directory(os.path.join(root, sub), filename)
+
+# Additional route for /published/ path (easier access)
+@bp.route('/published/<path:subpath>')
+def serve_published(subpath):
+    """Serve files from published directory"""
+    root = current_app.config['PUBLISHED_ROOT']
+    # Remove trailing slash and split path
+    subpath = subpath.rstrip('/')
+    parts = [p for p in subpath.split('/') if p]  # Filter empty strings
+    
+    if not parts:
+        return "No subdirectory specified", 404
+    
+    if len(parts) == 1:
+        # Only subdomain provided, serve index.html
+        return send_from_directory(os.path.join(root, parts[0]), 'index.html')
+    else:
+        # Subdomain + filename
+        sub = parts[0]
+        filename = '/'.join(parts[1:])
+        return send_from_directory(os.path.join(root, sub), filename)
 
 
 # Temporary debug route to inspect Jinja template search paths

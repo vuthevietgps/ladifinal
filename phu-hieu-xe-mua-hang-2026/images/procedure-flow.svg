@@ -1,0 +1,31 @@
+<svg width="1200" height="840" viewBox="0 0 1200 840" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="1200" height="840" rx="42" fill="url(#paint0_linear_820_4)"/>
+<text x="84" y="96" fill="#0F3D82" font-family="Segoe UI, Arial" font-size="52" font-weight="700">Quy trinh xu ly ho so phu hieu xe</text>
+<rect x="84" y="148" width="1030" height="612" rx="26" fill="#FFFFFF" stroke="#D8E6FA" stroke-width="2"/>
+<circle cx="176" cy="264" r="44" fill="#D7263D"/>
+<text x="162" y="276" fill="white" font-family="Segoe UI, Arial" font-size="30" font-weight="700">1</text>
+<rect x="252" y="224" width="790" height="84" rx="16" fill="#F2F7FF" stroke="#CEDFF7"/>
+<text x="286" y="262" fill="#143D7E" font-family="Segoe UI, Arial" font-size="30" font-weight="700">Tiep nhan thong tin xe va nhu cau xu ly</text>
+<text x="286" y="292" fill="#4A648F" font-family="Segoe UI, Arial" font-size="22">Xac dinh loai xe, tinh thanh, muc do gap</text>
+<circle cx="176" cy="392" r="44" fill="#D7263D"/>
+<text x="162" y="404" fill="white" font-family="Segoe UI, Arial" font-size="30" font-weight="700">2</text>
+<rect x="252" y="352" width="790" height="84" rx="16" fill="#F2F7FF" stroke="#CEDFF7"/>
+<text x="286" y="390" fill="#143D7E" font-family="Segoe UI, Arial" font-size="30" font-weight="700">Ra soat checklist va bo sung giay to con thieu</text>
+<text x="286" y="420" fill="#4A648F" font-family="Segoe UI, Arial" font-size="22">Huong dan theo dung bo ho so cua dia phuong</text>
+<circle cx="176" cy="520" r="44" fill="#D7263D"/>
+<text x="162" y="532" fill="white" font-family="Segoe UI, Arial" font-size="30" font-weight="700">3</text>
+<rect x="252" y="480" width="790" height="84" rx="16" fill="#F2F7FF" stroke="#CEDFF7"/>
+<text x="286" y="518" fill="#143D7E" font-family="Segoe UI, Arial" font-size="30" font-weight="700">Nop ho so va theo doi tinh trang xu ly</text>
+<text x="286" y="548" fill="#4A648F" font-family="Segoe UI, Arial" font-size="22">Cap nhat ket qua cho khach hang tren Zalo</text>
+<circle cx="176" cy="648" r="44" fill="#D7263D"/>
+<text x="162" y="660" fill="white" font-family="Segoe UI, Arial" font-size="30" font-weight="700">4</text>
+<rect x="252" y="608" width="790" height="84" rx="16" fill="#F2F7FF" stroke="#CEDFF7"/>
+<text x="286" y="646" fill="#143D7E" font-family="Segoe UI, Arial" font-size="30" font-weight="700">Ban giao ket qua va huong dan su dung phu hieu</text>
+<text x="286" y="676" fill="#4A648F" font-family="Segoe UI, Arial" font-size="22">Luu mau nhac viec de tranh het han hoac sai thong tin</text>
+<defs>
+<linearGradient id="paint0_linear_820_4" x1="90" y1="44" x2="1092" y2="786" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E7F1FF"/>
+<stop offset="1" stop-color="#F6FAFF"/>
+</linearGradient>
+</defs>
+</svg>

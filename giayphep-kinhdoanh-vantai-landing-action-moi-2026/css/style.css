@@ -1,0 +1,39 @@
+/* CSS compact, dùng biến màu, responsive, tuân thủ QUYTAC.md */
+/* Đỏ nổi bật, dàn đều, giống mẫu */
+:root{--primary:#fff;--accent:#1976d2;--danger:#d32f2f;--success:#388e3c;--gray:#64748b;--bg:#b71c1c;--white:#fff;--red-bg:#b71c1c;--red-dark:#d32f2f;--red-light:#ffcdd2;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,var(--red-bg) 0%,var(--red-dark) 100%);color:var(--primary);}
+.container{max-width:1100px;margin:40px auto 40px auto;background:rgba(255,255,255,0.98);border-radius:20px;box-shadow:0 12px 48px #b71c1c55;padding:56px 48px;display:flex;flex-direction:column;align-items:center;}
+h1{color:var(--danger);font-size:3em;font-weight:900;text-align:center;margin-bottom:18px;line-height:1.15;letter-spacing:-1px;text-shadow:0 4px 24px #b71c1c77,0 1px 0 #b71c1c;}
+h2{color:var(--red-dark);font-size:2em;font-weight:800;margin:24px 0 14px;text-align:center;text-shadow:0 2px 8px #fff8;}
+h2.danger{color:var(--danger);}
+h3{color:var(--red-bg);font-size:1.3em;font-weight:700;}
+.cta-btn,.cta-btn2{display:block;width:100%;max-width:520px;margin:32px auto 28px auto;padding:26px;font-size:1.4em;font-weight:900;letter-spacing:0.5px;border:none;border-radius:14px;background:linear-gradient(90deg,#1976d2,#00bcd4);color:#fff;cursor:pointer;box-shadow:0 6px 24px #1976d299;transition:transform .2s,box-shadow .2s;text-shadow:0 2px 8px #0002;}
+.cta-btn:hover,.cta-btn2:hover{transform:scale(1.09);box-shadow:0 12px 40px #1976d2cc;}
+.section{margin:48px 0 0 0;width:100%;background:#fff;border-radius:16px;box-shadow:0 2px 24px #b71c1c22;padding:32px 32px 24px 32px;max-width:900px;margin-left:auto;margin-right:auto;border:2px solid #ffcdd2;}
+.section:not(:first-child){margin-top:32px;}
+.section h2,.section h3{margin-top:0;}
+.section ul{margin-bottom:0;}
+.danger{color:var(--danger);font-weight:900;}
+.testimonial{background:var(--red-light);border-left:8px solid var(--danger);margin:24px 0;padding:28px 32px;border-radius:16px;max-width:800px;margin-left:auto;margin-right:auto;color:var(--red-bg);}
+.testimonial .name{font-weight:bold;color:var(--danger)}
+.testimonial .stars{color:#ffc107;font-size:1.3em}
+.form-group{margin-bottom:22px}
+label{display:block;margin-bottom:10px;font-weight:700;font-size:1.1em;color:var(--red-bg);}
+input[type=text],input[type=tel]{width:100%;padding:14px 16px;border:2px solid var(--danger);border-radius:10px;font-size:1.12em;background:#fff;color:var(--red-bg);}
+.checkbox-group{display:flex;gap:22px;margin:12px 0}
+.commitments{background:var(--red-light);border-radius:12px;padding:24px 28px;margin-top:32px;max-width:800px;margin-left:auto;margin-right:auto;color:var(--red-bg);}
+.commitments li{margin:12px 0;font-size:1.12em;}
+.container p,.container ul,.container li{color:var(--red-bg);font-size:1.13em;line-height:1.7;}
+.container ul{padding-left:24px;}
+.container .danger{color:var(--danger);font-weight:900;}
+/* Floating chat icons sửa lại cho nổi bật và đúng màu */
+.floating-icons{position:fixed;right:24px;bottom:24px;z-index:9999;display:flex;flex-direction:column;gap:16px}
+.floating-icon{display:flex;align-items:center;gap:10px;background:#fff;border-radius:32px;box-shadow:0 2px 12px #0002;padding:12px 28px 12px 14px;font-weight:900;text-decoration:none;font-size:1.13em;animation:bounceIn 1.2s;transition:background .2s,transform .2s;line-height:1.2;}
+.floating-icon .icon{width:28px;height:28px;display:inline-block;margin-right:6px;}
+.floating-icon.zalo{color:#0a5caa;background:#e3f2fd;}
+.floating-icon.hotline{color:#00bcd4;background:#fff;}
+.floating-icon.zalo:hover{background:#bbdefb;color:#0a5caa;transform:scale(1.08) rotate(-2deg);}
+.floating-icon.hotline:hover{background:#e0f7fa;color:#00bcd4;transform:scale(1.08) rotate(-2deg);}
+@keyframes bounceIn{0%{transform:scale(.7);opacity:0}60%{transform:scale(1.1);opacity:1}100%{transform:scale(1)}}
+@media (max-width:700px){.container{padding:16px 4vw}}

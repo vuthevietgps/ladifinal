@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify, render_template, flash, redirect,
 from flask_login import login_required
 import os
 import json
+import re
 from .. import repository, agents_repository
 from .file_handler import (
     validate_zip_structure,
@@ -10,10 +11,75 @@ from .file_handler import (
     process_html_tracking_in_folder,
     rewrite_asset_paths_in_folder,
 )
-from ..constants import MIME_TYPES, STATIC_ASSETS_CACHE_TIME, CACHE_EXPIRES_DATE, ERROR_MESSAGES
+from ..constants import (
+    MIME_TYPES,
+    STATIC_ASSETS_CACHE_TIME,
+    CACHE_EXPIRES_DATE,
+    ERROR_MESSAGES,
+    TRACKING_TEMPLATE_HEAD,
+    TRACKING_TEMPLATE_BODY,
+)
 from ..exceptions import ValidationError, FileUploadError, ZipProcessingError, SubdomainError
 
 landing_bp = Blueprint('landing', __name__)
+
+GA_TRACKING_ID_PATTERN = re.compile(r'^G-[A-Za-z0-9]+$')
+FB_PIXEL_ID_PATTERN = re.compile(r'^\d{10,20}$')
+TIKTOK_PIXEL_ID_PATTERN = re.compile(r'^[A-Za-z0-9]+$')
+
+
+def validate_tracking_ids(ga_tracking_id: str, fb_pixel_id: str, tiktok_pixel_id: str):
+    """Validate GA4/Facebook/TikTok tracking IDs."""
+    if ga_tracking_id and not GA_TRACKING_ID_PATTERN.match(ga_tracking_id):
+        return False, 'GA4 ID không hợp lệ. Định dạng đúng: G-XXXXXXXXXX'
+    if fb_pixel_id and not FB_PIXEL_ID_PATTERN.match(fb_pixel_id):
+        return False, 'Facebook Pixel ID không hợp lệ. Chỉ được nhập chuỗi số 10-20 chữ số.'
+    if tiktok_pixel_id and not TIKTOK_PIXEL_ID_PATTERN.match(tiktok_pixel_id):
+        return False, 'TikTok Pixel ID không hợp lệ. Chỉ gồm chữ và số.'
+    return True, ''
+
+
+def build_tracking_snippets(
+    global_site_tag: str,
+    ga_tracking_id: str,
+    fb_pixel_id: str,
+    tiktok_pixel_id: str,
+    phone_tracking: str,
+    zalo_tracking: str,
+    form_tracking: str
+):
+    """Build tracking snippets with JSON-safe values for injected JavaScript."""
+    has_head_tracking = any([global_site_tag, ga_tracking_id, fb_pixel_id, tiktok_pixel_id])
+    has_body_tracking = any([phone_tracking, zalo_tracking, form_tracking])
+
+    head_snippet = TRACKING_TEMPLATE_HEAD.format(
+        global_site_tag=global_site_tag or '',
+        ga_id_json=json.dumps(ga_tracking_id or None),
+        fb_pixel_id_json=json.dumps(fb_pixel_id or None),
+        tiktok_pixel_id_json=json.dumps(tiktok_pixel_id or None),
+    ) if has_head_tracking else ''
+
+    body_snippet = TRACKING_TEMPLATE_BODY.format(
+        phone_tracking_json=json.dumps(phone_tracking or ''),
+        zalo_tracking_json=json.dumps(zalo_tracking or ''),
+        form_tracking_json=json.dumps(form_tracking or ''),
+    ) if has_body_tracking else ''
+
+    return head_snippet, body_snippet
+
+# ============ LANDING PAGES INDEX ============
+
+@landing_bp.route('/landings')
+def landings_index():
+    """Serve the index page listing all available landing pages"""
+    return render_template('index_landings.html')
+
+# ============ SPECIAL LANDING PAGES ============
+
+@landing_bp.route('/real-talk-english')
+def real_talk_english():
+    """Serve the Real Talk English course landing page"""
+    return render_template('real_talk_english.html')
 
 # ============ LANDING PAGE SERVING ============
 
@@ -83,6 +149,7 @@ def serve_landing_assets_simple(subdomain, filename):
 
 
 @landing_bp.route('/landing/<int:landing_id>')
+@login_required
 def landing_detail(landing_id):
     """Show landing page details"""
     landing = repository.get_landing(landing_id)
@@ -118,10 +185,21 @@ def api_create():
         
         # Tracking fields
         global_site_tag = request.form.get('global_site_tag', '').strip()
+        ga_tracking_id = request.form.get('ga_tracking_id', '').strip()
+        fb_pixel_id = request.form.get('fb_pixel_id', '').strip()
+        tiktok_pixel_id = request.form.get('tiktok_pixel_id', '').strip()
         phone_tracking = request.form.get('phone_tracking', '').strip()
         zalo_tracking = request.form.get('zalo_tracking', '').strip()
         form_tracking = request.form.get('form_tracking', '').strip()
-        
+
+        tracking_valid, tracking_msg = validate_tracking_ids(
+            ga_tracking_id,
+            fb_pixel_id,
+            tiktok_pixel_id
+        )
+        if not tracking_valid:
+            return jsonify({'success': False, 'message': tracking_msg}), 400
+
         # Contact fields
         hotline_phone = request.form.get('hotline_phone', '').strip()
         zalo_phone = request.form.get('zalo_phone', '').strip()
@@ -185,25 +263,32 @@ def api_create():
             # Extract and validate
             extracted_files, folder_structure = extract_and_validate_folder(zip_file, target_dir)
             
-            # Process tracking codes
-            head_snippet = global_site_tag
-            body_snippet = "\n".join(filter(None, [phone_tracking, zalo_tracking, form_tracking]))
-            
-            if head_snippet or body_snippet:
-                processed_files = process_html_tracking_in_folder(target_dir, head_snippet, body_snippet)
+            head_snippet, body_snippet = build_tracking_snippets(
+                global_site_tag,
+                ga_tracking_id,
+                fb_pixel_id,
+                tiktok_pixel_id,
+                phone_tracking,
+                zalo_tracking,
+                form_tracking
+            )
+            process_html_tracking_in_folder(target_dir, head_snippet, body_snippet)
 
             # Rewrite absolute asset URLs to work under /landing/<subdomain>/
             try:
-                rewrites = rewrite_asset_paths_in_folder(target_dir, subdomain)
+                rewrite_asset_paths_in_folder(target_dir, subdomain)
             except Exception:
-                rewrites = []
-            
+                pass
+
             # Save to database
             landing_data = {
                 'subdomain': subdomain,
                 'agent': agent,
                 'page_type': page_type,
                 'global_site_tag': global_site_tag,
+                'ga_tracking_id': ga_tracking_id,
+                'fb_pixel_id': fb_pixel_id,
+                'tiktok_pixel_id': tiktok_pixel_id,
                 'phone_tracking': phone_tracking,
                 'zalo_tracking': zalo_tracking,
                 'form_tracking': form_tracking,
@@ -256,6 +341,9 @@ def api_update(landing_id):
         updates = {
             'agent': request.form.get('agent', '').strip(),
             'global_site_tag': request.form.get('global_site_tag', '').strip(),
+            'ga_tracking_id': request.form.get('ga_tracking_id', '').strip(),
+            'fb_pixel_id': request.form.get('fb_pixel_id', '').strip(),
+            'tiktok_pixel_id': request.form.get('tiktok_pixel_id', '').strip(),
             'phone_tracking': request.form.get('phone_tracking', '').strip(),
             'zalo_tracking': request.form.get('zalo_tracking', '').strip(),
             'form_tracking': request.form.get('form_tracking', '').strip(),
@@ -263,26 +351,48 @@ def api_update(landing_id):
             'zalo_phone': request.form.get('zalo_phone', '').strip(),
             'google_form_link': request.form.get('google_form_link', '').strip(),
         }
+
+        tracking_valid, tracking_msg = validate_tracking_ids(
+            updates['ga_tracking_id'],
+            updates['fb_pixel_id'],
+            updates['tiktok_pixel_id']
+        )
+        if not tracking_valid:
+            return jsonify({'success': False, 'message': tracking_msg}), 400
         
+        head_snippet, body_snippet = build_tracking_snippets(
+            updates.get('global_site_tag', ''),
+            updates.get('ga_tracking_id', ''),
+            updates.get('fb_pixel_id', ''),
+            updates.get('tiktok_pixel_id', ''),
+            updates.get('phone_tracking', ''),
+            updates.get('zalo_tracking', ''),
+            updates.get('form_tracking', '')
+        )
+
+        pub_root = current_app.config['PUBLISHED_ROOT']
+        target_dir = os.path.join(pub_root, landing['subdomain'])
+
         # Handle new ZIP file upload (optional)
-        if 'zipFile' in request.files and request.files['zipFile'].filename:
+        zip_file = None
+        if 'folder_zip' in request.files and request.files['folder_zip'].filename:
+            zip_file = request.files['folder_zip']
+        elif 'zipFile' in request.files and request.files['zipFile'].filename:
             zip_file = request.files['zipFile']
+
+        if zip_file:
             
             # Validate ZIP structure
             validation_result = validate_zip_structure(zip_file)
             if validation_result['status'] == 'error':
                 return jsonify({'success': False, 'message': validation_result['message']}), 400
-            
-            # Update published folder
-            pub_root = current_app.config['PUBLISHED_ROOT']
-            target_dir = os.path.join(pub_root, landing['subdomain'])
-            
+
             # Backup current folder
             import shutil
             import tempfile
             with tempfile.TemporaryDirectory() as backup_dir:
+                backup_path = os.path.join(backup_dir, 'backup')
                 if os.path.exists(target_dir):
-                    backup_path = os.path.join(backup_dir, 'backup')
                     shutil.copytree(target_dir, backup_path)
                 
                 try:
@@ -293,17 +403,8 @@ def api_update(landing_id):
                     
                     # Extract new files
                     extracted_files, folder_structure = extract_and_validate_folder(zip_file, target_dir)
-                    
-                    # Process tracking codes
-                    head_snippet = updates['global_site_tag']
-                    body_snippet = "\n".join(filter(None, [
-                        updates['phone_tracking'], 
-                        updates['zalo_tracking'], 
-                        updates['form_tracking']
-                    ]))
-                    
-                    if head_snippet or body_snippet:
-                        processed_files = process_html_tracking_in_folder(target_dir, head_snippet, body_snippet)
+
+                    process_html_tracking_in_folder(target_dir, head_snippet, body_snippet)
 
                     # Rewrite absolute asset URLs to work under /landing/<subdomain>/
                     try:
@@ -322,6 +423,12 @@ def api_update(landing_id):
                             shutil.rmtree(target_dir)
                         shutil.copytree(backup_path, target_dir)
                     raise e
+        else:
+            if not os.path.exists(target_dir):
+                return jsonify({'success': False, 'message': 'Published folder not found. Please upload ZIP again.'}), 404
+
+            # Re-apply tracking snippet to existing HTML files so updates take effect immediately.
+            process_html_tracking_in_folder(target_dir, head_snippet, body_snippet)
         
         # Update database
         success = repository.update_landing(landing_id, updates)

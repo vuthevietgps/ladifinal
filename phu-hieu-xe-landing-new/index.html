@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phù Hiệu Xe - Tư Vấn & Làm Hồ Sơ Trọn Gói</title>
+    <!-- QUYTAC: dùng đường dẫn tuyệt đối cho asset nội bộ -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Floating Buttons -->
+    <div class="floating-buttons">
+        <a class="float-btn hotline" href="tel:0363614511" title="Gọi điện">
+            <span class="icon">📞</span>
+            <span class="label">Gọi ngay</span>
+        </a>
+        <a class="float-btn zalo" href="https://zalo.me/0363614511" target="_blank" title="Chat Zalo">
+            <span class="icon">💬</span>
+            <span class="label">Chat Zalo</span>
+        </a>
+    </div>
+
+    <div class="container">
+        <!-- Hero -->
+        <header class="hero">
+            <div class="hero-text">
+                <p class="eyebrow">Dịch vụ tư vấn & làm phù hiệu xe</p>
+                <h1>HỖ TRỢ PHÙ HIỆU XE TỪ A–Z</h1>
+                <p class="sub">Xe tải · xe hợp đồng · xe khách · container · xe công nghệ · hợp tác xã</p>
+                <p class="bullet">⚠️ Làm sai hồ sơ → trả hồ sơ, chậm phù hiệu, xe không chạy được</p>
+                <div class="cta-row">
+                    <button class="cta-btn" onclick="scrollToForm()">ĐĂNG KÝ NGAY - NHẬN TƯ VẤN MIỄN PHÍ</button>
+                    <a class="ghost-btn" href="tel:0363614511">Gọi: 0363614511</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="/images/phu-hieu-hero.jpg" alt="Phù hiệu xe" onerror="this.style.display='none'">
+            </div>
+        </header>
+
+        <!-- Pain Points -->
+        <section class="section muted">
+            <h2>Vì sao bạn cần hỗ trợ?</h2>
+            <div class="grid three">
+                <div class="card">
+                    <h3>Chưa rõ loại phù hiệu</h3>
+                    <p>Không biết xe mình thuộc loại nào, sợ chọn sai → bị trả hồ sơ.</p>
+                </div>
+                <div class="card">
+                    <h3>Hồ sơ bị trả lại</h3>
+                    <p>Thiếu giấy, sai thứ tự, bổ sung liên tục làm chậm tiến độ.</p>
+                </div>
+                <div class="card">
+                    <h3>Mất doanh thu</h3>
+                    <p>Xe chờ phù hiệu không chạy được, mất hợp đồng & doanh thu.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution -->
+        <section class="section">
+            <h2>Giải pháp trọn gói - đúng chuẩn Sở GTVT</h2>
+            <div class="grid three">
+                <div class="card check">
+                    <span class="icon">✅</span>
+                    <p>Tư vấn đúng loại phù hiệu theo từng loại xe</p>
+                </div>
+                <div class="card check">
+                    <span class="icon">✅</span>
+                    <p>Đối chiếu hồ sơ theo chuẩn Sở GTVT hiện hành</p>
+                </div>
+                <div class="card check">
+                    <span class="icon">✅</span>
+                    <p>Hỗ trợ trọn gói thủ tục, giao phù hiệu tận nơi</p>
+                </div>
+            </div>
+            <p class="note">Không cần đặt cọc · Minh bạch lộ trình · Hỗ trợ nhanh</p>
+        </section>
+
+        <!-- Steps -->
+        <section class="section muted">
+            <h2>Lộ trình xử lý</h2>
+            <div class="steps">
+                <div class="step"><span>1</span><p>Gửi thông tin xe & nhu cầu</p></div>
+                <div class="step"><span>2</span><p>Chúng tôi xác định loại phù hiệu & checklist hồ sơ</p></div>
+                <div class="step"><span>3</span><p>Hoàn thiện hồ sơ, nộp & theo dõi</p></div>
+                <div class="step"><span>4</span><p>Giao phù hiệu tận nơi</p></div>
+            </div>
+        </section>
+
+        <!-- Form -->
+        <section class="section form-section" id="formSection">
+            <div class="form-wrap">
+                <h2>Đăng ký nhận tư vấn miễn phí</h2>
+                <p>Gửi thông tin, chúng tôi sẽ liên hệ ngay.</p>
+                <form id="contactForm" class="contact-form">
+                    <input type="text" id="fullname" name="fullname" placeholder="Họ và tên *" required>
+                    <input type="tel" id="phone" name="phone" placeholder="Số điện thoại *" required>
+                    <input type="text" id="vehicleType" name="vehicleType" placeholder="Loại xe (tải, hợp đồng, khách...) *" required>
+                    <textarea id="message" name="message" rows="3" placeholder="Nhu cầu hoặc câu hỏi"></textarea>
+                    <button type="submit" class="cta-btn">GỬI THÔNG TIN</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section class="section contact">
+            <h2>Liên hệ nhanh</h2>
+            <div class="grid three">
+                <div class="card">
+                    <h3>Gọi ngay</h3>
+                    <a class="link" href="tel:0363614511">0363614511</a>
+                </div>
+                <div class="card">
+                    <h3>Chat Zalo</h3>
+                    <a class="link" href="https://zalo.me/0363614511" target="_blank">zalo.me/0363614511</a>
+                </div>
+                <div class="card">
+                    <h3>Giờ hỗ trợ</h3>
+                    <p>08:00 - 21:00 (kể cả cuối tuần)</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- QUYTAC: script dùng đường dẫn tuyệt đối -->
+    <script src="/js/script.js"></script>
+</body>
+</html>
+            </div>
+        </div>
+    </section>
+
+    <!-- Check Section -->
+    <section class="content-section bg-light">
+        <div class="container">
+            <h2>🔍 Cách kiểm tra & tra cứu phù hiệu xe tải</h2>
+            <p>Bạn có thể:</p>
+            <div class="check-grid">
+                <div class="check-card">
+                    <div class="check-number">1</div>
+                    <p>Tra cứu phù hiệu xe tải theo thông tin phương tiện</p>
+                </div>
+                <div class="check-card">
+                    <div class="check-number">2</div>
+                    <p>Kiểm tra tình trạng: còn hạn / hết hạn</p>
+                </div>
+                <div class="check-card">
+                    <div class="check-number">3</div>
+                    <p>Đối chiếu với dữ liệu quản lý vận tải</p>
+                </div>
+            </div>
+            <div class="alert">👉 Kiểm tra định kỳ giúp tránh bị phạt bất ngờ khi lưu thông.</div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section class="content-section">
+        <div class="container">
+            <h2>📐 Kích thước – cách gắn – cách dán phù hiệu xe</h2>
+            <p>Phù hiệu phải:</p>
+            <ul class="check-list">
+                <li>Gắn đúng vị trí quy định</li>
+                <li>Dán đúng kích thước</li>
+                <li>Không che khuất, không bong tróc</li>
+            </ul>
+            <div class="installation-warning">
+                <p>❌ Gắn sai vị trí<br>
+                ❌ Dán không đúng chuẩn<br>
+                <strong>👉 Vẫn bị xử phạt như không có phù hiệu</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problems Section - DESIRE -->
+    <section class="content-section bg-primary">
+        <div class="container">
+            <h2>⚠️ Thực tế nhiều chủ xe gặp phải</h2>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <p>❌ Không rõ xe mình có cần phù hiệu hay không</p>
+                </div>
+                <div class="problem-card">
+                    <p>❌ Không nắm quy định mới nhất</p>
+                </div>
+                <div class="problem-card">
+                    <p>❌ Không biết phù hiệu còn hạn hay đã hết</p>
+                </div>
+                <div class="problem-card">
+                    <p>❌ Sợ làm sai hồ sơ – mất thời gian đi lại</p>
+                </div>
+            </div>
+            <div class="solution-box">
+                <h3>👉 Vì vậy, nhiều người chọn được tư vấn trước khi làm phù hiệu, để:</h3>
+                <ul>
+                    <li>✅ Làm đúng ngay từ đầu</li>
+                    <li>✅ Tránh bị phạt</li>
+                    <li>✅ Không mất thời gian chỉnh sửa hồ sơ</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section - ACTION -->
+    <section class="cta-section" id="form">
+        <div class="container">
+            <h2>📞 Bạn đang băn khoăn?</h2>
+            <ul class="question-list">
+                <li>❓ Xe của bạn có bắt buộc gắn phù hiệu không?</li>
+                <li>❓ Phù hiệu hiện tại còn hạn hay đã hết?</li>
+                <li>❓ Trường hợp xe tải nhỏ, xe cá nhân kinh doanh xử lý thế nào?</li>
+            </ul>
+            <div class="benefits-box">
+                <h3>👉 Hãy để lại thông tin, bạn sẽ được:</h3>
+                <ul class="benefits-list">
+                    <li>✅ Kiểm tra miễn phí trường hợp xe</li>
+                    <li>✅ Tư vấn đúng loại phù hiệu cần làm</li>
+                    <li>✅ Hướng dẫn thủ tục đúng quy định</li>
+                </ul>
+            </div>
+
+            <!-- Form -->
+            <div class="form-wrapper">
+                <form id="consultForm" class="consult-form">
+                    <div class="form-group">
+                        <input type="text" id="fullname" name="fullname" placeholder="Họ và tên *" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" name="phone" placeholder="Số điện thoại *" required pattern="[0-9]{10,11}">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="vehicle_type" name="vehicle_type" placeholder="Loại xe (xe tải, container, khách...)">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="note" name="note" rows="4" placeholder="Ghi chú thêm (nếu có)"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-submit">
+                        👉 TƯ VẤN PHÙ HIỆU XE MIỄN PHÍ
+                    </button>
+                </form>
+                <div id="successMessage" class="success-message" style="display:none;">
+                    <p>✅ Cảm ơn bạn! Chúng tôi sẽ liên hệ tư vấn trong thời gian sớm nhất.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Dịch Vụ Phù Hiệu Xe. Hotline: <a href="tel:0123456789">0123 456 789</a></p>
+            <p>Tư vấn 24/7 - Thủ tục nhanh chóng - Đúng quy định</p>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

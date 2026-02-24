@@ -2,6 +2,15 @@
 import re
 from typing import Optional
 
+ANALYTICS_BLOCK_RE = re.compile(
+    r'<!--\s*Analytics\s*&\s*Tracking\s*-->.*?<!--\s*/Analytics\s*&\s*Tracking\s*-->\s*',
+    re.IGNORECASE | re.DOTALL
+)
+CUSTOM_TRACKING_BLOCK_RE = re.compile(
+    r'<!--\s*Custom\s*Tracking\s*Events\s*-->.*?<!--\s*/Custom\s*Tracking\s*Events\s*-->\s*',
+    re.IGNORECASE | re.DOTALL
+)
+
 
 def sanitize_subdomain(subdomain: str) -> Optional[str]:
     """
@@ -60,22 +69,31 @@ def inject_tracking(html_content: str, head_snippet: str = "", body_snippet: str
     if not html_content:
         return html_content
     
-    modified_content = html_content
-    
-    # Inject head snippet before </head>
+    modified_content = ANALYTICS_BLOCK_RE.sub('', html_content)
+    modified_content = CUSTOM_TRACKING_BLOCK_RE.sub('', modified_content)
+
+    # Inject head snippet before </head> (case-insensitive)
     if head_snippet and head_snippet.strip():
-        if '</head>' in modified_content:
-            modified_content = modified_content.replace(
-                '</head>', 
-                f'{head_snippet.strip()}\n</head>'
+        head_pattern = re.compile(r'</head\s*>', re.IGNORECASE)
+        if head_pattern.search(modified_content):
+            modified_content = head_pattern.sub(
+                f'{head_snippet.strip()}\n</head>',
+                modified_content,
+                count=1
             )
-    
-    # Inject body snippet before </body>
+        else:
+            modified_content = f'{head_snippet.strip()}\n{modified_content}'
+
+    # Inject body snippet before </body> (case-insensitive)
     if body_snippet and body_snippet.strip():
-        if '</body>' in modified_content:
-            modified_content = modified_content.replace(
-                '</body>', 
-                f'{body_snippet.strip()}\n</body>'
+        body_pattern = re.compile(r'</body\s*>', re.IGNORECASE)
+        if body_pattern.search(modified_content):
+            modified_content = body_pattern.sub(
+                f'{body_snippet.strip()}\n</body>',
+                modified_content,
+                count=1
             )
-    
+        else:
+            modified_content = f'{modified_content}\n{body_snippet.strip()}'
+
     return modified_content

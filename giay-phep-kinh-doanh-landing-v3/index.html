@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giấy Phép Kinh Doanh Vận Tải - Tư Vấn & Hỗ Trợ Trọn Gói</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #e3f0ff 0%, #b3d8ff 100%);
+            color: #222;
+        }
+        .header {
+            background: linear-gradient(135deg, #2980b9 0%, #6dd5fa 100%);
+            color: white;
+            padding: 18px 0 10px 0;
+            box-shadow: 0 2px 10px rgba(41,128,185,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        .header-title {
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header-title i {
+            font-size: 28px;
+        }
+        .header-hotline {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            background: rgba(255,255,255,0.12);
+            padding: 8px 18px;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(41,128,185,0.08);
+        }
+        .hero {
+            background: linear-gradient(135deg, #6dd5fa 0%, #2980b9 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 20px 40px 20px;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: 38px;
+            font-weight: bold;
+            margin: 0 0 18px 0;
+            letter-spacing: 1px;
+            animation: pulseTitle 2s infinite;
+        }
+        @keyframes pulseTitle {
+            0%, 100% { text-shadow: 0 0 10px #fff, 0 0 20px #6dd5fa; }
+            50% { text-shadow: 0 0 30px #fff, 0 0 40px #2980b9; }
+        }
+        .hero .desc {
+            font-size: 22px;
+            margin-bottom: 18px;
+            opacity: 0.97;
+        }
+        .hero .cta-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+            color: #222;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 18px 48px;
+            border-radius: 50px;
+            margin-top: 18px;
+            box-shadow: 0 4px 18px rgba(255,179,71,0.18);
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: bounceCta 1.5s infinite;
+        }
+        @keyframes bounceCta {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px) scale(1.04); }
+        }
+        .section {
+            max-width: 950px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(41,128,185,0.07);
+            padding: 40px 24px 32px 24px;
+            margin-bottom: 32px;
+        }
+        .section-title {
+            font-size: 28px;
+            color: #2980b9;
+            font-weight: bold;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title i {
+            color: #ffb347;
+            font-size: 28px;
+        }
+        .problems, .solutions, .commitments {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+            margin-top: 18px;
+        }
+        .problem-card, .solution-card, .commit-card {
+            background: linear-gradient(135deg, #e3f0ff 0%, #f8fafc 100%);
+            border-radius: 12px;
+            padding: 22px 18px 18px 18px;
+            box-shadow: 0 2px 10px rgba(41,128,185,0.06);
+            text-align: left;
+            min-height: 120px;
+        }
+        .problem-card i, .solution-card i, .commit-card i {
+            color: #e74c3c;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        .problem-card strong {
+            color: #e74c3c;
+        }
+        .solution-card i {
+            color: #27ae60;
+        }
+        .commit-card i {
+            color: #f39c12;
+        }
+        .testimonial {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 22px 18px 18px 18px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 10px rgba(41,128,185,0.06);
+        }
+        .testimonial .name {
+            font-weight: bold;
+            color: #2980b9;
+        }
+        .testimonial .stars {
+            color: #ffb347;
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+        .form-section {
+            background: linear-gradient(135deg, #e3f0ff 0%, #b3d8ff 100%);
+            border-radius: 18px;
+            box-shadow: 0 2px 10px rgba(41,128,185,0.06);
+            padding: 36px 24px 28px 24px;
+            max-width: 500px;
+            margin: 0 auto 32px auto;
+        }
+        .form-section h3 {
+            color: #2980b9;
+            font-size: 24px;
+            margin-bottom: 18px;
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #2980b9;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 10px;
+            border-radius: 8px;
+            border: 1px solid #b3d8ff;
+            font-size: 16px;
+            outline: none;
+            margin-bottom: 2px;
+        }
+        .form-section button {
+            width: 100%;
+            background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+            color: #222;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 14px 0;
+            border-radius: 50px;
+            border: none;
+            margin-top: 10px;
+            box-shadow: 0 4px 18px rgba(255,179,71,0.18);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: bounceCta 1.5s infinite;
+        }
+        .form-section button:hover {
+            transform: scale(1.04);
+            box-shadow: 0 6px 24px rgba(255,179,71,0.22);
+        }
+        .floating-btns {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            z-index: 1000;
+        }
+        .floating-btn {
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            box-shadow: 0 4px 18px rgba(41,128,185,0.18);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: pulseBtn 1.5s infinite;
+        }
+        .floating-btn.zalo {
+            background: linear-gradient(135deg, #0068ff 0%, #0099ff 100%);
+            animation-delay: 0s;
+        }
+        .floating-btn.phone {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            animation-delay: 0.7s;
+        }
+        @keyframes pulseBtn {
+            0%, 100% { box-shadow: 0 0 10px #6dd5fa, 0 0 20px #2980b9; transform: scale(1); }
+            50% { box-shadow: 0 0 30px #6dd5fa, 0 0 40px #2980b9; transform: scale(1.08); }
+        }
+        @media (max-width: 700px) {
+            .header-content, .section, .form-section { padding: 0 8px; }
+            .hero { padding: 40px 8px 24px 8px; }
+            .section { padding: 24px 8px 18px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="header-title">
+                <i class="fas fa-clipboard-check"></i> Giấy Phép Kinh Doanh Vận Tải
+            </div>
+            <div class="header-hotline">
+                <i class="fas fa-phone-volume"></i> 0363 614 511
+            </div>
+        </div>
+    </div>
+    <section class="hero">
+        <h1>🚨 BẠN ĐÃ CÓ GIẤY PHÉP KINH DOANH VẬN TẢI HỢP LỆ CHƯA?</h1>
+        <div class="desc">Hỗ trợ thủ tục đăng ký <b>GIẤY PHÉP KINH DOANH VẬN TẢI</b> đúng quy định<br>Tư vấn miễn phí – Không cần đặt cọc – Hỗ trợ trọn gói – Làm đúng ngay từ đầu</div>
+        <a href="#form" class="cta-btn">👉 NHẬN TƯ VẤN NGAY</a>
+        <div style="margin: 28px auto 0 auto; max-width: 480px;">
+            <img src="images/giay-phep.jpeg" alt="Giấy phép kinh doanh vận tải" style="width: 100%; border-radius: 18px; box-shadow: 0 6px 32px rgba(41,128,185,0.18); display: block;">
+        </div>
+        <div style="margin: 28px auto 0 auto; max-width: 480px;">
+        </div>
+    </section>
+    <div class="section">
+        <div class="section-title"><i class="fas fa-exclamation-triangle"></i> RẤT NHIỀU NGƯỜI CHỈ BIẾT MÌNH THIẾU GIẤY PHÉP KHI ĐÃ BỊ KIỂM TRA</div>
+        <div class="problems">
+            <div class="problem-card"><i class="fas fa-question-circle"></i><strong>Bạn có chắc:</strong><br>Mình đã có giấy phép kinh doanh vận tải hợp lệ?</div>
+            <div class="problem-card"><i class="fas fa-car-side"></i>Loại hình đang chạy đã đúng với giấy phép đăng ký?</div>
+            <div class="problem-card"><i class="fas fa-file-alt"></i>Khi bị kiểm tra, hồ sơ không bị thiếu hoặc sai?</div>
+        </div>
+        <div style="margin-top: 24px; color: #e74c3c; font-weight: bold;">
+            ⚠️ Thực tế: Rất nhiều trường hợp chỉ phát hiện thiếu hoặc sai giấy phép khi đã bị kiểm tra và yêu cầu bổ sung hồ sơ.<br>
+            Lúc đó, việc xử lý thường mất thời gian, tốn chi phí và ảnh hưởng trực tiếp đến việc chạy xe.
+        </div>
+    </div>
+    <div class="section">
+        <div class="section-title"><i class="fas fa-info-circle"></i> GIẤY PHÉP KINH DOANH VẬN TẢI LÀ GÌ?</div>
+        <div style="font-size: 18px; margin-bottom: 18px;">Giấy phép kinh doanh vận tải là điều kiện bắt buộc đối với các tổ chức, cá nhân hoạt động:</div>
+        <div class="solutions">
+            <div class="solution-card"><i class="fas fa-truck"></i>Vận tải hàng hóa</div>
+            <div class="solution-card"><i class="fas fa-users"></i>Vận tải hành khách</div>
+            <div class="solution-card"><i class="fas fa-handshake"></i>Xe hợp đồng</div>
+            <div class="solution-card"><i class="fas fa-bus"></i>Xe du lịch</div>
+            <div class="solution-card"><i class="fas fa-taxi"></i>Taxi, xe công nghệ</div>
+        </div>
+        <div style="margin-top: 24px; color: #2980b9; font-weight: 500;">
+            📌 Đây là cơ sở pháp lý để hoạt động vận tải hợp pháp, giúp cơ quan chức năng quản lý, kiểm tra và xử lý vi phạm.<br>
+            👉 Nói đơn giản: <b>Có giấy phép → chạy xe hợp pháp → yên tâm vận hành.</b>
+        </div>
+    </div>
+    <div class="section">
+        <div class="section-title"><i class="fas fa-exclamation-circle"></i> NẾU KHÔNG CÓ GIẤY PHÉP HỢP LỆ</div>
+        <div class="problems">
+            <div class="problem-card"><i class="fas fa-money-bill-wave"></i><strong>Bị xử phạt hành chính từ 8-12 triệu đồng</strong></div>
+            <div class="problem-card"><i class="fas fa-ban"></i>Bị yêu cầu dừng hoạt động vận tải</div>
+            <div class="problem-card"><i class="fas fa-times-circle"></i>Bị thu hồi phù hiệu, gián đoạn khai thác xe</div>
+            <div class="problem-card"><i class="fas fa-chart-line"></i>Ảnh hưởng kế hoạch kinh doanh & thu nhập</div>
+        </div>
+        <div style="margin-top: 24px; color: #e74c3c; font-weight: bold;">
+            📌 Chỉ thiếu 1 giấy phép → toàn bộ hoạt động vận tải bị ảnh hưởng.
+        </div>
+    </div>
+    <div class="section">
+        <div class="section-title"><i class="fas fa-bullseye"></i> GIẢI PHÁP ĐÚNG – GỌN – AN TOÀN</div>
+        <div class="solutions">
+            <div class="solution-card"><i class="fas fa-user-check"></i>Tư vấn bạn có thuộc diện bắt buộc phải xin giấy phép hay không</div>
+            <div class="solution-card"><i class="fas fa-clipboard-list"></i>Hỗ trợ đúng loại hình kinh doanh vận tải theo quy định</div>
+            <div class="solution-card"><i class="fas fa-folder-open"></i>Hỗ trợ hồ sơ trọn gói</div>
+            <div class="solution-card"><i class="fas fa-route"></i>Theo sát toàn bộ quá trình xử lý hồ sơ</div>
+            <div class="solution-card"><i class="fas fa-truck-loading"></i>Nhận kết quả & bàn giao tận nơi</div>
+        </div>
+        <div style="margin-top: 24px; color: #2980b9; font-weight: 500;">
+            📌 Bạn chỉ cần gửi thông tin – hỗ trợ miễn phí – không cần đặt cọc.
+        </div>
+    </div>
+    <div class="section">
+        <div class="section-title"><i class="fas fa-comments"></i> KHÁCH HÀNG NÓI GÌ SAU KHI LÀM HỒ SƠ?</div>
+        <div class="testimonial">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <div class="name">👤 Anh Hoàng Anh – Tài xế chạy hàng tuyến Bắc Ninh ↔ Hà Nội</div>
+            <div>“Mình chạy xe nhiều năm nhưng không để ý đến giấy phép kinh doanh vận tải. Đến lúc bị kiểm tra mới biết thiếu. Tự tìm hiểu trên mạng rất rối, nhờ bên này tư vấn lại từ đầu nên biết phải làm gì, chuẩn bị hồ sơ khá nhanh. Làm xong rồi chạy xe yên tâm hơn hẳn.”</div>
+        </div>
+        <div class="testimonial">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <div class="name">👤 Chị Phương Thảo – Chủ xe hợp đồng đưa đón học sinh</div>
+            <div>“Ban đầu rất lo vì nghĩ thủ tục phức tạp. Được tư vấn rõ ràng từng bước nên chuẩn bị giấy tờ khá nhẹ nhàng. Làm đúng ngay từ đầu nên không bị trả hồ sơ, cũng không phải đi lại nhiều.”</div>
+        </div>
+        <div class="testimonial">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <div class="name">👤 Anh Thành Công – Quản lý nhóm 5 xe tải giao hàng</div>
+            <div>“Bên mình không có người chuyên làm giấy tờ nên rất ngại thủ tục. Nhờ được hỗ trợ trọn gói nên tiết kiệm rất nhiều thời gian. Quan trọng nhất là không phải sửa đi sửa lại.”</div>
+        </div>
+        <div class="testimonial">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <div class="name">👤 Chị Trà My – Chủ xe cá nhân kết hợp vận chuyển hàng</div>
+            <div>“Mình sợ nhất là làm sai hồ sơ rồi bị phạt. Được tư vấn kỹ từ đầu nên chuẩn bị đúng giấy tờ, làm một lần là xong, rất yên tâm.”</div>
+        </div>
+    </div>
+    <div class="section form-section" id="form">
+        <h3>📝 FORM NHẬN TƯ VẤN NHANH</h3>
+        <form autocomplete="off">
+            <div class="form-group">
+                <label for="name">Họ & Tên:</label>
+                <input type="text" id="name" name="name" required placeholder="Nhập họ tên...">
+            </div>
+            <div class="form-group">
+                <label for="phone">Số điện thoại:</label>
+                <input type="tel" id="phone" name="phone" required placeholder="Nhập số điện thoại...">
+            </div>
+            <div class="form-group">
+                <label for="type">Loại hình vận tải:</label>
+                <select id="type" name="type" required>
+                    <option value="">-- Chọn loại hình --</option>
+                    <option value="Hàng hóa">Hàng hóa</option>
+                    <option value="Hành khách">Hành khách</option>
+                    <option value="Xe hợp đồng">Xe hợp đồng</option>
+                    <option value="Khác">Khác</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="amount">Số lượng xe:</label>
+                <input type="number" id="amount" name="amount" min="1" placeholder="Nhập số lượng xe...">
+            </div>
+            <button type="submit">👉 NHẬN TƯ VẤN MIỄN PHÍ</button>
+        </form>
+    </div>
+    <div class="section commitments">
+        <div class="commit-card"><i class="fas fa-check-circle"></i>Tư vấn đúng quy định – đúng trường hợp</div>
+        <div class="commit-card"><i class="fas fa-bullhorn"></i>Không thổi phồng – không mập mờ</div>
+        <div class="commit-card"><i class="fas fa-hand-holding-heart"></i>Đồng hành đến khi giấy phép hợp lệ & sử dụng ổn định</div>
+    </div>
+    <div class="floating-btns">
+        <a href="https://zalo.me/0363614511" class="floating-btn zalo" title="Chat Zalo 0363 614 511" target="_blank"><i class="fab fa-facebook-messenger"></i></a>
+        <a href="tel:0363614511" class="floating-btn phone" title="Gọi 0363 614 511"><i class="fas fa-phone-alt"></i></a>
+    </div>
+    <script>
+        // Hiệu ứng rung nhẹ cho nút floating khi hover
+        document.querySelectorAll('.floating-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                btn.style.transform = 'scale(1.12) rotate(-3deg)';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = '';
+            });
+        });
+        // Scroll đến form khi click CTA
+        document.querySelectorAll('.cta-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('form').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        // Đơn giản hóa submit form (demo)
+        document.querySelector('.form-section form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Cảm ơn bạn đã đăng ký! Chúng tôi sẽ liên hệ tư vấn trong thời gian sớm nhất.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

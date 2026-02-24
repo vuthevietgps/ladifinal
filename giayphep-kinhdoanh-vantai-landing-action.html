@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giấy Phép Kinh Doanh Vận Tải - Tư Vấn & Đăng Ký Nhanh</title>
+    <meta name="description" content="Hỗ trợ đăng ký giấy phép kinh doanh vận tải đúng quy định. Tư vấn miễn phí, không đặt cọc, xử lý trọn gói, thúc đẩy hành động ngay!">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            background: #f7f9fb;
+            color: #222;
+        }
+        .container {
+            max-width: 700px;
+            margin: 40px auto 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            padding: 32px 24px 24px 24px;
+        }
+        h1, h2, h3 {
+            color: #1a73e8;
+            margin-top: 0;
+        }
+        .cta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 32px 0 24px 0;
+        }
+        .cta-btn {
+            background: linear-gradient(90deg, #1a73e8 0%, #43e97b 100%);
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 32px;
+            padding: 18px 48px;
+            margin: 12px 0;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(26,115,232,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: pulse 1.5s infinite;
+        }
+        .cta-btn:hover {
+            transform: scale(1.07);
+            box-shadow: 0 8px 32px rgba(67,233,123,0.18);
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(26,115,232,0.2); }
+            70% { box-shadow: 0 0 0 16px rgba(26,115,232,0.0); }
+            100% { box-shadow: 0 0 0 0 rgba(26,115,232,0.0); }
+        }
+        .section {
+            margin-bottom: 32px;
+        }
+        .danger {
+            color: #e53935;
+            font-weight: bold;
+        }
+        .highlight {
+            background: #e3f2fd;
+            border-left: 4px solid #1a73e8;
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin: 18px 0;
+        }
+        .testimonial {
+            background: #f1f8e9;
+            border-left: 4px solid #43e97b;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin: 18px 0;
+        }
+        .testimonial .name {
+            font-weight: bold;
+            color: #388e3c;
+        }
+        .form-section {
+            background: #f7f9fb;
+            border-radius: 12px;
+            padding: 18px 18px 8px 18px;
+            margin: 24px 0 0 0;
+            box-shadow: 0 2px 8px rgba(26,115,232,0.04);
+        }
+        .form-section label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        .form-section input[type="text"],
+        .form-section input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 14px;
+            border: 1px solid #bdbdbd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .form-section .checkbox-group {
+            margin-bottom: 14px;
+        }
+        .form-section .checkbox-group label {
+            display: inline-block;
+            margin-right: 18px;
+            font-weight: 400;
+        }
+        .form-section .submit-btn {
+            background: linear-gradient(90deg, #43e97b 0%, #1a73e8 100%);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 24px;
+            padding: 12px 36px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(67,233,123,0.12);
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: pulse 1.5s infinite;
+        }
+        .form-section .submit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 24px rgba(26,115,232,0.13);
+        }
+        .commitments {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin: 24px 0 0 0;
+            font-size: 1.05rem;
+        }
+        .commitments ul {
+            margin: 0 0 0 18px;
+            padding: 0;
+        }
+        .fixed-icons {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .fixed-icon {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 50px;
+            box-shadow: 0 2px 12px rgba(26,115,232,0.13);
+            padding: 8px 18px 8px 8px;
+            font-weight: bold;
+            color: #1a73e8;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: bounce 1.5s infinite alternate;
+        }
+        .fixed-icon .icon {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+        .fixed-icon:hover {
+            transform: scale(1.08) translateY(-4px);
+            box-shadow: 0 6px 24px rgba(67,233,123,0.18);
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+        @media (max-width: 800px) {
+            .container { padding: 18px 4vw; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚨 BẠN ĐÃ CÓ GIẤY PHÉP KINH DOANH VẬN TẢI HỢP LỆ CHƯA?</h1>
+        <div class="cta">
+            <div style="font-size:1.2rem; margin-bottom:10px;">Hỗ trợ thủ tục đăng ký <b>GIẤY PHÉP KINH DOANH VẬN TẢI</b> đúng quy định</div>
+            <div style="color:#388e3c; font-weight:500;">Tư vấn miễn phí – Không cần đặt cọc – Hỗ trợ trọn gói – Làm đúng ngay từ đầu</div>
+            <button class="cta-btn" onclick="document.getElementById('form-section').scrollIntoView({behavior:'smooth'})">👉 NHẬN TƯ VẤN NGAY</button>
+        </div>
+        <div class="section highlight danger">
+            😣 RẤT NHIỀU NGƯỜI CHỈ BIẾT MÌNH THIẾU GIẤY PHÉP KHI ĐÃ BỊ KIỂM TRA
+        </div>
+        <div class="section">
+            <b>Bạn có chắc:</b>
+            <ul>
+                <li>Mình đã có giấy phép kinh doanh vận tải hợp lệ?</li>
+                <li>Loại hình đang chạy đã đúng với giấy phép đăng ký?</li>
+                <li>Khi bị kiểm tra, hồ sơ không bị thiếu hoặc sai?</li>
+            </ul>
+        </div>
+        <div class="section highlight">
+            <b>⚠️ Thực tế:</b><br>
+            Rất nhiều trường hợp chỉ phát hiện thiếu hoặc sai giấy phép khi đã bị kiểm tra và yêu cầu bổ sung hồ sơ.<br>
+            Lúc đó, việc xử lý thường mất thời gian, tốn chi phí và ảnh hưởng trực tiếp đến việc chạy xe.
+        </div>
+        <div class="section">
+            <h2>🤔 GIẤY PHÉP KINH DOANH VẬN TẢI LÀ GÌ?</h2>
+            <div>
+                Giấy phép kinh doanh vận tải là điều kiện bắt buộc đối với các tổ chức, cá nhân hoạt động:
+                <ul>
+                    <li>Vận tải hàng hóa</li>
+                    <li>Vận tải hành khách</li>
+                    <li>Xe hợp đồng</li>
+                    <li>Xe du lịch</li>
+                    <li>Taxi, xe công nghệ</li>
+                </ul>
+                <div class="highlight">Đây là cơ sở pháp lý để hoạt động vận tải hợp pháp, giúp cơ quan chức năng quản lý, kiểm tra và xử lý vi phạm.<br><b>Nói đơn giản:</b> Có giấy phép → chạy xe hợp pháp → yên tâm vận hành.</div>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="danger">⚠️ NẾU KHÔNG CÓ GIẤY PHÉP HỢP LỆ</h2>
+            <ul>
+                <li>❌ Bị xử phạt hành chính từ 8-12 triệu đồng</li>
+                <li>❌ Bị yêu cầu dừng hoạt động vận tải</li>
+                <li>❌ Bị thu hồi phù hiệu, gián đoạn khai thác xe</li>
+                <li>❌ Ảnh hưởng kế hoạch kinh doanh & thu nhập</li>
+            </ul>
+            <div class="highlight">Chỉ thiếu 1 giấy phép → toàn bộ hoạt động vận tải bị ảnh hưởng.</div>
+        </div>
+        <div class="section">
+            <h2>🎯 GIẢI PHÁP ĐÚNG – GỌN – AN TOÀN</h2>
+            <ul>
+                <li>✅ Tư vấn bạn có thuộc diện bắt buộc phải xin giấy phép hay không</li>
+                <li>✅ Hỗ trợ đúng loại hình kinh doanh vận tải theo quy định</li>
+                <li>✅ Hỗ trợ hồ sơ trọn gói</li>
+                <li>✅ Theo sát toàn bộ quá trình xử lý hồ sơ</li>
+                <li>✅ Nhận kết quả & bàn giao tận nơi</li>
+            </ul>
+            <div class="highlight">Bạn chỉ cần gửi thông tin – hỗ trợ miễn phí – không cần đặt cọc.</div>
+        </div>
+        <div class="section">
+            <h2>💬 KHÁCH HÀNG NÓI GÌ SAU KHI LÀM HỒ SƠ? <span style="color:#ffb300;">⭐⭐⭐⭐⭐</span></h2>
+            <div class="testimonial"><span class="name">👤 Anh Hoàng Anh – Tài xế chạy hàng tuyến Bắc Ninh ↔ Hà Nội</span><br><span style="color:#ffb300;">⭐⭐⭐⭐⭐</span><br>“Mình chạy xe nhiều năm nhưng không để ý đến giấy phép kinh doanh vận tải. Đến lúc bị kiểm tra mới biết thiếu. Tự tìm hiểu trên mạng rất rối, nhờ bên này tư vấn lại từ đầu nên biết phải làm gì, chuẩn bị hồ sơ khá nhanh. Làm xong rồi chạy xe yên tâm hơn hẳn.”</div>
+            <div class="testimonial"><span class="name">👤 Chị Phương Thảo – Chủ xe hợp đồng đưa đón học sinh</span><br><span style="color:#ffb300;">⭐⭐⭐⭐⭐</span><br>“Ban đầu rất lo vì nghĩ thủ tục phức tạp. Được tư vấn rõ ràng từng bước nên chuẩn bị giấy tờ khá nhẹ nhàng. Làm đúng ngay từ đầu nên không bị trả hồ sơ, cũng không phải đi lại nhiều.”</div>
+            <div class="testimonial"><span class="name">👤 Anh Thành Công – Quản lý nhóm 5 xe tải giao hàng</span><br><span style="color:#ffb300;">⭐⭐⭐⭐⭐</span><br>“Bên mình không có người chuyên làm giấy tờ nên rất ngại thủ tục. Nhờ được hỗ trợ trọn gói nên tiết kiệm rất nhiều thời gian. Quan trọng nhất là không phải sửa đi sửa lại.”</div>
+            <div class="testimonial"><span class="name">👤 Chị Trà My – Chủ xe cá nhân kết hợp vận chuyển hàng</span><br><span style="color:#ffb300;">⭐⭐⭐⭐⭐</span><br>“Mình sợ nhất là làm sai hồ sơ rồi bị phạt. Được tư vấn kỹ từ đầu nên chuẩn bị đúng giấy tờ, làm một lần là xong, rất yên tâm.”</div>
+        </div>
+        <div class="cta">
+            <button class="cta-btn" onclick="document.getElementById('form-section').scrollIntoView({behavior:'smooth'})">🚀 KIỂM TRA & TƯ VẤN GIẤY PHÉP NGAY</button>
+            <div style="margin-top:8px; color:#1a73e8; font-size:1.1rem;">Gọi / Zalo: <b>0363 614 511</b> &nbsp;|&nbsp; Nhắn “TƯ VẤN GIẤY PHÉP VẬN TẢI”</div>
+        </div>
+        <div class="form-section" id="form-section">
+            <form autocomplete="off" onsubmit="event.preventDefault(); alert('Cảm ơn bạn đã gửi thông tin! Chúng tôi sẽ liên hệ tư vấn sớm nhất.'); return false;">
+                <label for="name">Họ & Tên:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="phone">Số điện thoại:</label>
+                <input type="tel" id="phone" name="phone" required pattern="[0-9]{10,11}">
+                <div class="checkbox-group">
+                    <label>Loại hình vận tải:</label>
+                    <label><input type="checkbox" name="type" value="Hàng hóa"> Hàng hóa</label>
+                    <label><input type="checkbox" name="type" value="Hành khách"> Hành khách</label>
+                    <label><input type="checkbox" name="type" value="Xe hợp đồng"> Xe hợp đồng</label>
+                    <label><input type="checkbox" name="type" value="Khác"> Khác</label>
+                </div>
+                <label for="quantity">Số lượng xe:</label>
+                <input type="text" id="quantity" name="quantity">
+                <button class="submit-btn" type="submit">👉 NHẬN TƯ VẤN MIỄN PHÍ</button>
+            </form>
+        </div>
+        <div class="commitments">
+            <h3>🎯 CAM KẾT DỊCH VỤ</h3>
+            <ul>
+                <li>✔️ Tư vấn đúng quy định – đúng trường hợp</li>
+                <li>✔️ Không thổi phồng – không mập mờ</li>
+                <li>✔️ Đồng hành đến khi giấy phép hợp lệ & sử dụng ổn định</li>
+            </ul>
+        </div>
+    </div>
+    <div class="fixed-icons">
+        <div class="fixed-icon" onclick="window.open('https://zalo.me/0363614511','_blank')">
+            <img class="icon" src="https://static.zalo.me/web/static/images/favicon.ico" alt="Zalo"> Zalo: 0363 614 511
+        </div>
+        <div class="fixed-icon" onclick="window.open('tel:0363614511','_blank')">
+            <svg class="icon" viewBox="0 0 24 24" fill="#1a73e8" xmlns="http://www.w3.org/2000/svg"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1C10.07 21 3 13.93 3 5a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z"/></svg> Hotline: 0363 614 511
+        </div>
+    </div>
+</body>
+</html>

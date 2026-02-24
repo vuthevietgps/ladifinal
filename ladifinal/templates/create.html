@@ -114,29 +114,45 @@
   </fieldset>
   
   <fieldset class="border rounded p-3 mb-3">
-    <legend class="float-none w-auto px-2 small">Tracking & Script</legend>
+    <legend class="float-none w-auto px-2 small">Analytics & Tracking</legend>
     <div class="row g-3">
-      <div class="col-md-6">
-        <label class="form-label">Global Site Tag</label>
-        <textarea name="global_site_tag" class="form-control" rows="4" placeholder="<!-- gtag script -->"></textarea>
+      <div class="col-md-4">
+        <label class="form-label"><i class="fab fa-google"></i> Google Analytics 4 ID</label>
+        <input name="ga_tracking_id" class="form-control" placeholder="G-XXXXXXXXXX">
+        <small class="text-muted">Ví dụ: G-1A2B3C4D5E</small>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
+        <label class="form-label"><i class="fab fa-facebook"></i> Facebook Pixel ID</label>
+        <input name="fb_pixel_id" class="form-control" placeholder="1234567890123456">
+        <small class="text-muted">Pixel ID từ Facebook Events Manager</small>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label"><i class="fab fa-tiktok"></i> TikTok Pixel ID</label>
+        <input name="tiktok_pixel_id" class="form-control" placeholder="XXXXXXXXXXXXXXXXXX">
+        <small class="text-muted">Pixel ID từ TikTok Events Manager</small>
+      </div>
+      <div class="col-12">
+        <label class="form-label">Global Site Tag (Legacy - Optional)</label>
+        <textarea name="global_site_tag" class="form-control" rows="3" placeholder="<!-- Custom tracking code -->"></textarea>
+        <small class="text-muted">Dành cho tracking code tùy chỉnh khác</small>
+      </div>
+      <div class="col-md-4">
         <label class="form-label">Phone Tracking</label>
         <input name="phone_tracking" class="form-control" placeholder="Mã phone tracking">
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <label class="form-label">Form Tracking</label>
         <input name="form_tracking" class="form-control" placeholder="Mã form tracking">
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <label class="form-label">Zalo/Messenger Tracking</label>
         <input name="zalo_tracking" class="form-control" placeholder="Mã zalo/messenger">
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <label class="form-label">Hotline Phone</label>
         <input name="hotline_phone" class="form-control" placeholder="Số hotline hiển thị">
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <label class="form-label">Zalo Phone</label>
         <input name="zalo_phone" class="form-control" placeholder="Số Zalo">
       </div>

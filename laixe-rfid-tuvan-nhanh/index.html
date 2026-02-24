@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thẻ Lái Xe RFID - Tư Vấn & Đăng Ký Miễn Phí</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">🚗 Thẻ Lái Xe RFID</div>
+            <div class="nav-links">
+                <a href="#about" class="nav-link">Về Dịch Vụ</a>
+                <a href="#benefits" class="nav-link">Lợi Ích</a>
+                <a href="#feedback" class="nav-link">Đánh Giá</a>
+                <a href="#contact" class="nav-link cta-nav">Liên Hệ Ngay</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="alert-badge">🚨 QUAN TRỌNG - Đọc Ngay!</div>
+                <h1 class="hero-title">Bạn Đã Có Thẻ Lái Xe RFID Hợp Lệ Chưa?</h1>
+                <p class="hero-subtitle">Hỗ trợ thủ tục đăng ký thẻ lái xe RFID đúng quy định sở Xây Dựng</p>
+                <ul class="hero-features">
+                    <li>✓ Tư vấn miễn phí</li>
+                    <li>✓ Không cần đặt cọc</li>
+                    <li>✓ Hỗ trợ thủ tục từ A-Z</li>
+                </ul>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="document.getElementById('form-section').scrollIntoView({behavior: 'smooth'})">
+                        👉 Nhận Tư Vấn Ngay
+                    </button>
+                    <button class="btn btn-secondary" onclick="openWhatsApp()">
+                        💬 Chat Zalo Ngay
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="/images/snapedit_1769481699464.jpeg" alt="Thẻ Lái Xe RFID Chuẩn" class="hero-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Warning Section -->
+    <section class="warning-section">
+        <div class="container">
+            <div class="warning-box">
+                <h2>😣 Rất Nhiều Người Chỉ Phát Hiện Thiếu RFID Khi Đã Bị Kiểm Tra</h2>
+                <p class="subtitle-warning">Bạn có chắc chắn rằng:</p>
+                <div class="warning-grid">
+                    <div class="warning-item">
+                        <div class="icon">❓</div>
+                        <p>Mình đã có thẻ lái xe RFID đúng chuẩn chưa?</p>
+                    </div>
+                    <div class="warning-item">
+                        <div class="icon">❓</div>
+                        <p>Thẻ hiện tại đã được kích hoạt & đồng bộ dữ liệu?</p>
+                    </div>
+                    <div class="warning-item">
+                        <div class="icon">❓</div>
+                        <p>Khi kiểm tra, hồ sơ của bạn không bị thiếu?</p>
+                    </div>
+                </div>
+                <div class="danger-alert">
+                    <span class="danger-icon">⚠️</span>
+                    <div>
+                        <strong>Thực tế:</strong> Rất nhiều người chỉ phát hiện thiếu thẻ RFID khi đã bị kiểm tra hoặc yêu cầu bổ sung hồ sơ.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About RFID Section -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <h2>🤔 Thẻ Lái Xe RFID Là Gì & Dùng Để Làm Gì?</h2>
+            <p class="section-subtitle">Thẻ lái xe RFID (Radio Frequency Identification) là thẻ thông minh sử dụng sóng vô tuyến để nhận dạng tự động, dùng để:</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">👤</div>
+                    <h3>Định Danh Tài Xế</h3>
+                    <p>Nhận dạng chính xác tài xế trên hệ thống</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏱️</div>
+                    <h3>Quản Lý Thời Gian</h3>
+                    <p>Theo dõi thời gian lái xe thực tế</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3>Giám Sát Hành Trình</h3>
+                    <p>Kết nối với thiết bị giám sát tự động</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💳</div>
+                    <h3>Quản Lý Dữ Liệu</h3>
+                    <p>Hỗ trợ thu phí tự động và kiểm soát</p>
+                </div>
+            </div>
+
+            <div class="info-box important">
+                <p><strong>📌 Quan Trọng:</strong> Đây là thành phần bắt buộc trong thiết bị giám sát hành trình đối với xe kinh doanh vận tải tại Việt Nam, giúp cơ quan chức năng dễ dàng kiểm tra & xử lý vi phạm.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consequences Section -->
+    <section class="consequences-section" id="consequences">
+        <div class="container">
+            <h2>⚠️ Nếu Thiếu Thẻ RFID Hợp Lệ, Bạn Có Thể Gặp...</h2>
+            <div class="consequences-grid">
+                <div class="consequence-item danger">
+                    <div class="consequence-icon">📋</div>
+                    <p>Hồ sơ giám sát hành trình không đầy đủ</p>
+                </div>
+                <div class="consequence-item danger">
+                    <div class="consequence-icon">🔄</div>
+                    <p>Dữ liệu lái xe không đồng bộ</p>
+                </div>
+                <div class="consequence-item danger">
+                    <div class="consequence-icon">🛠️</div>
+                    <p>Bị yêu cầu bổ sung, điều chỉnh hồ sơ</p>
+                </div>
+                <div class="consequence-item danger">
+                    <div class="consequence-icon">🚨</div>
+                    <p>Nguy cơ bị xử phạt khi kiểm tra</p>
+                </div>
+            </div>
+            <div class="critical-warning">
+                <strong>⚡ Chỉ thiếu 1 chi tiết nhỏ → ảnh hưởng toàn bộ hồ sơ pháp lý!</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section" id="benefits">
+        <div class="container">
+            <h2>🎯 Giải Pháp Đúng – Gọn – An Toàn</h2>
+            <p class="section-subtitle">Chúng tôi hỗ trợ:</p>
+            
+            <div class="solution-list">
+                <div class="solution-item">
+                    <div class="checkmark">✅</div>
+                    <div class="solution-text">
+                        <h3>Tư Vấn Chuyên Sâu</h3>
+                        <p>Tư vấn bạn có thuộc diện bắt buộc phải có thẻ RFID hay không</p>
+                    </div>
+                </div>
+                <div class="solution-item">
+                    <div class="checkmark">✅</div>
+                    <div class="solution-text">
+                        <h3>Hỗ Trợ Chuẩn Quy Định</h3>
+                        <p>Hỗ trợ đúng chuẩn theo quy định hiện hành của Việt Nam</p>
+                    </div>
+                </div>
+                <div class="solution-item">
+                    <div class="checkmark">✅</div>
+                    <div class="solution-text">
+                        <h3>Thủ Tục Trọn Gói</h3>
+                        <p>Hỗ trợ thủ tục đăng ký trọn gói, không phải lo lắng</p>
+                    </div>
+                </div>
+                <div class="solution-item">
+                    <div class="checkmark">✅</div>
+                    <div class="solution-text">
+                        <h3>Kích Hoạt & Đồng Bộ</h3>
+                        <p>Hướng dẫn kích hoạt & đồng bộ dữ liệu chính xác</p>
+                    </div>
+                </div>
+                <div class="solution-item">
+                    <div class="checkmark">✅</div>
+                    <div class="solution-text">
+                        <h3>Giao Thẻ Tận Nơi</h3>
+                        <p>Giao thẻ tận nơi, tiết kiệm thời gian của bạn</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box highlight">
+                <p><strong>💬 Bạn chỉ cần gửi thông tin – Hỗ trợ miễn phí – không cần đặt cọc.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="feedback">
+        <div class="container">
+            <h2>💬 Feedback Thực Tế Từ Khách Hàng</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Trước không để ý đến thẻ RFID, đến lúc được nhắc mới biết là bắt buộc. Nhờ được hướng dẫn lại nên làm rất nhanh, không bị thiếu hồ sơ."</p>
+                    <div class="testimonial-author">
+                        <div class="avatar">👤</div>
+                        <div>
+                            <strong>Anh Tuấn</strong>
+                            <p>Tài Xế</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Bên tư vấn rất rõ ràng, hướng dẫn từng bước nên làm đúng ngay từ đầu, không phải chỉnh sửa."</p>
+                    <div class="testimonial-author">
+                        <div class="avatar">👤</div>
+                        <div>
+                            <strong>Chị Hạnh</strong>
+                            <p>Chủ Xe</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="star-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">"Làm đồng loạt cho tài xế rất tiện, dữ liệu đồng bộ rõ ràng, yên tâm hơn nhiều."</p>
+                    <div class="testimonial-author">
+                        <div class="avatar">👤</div>
+                        <div>
+                            <strong>Anh Minh</strong>
+                            <p>Quản Lý Đội Xe</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commitment Section -->
+    <section class="commitment-section">
+        <div class="container">
+            <h2>🎯 Cam Kết Của Chúng Tôi</h2>
+            <div class="commitment-grid">
+                <div class="commitment-item">
+                    <div class="commitment-icon">✔️</div>
+                    <h3>Tư Vấn Đúng Quy Định</h3>
+                    <p>Tuân thủ 100% các quy định hiện hành</p>
+                </div>
+                <div class="commitment-item">
+                    <div class="commitment-icon">✔️</div>
+                    <h3>Không Thổi Phồng</h3>
+                    <p>Rõ ràng, không mập mờ, không quảng cáo sai lệch</p>
+                </div>
+                <div class="commitment-item">
+                    <div class="commitment-icon">✔️</div>
+                    <h3>Không Đặt Cọc</h3>
+                    <p>Tư vấn & hỗ trợ miễn phí, không phí ẩn</p>
+                </div>
+                <div class="commitment-item">
+                    <div class="commitment-icon">✔️</div>
+                    <h3>Đồng Hành Đến Cùng</h3>
+                    <p>Hỗ trợ liên tục cho đến khi thẻ hợp lệ & sử dụng ổn định</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-section" id="form-section">
+        <div class="container">
+            <div class="form-wrapper">
+                <h2>📝 Nhận Tư Vấn Miễn Phí Ngay</h2>
+                <p class="form-subtitle">Gửi thông tin để nhận tư vấn chuyên sâu từ chúng tôi</p>
+                
+                <form id="consultation-form" class="consultation-form">
+                    <div class="form-group">
+                        <input type="text" id="fullname" name="fullname" placeholder="Họ & Tên" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" name="phone" placeholder="Số Điện Thoại" required>
+                    </div>
+                    <div class="form-group">
+                        <select id="vehicle-type" name="vehicle-type" required>
+                            <option value="">-- Chọn Loại Xe --</option>
+                            <option value="taxi">Xe Tải</option>
+                            <option value="container">Container</option>
+                            <option value="contract">Xe Hợp Đồng</option>
+                            <option value="other">Khác</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">👉 Nhận Tư Vấn Miễn Phí</button>
+                </form>
+                <p class="form-notice">✓ Thông tin của bạn sẽ được bảo mật tuyệt đối</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>🚀 Hãy Kiểm Tra & Đăng Ký Thẻ RFID Ngay</h2>
+            <p>Để kiểm tra bạn đã đủ hồ sơ RFID hay chưa, hướng dẫn làm đúng ngay từ đầu, tránh thiếu sót khi bị kiểm tra.</p>
+            <div class="cta-buttons">
+                <a href="tel:0363614511" class="btn btn-primary">📞 Gọi: 0363 614 511</a>
+                <a href="https://zalo.me/0363614511" class="btn btn-secondary" target="_blank">💬 Zalo: 0363 614 511</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Dịch Vụ Thẻ Lái Xe RFID. Tất cả quyền được bảo lưu.</p>
+            <p>Hỗ trợ 24/7 | 📞 0363 614 511 | 💬 Zalo</p>
+        </div>
+    </footer>
+
+    <!-- Floating Contact Buttons -->
+    <div class="floating-buttons">
+        <a href="https://zalo.me/0363614511" class="float-btn zalo" target="_blank" title="Chat Zalo">
+            <span class="float-icon">💬</span>
+        </a>
+        <a href="tel:0363614511" class="float-btn phone" title="Gọi ngay">
+            <span class="float-icon">📞</span>
+        </a>
+    </div>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

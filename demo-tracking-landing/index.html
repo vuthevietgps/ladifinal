@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Landing Page với Advanced Tracking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: #fff;
+            color: #667eea;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .features {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .contact-section {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .btn-phone {
+            background: #25D366;
+            color: white;
+        }
+        
+        .btn-zalo {
+            background: #0068FF;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .form-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .btn-submit:hover {
+            transform: translateY(-3px);
+        }
+        
+        .tracking-info {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .tracking-info h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>🚀 Demo Landing Page</h1>
+            <p>Với Advanced Tracking System - GA4 & Facebook Pixel</p>
+            <a href="#contact" class="cta-button">Liên Hệ Ngay</a>
+        </div>
+    </section>
+
+    <!-- Tracking Info -->
+    <div class="container">
+        <div class="tracking-info">
+            <h3>📊 Tracking Features Demo:</h3>
+            <ul>
+                <li>✅ Page view được track tự động</li>
+                <li>✅ Scroll depth tracking (25%, 50%, 75%, 90%, 100%)</li>
+                <li>✅ Click vào button được track</li>
+                <li>✅ Phone call tracking</li>
+                <li>✅ Zalo chat tracking</li>
+                <li>✅ Form submission tracking</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Tính Năng Nổi Bật</h2>
+            <p class="section-subtitle">Hệ thống tracking thông minh và tự động</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Google Analytics 4</h3>
+                    <p>Track chi tiết hành vi người dùng, conversion funnel và ROI</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Facebook Pixel</h3>
+                    <p>Tối ưu ads, retargeting và tạo lookalike audience</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Auto Event Tracking</h3>
+                    <p>Tự động track clicks, forms, phone, zalo không cần code</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2>Liên Hệ Tư Vấn</h2>
+            <p class="section-subtitle">Chọn cách liên hệ phù hợp với bạn</p>
+            
+            <div class="contact-buttons">
+                <a href="tel:0901234567" class="btn btn-phone btn-call">
+                    📞 Gọi Ngay: 0901234567
+                </a>
+                <a href="https://zalo.me/0901234567" class="btn btn-zalo" target="_blank">
+                    💬 Chat Zalo: 0901234567
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-section" id="form">
+        <div class="container">
+            <h2>Đăng Ký Nhận Tư Vấn</h2>
+            <p class="section-subtitle">Điền thông tin để được tư vấn miễn phí</p>
+            
+            <div class="form-container">
+                <form id="consultForm">
+                    <div class="form-group">
+                        <label for="name">Họ và Tên *</label>
+                        <input type="text" id="name" name="name" required placeholder="Nguyễn Văn A">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Số Điện Thoại *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="0901234567">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="email@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Nội Dung</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Bạn quan tâm đến dịch vụ nào?"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit btn-order">Gửi Thông Tin</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Tracking Script -->
+    <script>
+        // Wait for tracker to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎯 Demo Landing Page Loaded');
+            
+            // Check if tracker is available
+            if (window.tracker) {
+                console.log('✅ Advanced Tracker initialized');
+                
+                // Optional: Track custom event
+                window.tracker.trackEvent('demo_page_loaded', {
+                    page_type: 'demo',
+                    features: 'full_tracking'
+                });
+            } else {
+                console.log('⚠️ Tracker not available (this is normal if GA ID not set)');
+            }
+            
+            // Handle form submission with custom tracking
+            const form = document.getElementById('consultForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const formData = {
+                        name: document.getElementById('name').value,
+                        phone: document.getElementById('phone').value,
+                        email: document.getElementById('email').value,
+                        message: document.getElementById('message').value
+                    };
+                    
+                    // Track form submission (auto-tracked, but we can add custom data)
+                    if (window.tracker) {
+                        window.tracker.trackFormSubmit('consult_form', {
+                            has_email: !!formData.email,
+                            message_length: formData.message.length
+                        });
+                    }
+                    
+                    // Show success message
+                    alert('✅ Cảm ơn bạn! Chúng tôi sẽ liên hệ sớm nhất.\n\n' +
+                          '📊 Form submission đã được track vào GA4 & Facebook Pixel');
+                    
+                    // Reset form
+                    form.reset();
+                });
+            }
+            
+            // Log tracked events to console for demo
+            console.log('📊 Events being tracked:');
+            console.log('  - Page view ✓');
+            console.log('  - Scroll depth (25%, 50%, 75%, 90%, 100%) ✓');
+            console.log('  - Button clicks ✓');
+            console.log('  - Phone clicks ✓');
+            console.log('  - Zalo clicks ✓');
+            console.log('  - Form submissions ✓');
+        });
+    </script>
+</body>
+</html>

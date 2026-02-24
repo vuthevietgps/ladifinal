@@ -229,25 +229,52 @@ def extract_and_validate_folder(zip_file, target_dir):
     return extracted_files, folder_structure
 
 
+ANALYTICS_BLOCK_RE = re.compile(
+    r'<!--\s*Analytics\s*&\s*Tracking\s*-->.*?<!--\s*/Analytics\s*&\s*Tracking\s*-->\s*',
+    re.IGNORECASE | re.DOTALL
+)
+CUSTOM_TRACKING_BLOCK_RE = re.compile(
+    r'<!--\s*Custom\s*Tracking\s*Events\s*-->.*?<!--\s*/Custom\s*Tracking\s*Events\s*-->\s*',
+    re.IGNORECASE | re.DOTALL
+)
+
+
+def _insert_before_closing_tag(content: str, tag: str, snippet: str, fallback_to_start: bool) -> str:
+    """Insert snippet before closing HTML tag (case-insensitive)."""
+    pattern = re.compile(rf'</{tag}\s*>', re.IGNORECASE)
+    if pattern.search(content):
+        return pattern.sub(f'\n{snippet}\n</{tag}>', content, count=1)
+    if fallback_to_start:
+        return f"{snippet}\n{content}"
+    return f"{content}\n{snippet}"
+
+
 def inject_tracking(html_content, head_snippet="", body_snippet=""):
-    """Inject tracking codes into HTML content"""
+    """Inject tracking codes into HTML content (idempotent by managed markers)."""
     try:
-        # Add head snippet before </head>
+        if not html_content:
+            return html_content
+
+        # Remove previously managed tracking blocks before injecting fresh snippets.
+        html_content = ANALYTICS_BLOCK_RE.sub('', html_content)
+        html_content = CUSTOM_TRACKING_BLOCK_RE.sub('', html_content)
+
         if head_snippet.strip():
-            if '</head>' in html_content:
-                html_content = html_content.replace('</head>', f'\n{head_snippet}\n</head>')
-            else:
-                # If no </head>, add at the beginning
-                html_content = f"{head_snippet}\n{html_content}"
-        
-        # Add body snippet before </body>
+            html_content = _insert_before_closing_tag(
+                html_content,
+                'head',
+                head_snippet.strip(),
+                fallback_to_start=True
+            )
+
         if body_snippet.strip():
-            if '</body>' in html_content:
-                html_content = html_content.replace('</body>', f'\n{body_snippet}\n</body>')
-            else:
-                # If no </body>, add at the end
-                html_content = f"{html_content}\n{body_snippet}"
-        
+            html_content = _insert_before_closing_tag(
+                html_content,
+                'body',
+                body_snippet.strip(),
+                fallback_to_start=False
+            )
+
         return html_content
     except Exception as e:
         raise Exception(f'Lỗi inject tracking: {str(e)}')
@@ -384,3 +411,4 @@ def rewrite_asset_paths_in_folder(target_dir: str, subdomain: str) -> List[str]:
                     # Skip file on error; do not break upload
                     continue
     return changed
+

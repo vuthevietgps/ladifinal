@@ -159,6 +159,19 @@ CREATE TABLE agents (
 ### Sample Templates:
 - [published/vongtay-shopee/](published/vongtay-shopee/) - Landing page bán vòng tay (mẫu)
 
+### RFID Driver Card (Mẫu mới)
+- Thư mục: `ladifinal/published/the-laixe-rfid/`
+- Xem nhanh (dev): `http://localhost:5000/landing/the-laixe-rfid`
+- Cấu trúc: `index.html`, `css/style.css`, `js/script.js`, `images/*.svg`
+- Đường dẫn asset: dạng tuyệt đối `/landing/the-laixe-rfid/...` theo QUYTAC.md
+
+Đóng gói ZIP để upload qua API/Admin (PowerShell - Windows):
+- Compress-Archive -Path 'ladifinal/published/the-laixe-rfid/*' -DestinationPath 'the-laixe-rfid.zip' -Force
+- Sau đó POST `/api/landingpages` (form-data):
+    - subdomain=the-laixe-rfid
+    - upload_type=folder
+    - folder_zip=@the-laixe-rfid.zip
+
 ## 🖼️ Image Management
 
 Images được lưu trong thư mục `published/{subdomain}/` cùng với `index.html`. 

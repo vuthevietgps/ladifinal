@@ -1,0 +1,52 @@
+📸 HƯỚNG DẪN THÊM HÌNH ẢNH VÀO LANDING PAGE
+================================================
+
+✅ BƯỚC 1: CHUẨN BỊ HÌNH ẢNH
+---------------------------
+- Chọn hình ảnh phù hiệu xe, xe tải, hoặc hình liên quan
+- Khuyến nghị kích thước: 1200x800 pixels (hoặc tỷ lệ 3:2)
+- Định dạng: JPG hoặc PNG
+- Dung lượng: Dưới 500KB (để tải nhanh)
+
+✅ BƯỚC 2: ĐỔI TÊN HÌNH ẢNH
+---------------------------
+Đổi tên file hình ảnh thành: phu-hieu-xe.jpg
+(hoặc phu-hieu-xe.png nếu dùng PNG)
+
+✅ BƯỚC 3: COPY HÌNH VÀO THỦ MỤC
+--------------------------------
+Copy file hình ảnh vào thư mục:
+📁 phu-hieu-xe-landing-2026/images/
+
+Đường dẫn đầy đủ:
+C:\Users\PC\Documents\code\ladifinal\phu-hieu-xe-landing-2026\images\phu-hieu-xe.jpg
+
+✅ BƯỚC 4: KIỂM TRA
+-------------------
+1. Mở file index.html trong trình duyệt
+2. Hình ảnh sẽ hiển thị ngay dưới dòng "⚠️ Phạt nặng – giữ xe..."
+3. Hình ảnh có viền trắng, bo tròn góc, có shadow đẹp
+
+📝 LƯU Ý:
+---------
+- Nếu dùng file PNG, đổi tên thành: phu-hieu-xe.jpg hoặc sửa trong HTML
+- Nếu không có ảnh, hình sẽ tự động ẩn (không hiển thị lỗi)
+- Có thể thêm nhiều ảnh bằng cách copy thêm thẻ <img>
+
+🔧 MUỐN ĐỔI TÊN FILE HÌNH KHÁC?
+--------------------------------
+Sửa trong file index.html, dòng:
+<img src="images/phu-hieu-xe.jpg" ...>
+
+Đổi thành tên file của bạn, ví dụ:
+<img src="images/my-image.png" ...>
+
+🎨 MUỐN THÊM NHIỀU HÌNH?
+------------------------
+Copy đoạn code này và thêm vào HTML:
+<div class="header-image">
+    <img src="images/hinh-2.jpg" alt="Mô tả hình 2">
+</div>
+
+================================================
+💡 Cần hỗ trợ thêm? Liên hệ để được hướng dẫn!

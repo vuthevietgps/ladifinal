@@ -86,7 +86,37 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Tracking Code:</strong></td>
+                                    <td><strong>Google Analytics 4:</strong></td>
+                                    <td>
+                                        {% if landing.ga_tracking_id %}
+                                            <span class="badge bg-success">{{ landing.ga_tracking_id }}</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Chưa cấu hình</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Facebook Pixel:</strong></td>
+                                    <td>
+                                        {% if landing.fb_pixel_id %}
+                                            <span class="badge bg-primary">{{ landing.fb_pixel_id }}</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Chưa cấu hình</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>TikTok Pixel:</strong></td>
+                                    <td>
+                                        {% if landing.tiktok_pixel_id %}
+                                            <span class="badge bg-dark">{{ landing.tiktok_pixel_id }}</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Chưa cấu hình</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Custom Tracking:</strong></td>
                                     <td>
                                         {% set has_tracking = landing.phone_tracking or landing.zalo_tracking or landing.form_tracking %}
                                         {% if has_tracking %}
