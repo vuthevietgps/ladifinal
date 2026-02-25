@@ -15,14 +15,15 @@
 
 1. Tao folder voi cau truc chuan (xem muc "Cau truc folder")
 2. Viet day du HTML/CSS/JS
-3. **BAT BUOC tra ve 1 duong link de test**:
+3. Noi dung hien thi cho nguoi dung tren landing page (tieu de, mo ta, nut CTA, bang gia, thong bao, ...) **PHAI viet bang tieng Viet co dau**.
+4. **BAT BUOC tra ve 1 duong link de test**:
    - Uu tien: chay `python -m http.server 8080` trong folder landing, gui link `http://localhost:8080`
    - Neu da co server Flask dang chay va page da duoc publish: gui link `http://localhost:5000/landing/<subdomain>?debug=1`
    - Neu moi truong khong mo duoc link truc tiep: phai gui ro lenh de user tu chay va URL sau khi chay
 
-4. Tra ve danh sach file da tao/sua (`index.html`, `css/style.css`, `js/script.js`, ...).
-5. **Ket thuc Pha 1** bang cau: *"Da thiet ke xong. Ban co the test tai [link]. Neu ung y va muon dong goi, hay gui prompt dong goi ZIP."*
-6. Neu user bao "chua ung", "sua lai", "lam lai", AI quay lai PHA 1, sua code va tra link moi. Van KHONG dong goi ZIP.
+5. Tra ve danh sach file da tao/sua (`index.html`, `css/style.css`, `js/script.js`, ...).
+6. **Ket thuc Pha 1** bang cau: *"Da thiet ke xong. Ban co the test tai [link]. Neu ung y va muon dong goi, hay gui prompt dong goi ZIP."*
+7. Neu user bao "chua ung", "sua lai", "lam lai", AI quay lai PHA 1, sua code va tra link moi. Van KHONG dong goi ZIP.
 
 **KHONG DUOC** tu dong dong goi ZIP o pha nay.
 
