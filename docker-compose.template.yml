@@ -1,27 +1,37 @@
-version: '3.8'
-
 services:
   web:
-    image: vutheviet/ladipage:latest
+    image: vutheviet/ladifinal:latest
     container_name: [DOMAIN_NAME]-web
     restart: unless-stopped
+    environment:
+      FLASK_ENV: production
+      PORT: "5000"
+      PUBLISHED_ROOT: /app/published
+      UPLOAD_FOLDER: /app/uploads
     volumes:
       - ./uploads:/app/uploads
       - ./published:/app/published
-      - ./database:/app/database
-    environment:
-      - FLASK_ENV=production
+      - ./logs:/app/logs
+      - ./database.db:/app/ladifinal/database.db
     ports:
-      - "[PORT]:5000"  # Port tự do: 8083, 8084, 8085...
+      - "[PORT]:5000"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.[DOMAIN_NAME].rule=Host(`[DOMAIN].com`) || Host(`www.[DOMAIN].com`)"
       - "traefik.http.routers.[DOMAIN_NAME].entrypoints=websecure"
+      - "traefik.http.routers.[DOMAIN_NAME].tls=true"
       - "traefik.http.services.[DOMAIN_NAME].loadbalancer.server.port=5000"
       - "traefik.http.routers.[DOMAIN_NAME]-http.rule=Host(`[DOMAIN].com`) || Host(`www.[DOMAIN].com`)"
       - "traefik.http.routers.[DOMAIN_NAME]-http.entrypoints=web"
-      - "traefik.http.routers.[DOMAIN_NAME]-http.middlewares=redirect-to-https"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.[DOMAIN_NAME]-http.middlewares=[DOMAIN_NAME]-redirect-https"
+      - "traefik.http.middlewares.[DOMAIN_NAME]-redirect-https.redirectscheme.scheme=https"
+      - "traefik.docker.network=traefik-network"
     networks:
       - traefik-network
 

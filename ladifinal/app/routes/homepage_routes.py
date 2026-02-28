@@ -16,6 +16,7 @@ def company_home():
     
     # Get active homepage from database
     from .. import homepage_repository
+    active_homepage = None
     
     try:
         active_homepage = homepage_repository.get_active_homepage()
@@ -59,9 +60,15 @@ def company_home():
         except Exception as e:
             return f"<h1>Lỗi tải trang chủ: {str(e)}</h1>", 500
     
+    fallback_google_form_url = ''
+    if active_homepage and active_homepage.get('google_form_link'):
+        fallback_google_form_url = str(active_homepage.get('google_form_link')).strip()
+    if not fallback_google_form_url:
+        fallback_google_form_url = str(current_app.config.get('FALLBACK_GOOGLE_FORM_URL', '')).strip()
+
     # Fallback to render template; if not found, read file directly
     try:
-        return render_template('company_home.html')
+        return render_template('company_home.html', google_form_link=fallback_google_form_url)
     except Exception:
         # read directly from filesystem
         tpl_dir = getattr(current_app, 'template_folder', None)

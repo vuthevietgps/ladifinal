@@ -38,6 +38,7 @@ def create_app():
     app.config['WTF_CSRF_ENABLED'] = True
     app.config['ADMIN_SECRET_PATH'] = os.environ.get('ADMIN_SECRET_PATH', 'admin-panel-xyz123')
     app.config['WILDCARD_DOMAIN'] = os.environ.get('WILDCARD_DOMAIN', 'localhost:8080')
+    app.config['FALLBACK_GOOGLE_FORM_URL'] = os.environ.get('FALLBACK_GOOGLE_FORM_URL', '').strip()
     
     # Subdomain support (commented out for now)
     # app.config['SERVER_NAME'] = 'localhost:5000'

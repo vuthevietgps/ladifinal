@@ -1,7 +1,0 @@
-function openZalo(message){const url=`https://zalo.me/0363614511?text=${encodeURIComponent(message)}`;window.open(url,'_blank');}
-['ctaHero','ctaPanel'].forEach(id=>{const el=document.getElementById(id);if(el){el.addEventListener('click',()=>openZalo('Tôi cần tư vấn giấy phép kinh doanh vận tải. Hãy hướng dẫn hồ sơ và báo thời gian/chi phí.'))}});
-const form=document.getElementById('ctaForm');if(form){form.addEventListener('submit',e=>{e.preventDefault();const bizType=form.bizType.value;const fleet=form.fleet.value.trim();const need=form.need.value;const message=`Tôi muốn tư vấn GPKD vận tải:\n- Loại hình: ${bizType}\n- Số lượng xe: ${fleet}\n- Nhu cầu: ${need}\nVui lòng hỗ trợ và báo thời gian/chi phí rõ ràng.`;openZalo(message);form.reset();});}
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const target=document.querySelector(a.getAttribute('href'));if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth'});}})});
-const observer=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('fade-in');observer.unobserve(e.target);}})},{threshold:.12});
-for(const el of document.querySelectorAll('.card,.panel-card,.proof-card,.final-card'))observer.observe(el);
-const style=document.createElement('style');style.textContent=`.fade-in{animation:fadeIn .6s ease forwards}@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}`;document.head.appendChild(style);

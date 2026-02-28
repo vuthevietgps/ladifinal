@@ -1,42 +1,141 @@
-#!/bin/bash
-# Build and push Docker image to Docker Hub
+#!/usr/bin/env bash
+set -euo pipefail
 
-set -e  # Exit on error
+usage() {
+  cat <<'EOF'
+Build, smoke-test on Docker Desktop, then push to Docker Hub.
 
-# Configuration
-DOCKER_USERNAME="vutheviet"  # Replace with your Docker Hub username
-IMAGE_NAME="ladifinal"
-TAG="${1:-$(date +%Y%m%d-%H%M%S)}"  # Use provided tag or timestamp
-FULL_IMAGE="${DOCKER_USERNAME}/${IMAGE_NAME}:${TAG}"
-LATEST_IMAGE="${DOCKER_USERNAME}/${IMAGE_NAME}:latest"
+Usage:
+  ./build-and-push.sh [tag]
 
-echo "🚀 Building and pushing Docker image..."
-echo "📦 Image: ${FULL_IMAGE}"
+Environment variables:
+  DOCKER_USERNAME   Docker Hub username (default: vutheviet)
+  IMAGE_NAME        Docker image name (default: ladifinal)
+  SMOKE_PORT        Preferred host port for smoke test (default: 5001)
+EOF
+}
 
-# Check if Docker is running
-if ! docker info > /dev/null 2>&1; then
-    echo "❌ Docker is not running. Please start Docker and try again."
-    exit 1
+if [[ ${1:-} == "-h" || ${1:-} == "--help" ]]; then
+  usage
+  exit 0
 fi
 
-# Build the image
-echo "🔨 Building Docker image..."
-docker build --no-cache -t "${FULL_IMAGE}" -t "${LATEST_IMAGE}" .
+DOCKER_USERNAME="${DOCKER_USERNAME:-vutheviet}"
+IMAGE_NAME="${IMAGE_NAME:-ladifinal}"
+SMOKE_PORT="${SMOKE_PORT:-5001}"
 
-# Login to Docker Hub (if not already logged in)
-echo "🔐 Logging in to Docker Hub..."
-docker login
+if [[ $# -ge 1 ]]; then
+  TAG="$1"
+else
+  if git describe --tags --exact-match >/dev/null 2>&1; then
+    TAG="$(git describe --tags --exact-match)"
+  else
+    TAG="$(date +%Y%m%d-%H%M%S)"
+  fi
+fi
 
-# Push the images
-echo "📤 Pushing images to Docker Hub..."
-docker push "${FULL_IMAGE}"
-docker push "${LATEST_IMAGE}"
+FULL_IMAGE="${DOCKER_USERNAME}/${IMAGE_NAME}:${TAG}"
+LATEST_IMAGE="${DOCKER_USERNAME}/${IMAGE_NAME}:latest"
+SMOKE_CONTAINER="${IMAGE_NAME}-smoke-test"
 
-echo "✅ Successfully pushed:"
-echo "   - ${FULL_IMAGE}"
-echo "   - ${LATEST_IMAGE}"
-echo ""
-echo "📋 To deploy on server, run:"
-echo "   export DOCKER_IMAGE=${FULL_IMAGE}"
-echo "   docker-compose -f docker-compose.prod.yml pull"
-echo "   docker-compose -f docker-compose.prod.yml up -d"
+log() { echo "[INFO] $*"; }
+warn() { echo "[WARN] $*"; }
+err() { echo "[ERROR] $*" >&2; }
+
+if ! command -v docker >/dev/null 2>&1; then
+  err "Docker is not installed."
+  exit 1
+fi
+
+if ! docker info >/dev/null 2>&1; then
+  err "Docker daemon is not running."
+  exit 1
+fi
+
+if ! [[ "$SMOKE_PORT" =~ ^[0-9]+$ ]] || (( SMOKE_PORT < 1 || SMOKE_PORT > 65535 )); then
+  err "Invalid SMOKE_PORT: $SMOKE_PORT"
+  exit 1
+fi
+
+port_in_use() {
+  local port="$1"
+  if command -v lsof >/dev/null 2>&1; then
+    lsof -nP -iTCP:"$port" -sTCP:LISTEN >/dev/null 2>&1
+    return $?
+  fi
+
+  if command -v ss >/dev/null 2>&1; then
+    ss -ltn | awk -v p=":$port" 'NR>1 && $4 ~ p"$" {found=1} END {exit(found?0:1)}'
+    return $?
+  fi
+
+  docker ps --filter "publish=$port" --format '{{.Names}}' | grep -q .
+}
+
+pick_port() {
+  local p="$1"
+  local tries=0
+  while (( tries < 100 )); do
+    if ! port_in_use "$p"; then
+      echo "$p"
+      return 0
+    fi
+    p=$((p + 1))
+    tries=$((tries + 1))
+  done
+  return 1
+}
+
+cleanup_smoke_container() {
+  docker rm -f "$SMOKE_CONTAINER" >/dev/null 2>&1 || true
+}
+
+trap cleanup_smoke_container EXIT
+
+SELECTED_PORT="$(pick_port "$SMOKE_PORT")" || {
+  err "Cannot find free port for smoke test."
+  exit 1
+}
+
+if [[ "$SELECTED_PORT" != "$SMOKE_PORT" ]]; then
+  warn "Smoke test port $SMOKE_PORT is busy, using $SELECTED_PORT"
+fi
+
+log "Building image: $FULL_IMAGE"
+docker build --pull -t "$FULL_IMAGE" -t "$LATEST_IMAGE" .
+
+log "Running smoke test container on port $SELECTED_PORT"
+cleanup_smoke_container
+docker run -d --name "$SMOKE_CONTAINER" -p "$SELECTED_PORT:5000" "$FULL_IMAGE" >/dev/null
+
+health_ok=0
+for _ in $(seq 1 45); do
+  if curl -fsS "http://127.0.0.1:$SELECTED_PORT/health" >/dev/null 2>&1; then
+    health_ok=1
+    break
+  fi
+  sleep 1
+done
+
+if (( health_ok == 0 )); then
+  err "Smoke test failed. Container logs:"
+  docker logs "$SMOKE_CONTAINER" || true
+  exit 1
+fi
+
+log "Smoke test passed."
+cleanup_smoke_container
+
+if ! docker info 2>/dev/null | grep -q '^ Username:'; then
+  log "Docker Hub login required."
+  docker login
+fi
+
+log "Pushing image tags..."
+docker push "$FULL_IMAGE"
+docker push "$LATEST_IMAGE"
+
+echo
+echo "Build and push completed"
+echo "Image tag: $FULL_IMAGE"
+echo "Image tag: $LATEST_IMAGE"

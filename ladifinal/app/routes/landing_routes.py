@@ -22,6 +22,8 @@ from ..constants import (
 from ..exceptions import ValidationError, FileUploadError, ZipProcessingError, SubdomainError
 
 landing_bp = Blueprint('landing', __name__)
+PROJECT_ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
+LANDINGPAGES_COMPLETED_DIR = os.path.join(PROJECT_ROOT_DIR, 'landingpages-thanh-pham')
 
 GA_TRACKING_ID_PATTERN = re.compile(r'^G-[A-Za-z0-9]+$')
 FB_PIXEL_ID_PATTERN = re.compile(r'^\d{10,20}$')
@@ -80,6 +82,46 @@ def landings_index():
 def real_talk_english():
     """Serve the Real Talk English course landing page"""
     return render_template('real_talk_english.html')
+
+
+@landing_bp.route('/phu-hieu-xe-check-new/')
+def phu_hieu_xe_check_new():
+    """Serve completed phu-hieu-xe-check-new landing page."""
+    landing_dir = os.path.join(LANDINGPAGES_COMPLETED_DIR, 'phu-hieu-xe-check-new')
+    index_file = os.path.join(landing_dir, 'index.html')
+    if not os.path.exists(index_file):
+        return "Landing page not found", 404
+    return send_from_directory(landing_dir, 'index.html')
+
+
+@landing_bp.route('/phu-hieu-xe-check-new/<path:filename>')
+def phu_hieu_xe_check_new_assets(filename):
+    """Serve assets for completed phu-hieu-xe-check-new landing page."""
+    landing_dir = os.path.join(LANDINGPAGES_COMPLETED_DIR, 'phu-hieu-xe-check-new')
+    full_path = os.path.join(landing_dir, filename)
+    if not os.path.exists(full_path):
+        return "File not found", 404
+    return send_from_directory(landing_dir, filename)
+
+
+@landing_bp.route('/phu-hieu-check/')
+def phu_hieu_check():
+    """Serve completed phu-hieu-check landing page."""
+    landing_dir = os.path.join(LANDINGPAGES_COMPLETED_DIR, 'phu-hieu-check')
+    index_file = os.path.join(landing_dir, 'index.html')
+    if not os.path.exists(index_file):
+        return "Landing page not found", 404
+    return send_from_directory(landing_dir, 'index.html')
+
+
+@landing_bp.route('/phu-hieu-check/<path:filename>')
+def phu_hieu_check_assets(filename):
+    """Serve assets for completed phu-hieu-check landing page."""
+    landing_dir = os.path.join(LANDINGPAGES_COMPLETED_DIR, 'phu-hieu-check')
+    full_path = os.path.join(landing_dir, filename)
+    if not os.path.exists(full_path):
+        return "File not found", 404
+    return send_from_directory(landing_dir, filename)
 
 # ============ LANDING PAGE SERVING ============
 

@@ -519,6 +519,22 @@
                 <div class="col-lg-6" data-aos="fade-left">
                     <div class="feature-card">
                         <h4 class="fw-bold mb-4">Đăng Ký Tư Vấn Miễn Phí</h4>
+                        {% if google_form_link %}
+                        <p class="text-muted mb-3">Điền form bằng Google Form, dữ liệu sẽ đi thẳng vào Google Sheets.</p>
+                        <div class="ratio ratio-4x3 border rounded overflow-hidden">
+                            <iframe
+                                src="{{ google_form_link }}{{ '&' if '?' in google_form_link else '?' }}embedded=true"
+                                frameborder="0"
+                                marginheight="0"
+                                marginwidth="0"
+                                loading="lazy">
+                                Đang tải...
+                            </iframe>
+                        </div>
+                        <a href="{{ google_form_link }}" target="_blank" rel="noopener" class="btn btn-hero btn-lg w-100 mt-3">
+                            <i class="fas fa-up-right-from-square me-2"></i>Mở Google Form trong tab mới
+                        </a>
+                        {% else %}
                         <form id="contactForm">
                             <div class="mb-3">
                                 <label class="form-label">Họ và tên *</label>
@@ -540,6 +556,7 @@
                                 <i class="fas fa-paper-plane me-2"></i>Gửi yêu cầu
                             </button>
                         </form>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -641,11 +658,14 @@
             });
         });
 
-        // Contact form
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Cảm ơn bạn đã quan tâm! Chúng tôi sẽ liên hệ trong vòng 24h.');
-        });
+        // Contact form fallback (when Google Form is not configured)
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Cảm ơn bạn đã quan tâm! Chúng tôi sẽ liên hệ trong vòng 24h.');
+            });
+        }
 
         // Stats counter animation
         function animateCounters() {

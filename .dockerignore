@@ -47,6 +47,10 @@ logs/
 ladipagetest*/
 hopagetest*/
 *test*.zip
+*.zip
+build-*/
+cloudflare-tunnel-deploy/
+__pycache__/
 
 # Documentation (not needed in runtime)
 *.md
