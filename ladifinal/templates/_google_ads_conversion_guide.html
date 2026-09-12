@@ -1,0 +1,41 @@
+<div class="card border-warning mt-2">
+  <div class="card-header bg-warning-subtle py-2">
+    <strong><i class="fas fa-bullseye"></i> Hướng dẫn điền mã chuyển đổi Google Ads (chi tiết)</strong>
+  </div>
+  <div class="card-body small">
+    <p class="mb-2"><strong>Cách điền nhanh theo giao diện mới:</strong></p>
+    <ol class="mb-3">
+      <li><strong>Mã chuyển đổi Google Ads (AW):</strong> điền giá trị ở dòng <em>Mã chuyển đổi</em> (ví dụ <code>16590250699</code> hoặc <code>AW-16590250699</code>).</li>
+      <li><strong>Nhãn chuyển đổi SĐT:</strong> điền <em>Nhãn chuyển đổi</em> cho hành động gọi điện.</li>
+      <li><strong>Nhãn chuyển đổi Zalo:</strong> điền <em>Nhãn chuyển đổi</em> cho hành động nhắn Zalo.</li>
+    </ol>
+
+    <p class="mb-2"><strong>Lấy mã ở đâu trong Google Ads:</strong></p>
+    <ol class="mb-3">
+      <li>Vào <strong>Google Ads</strong> -> <strong>Mục tiêu</strong> -> <strong>Lượt chuyển đổi</strong>.</li>
+      <li>Tạo chuyển đổi Website cho từng hành động (Gọi điện, Zalo/Messenger...).</li>
+      <li>Ở bước thiết lập thẻ, chọn <strong>Cài đặt thủ công</strong>.</li>
+      <li>Copy các giá trị:
+        <div>- <strong>Mã chuyển đổi</strong> (dùng chung).</div>
+        <div>- <strong>Nhãn chuyển đổi</strong> (mỗi hành động một nhãn riêng).</div>
+      </li>
+    </ol>
+
+    <div class="alert alert-info py-2 mb-2">
+      <strong>Hệ thống sẽ tự bắn conversion:</strong>
+      <div>- Click link điện thoại <code>tel:</code> -> dùng nhãn SĐT.</div>
+      <div>- Click link <code>zalo.me</code> -> dùng nhãn Zalo.</div>
+    </div>
+
+    <details>
+      <summary><strong>Tuỳ chọn nâng cao: dùng Global Site Tag thủ công</strong></summary>
+      <pre class="bg-light border rounded p-2 mt-2 mb-0"><code>&lt;script async src="https://www.googletagmanager.com/gtag/js?id=AW-16590250699"&gt;&lt;/script&gt;
+&lt;script&gt;
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-16590250699');
+&lt;/script&gt;</code></pre>
+    </details>
+  </div>
+</div>

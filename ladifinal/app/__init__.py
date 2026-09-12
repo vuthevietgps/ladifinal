@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-def create_app():
+def create_app(test_config=None):
     # Resolve paths relative to repository root (one level up from this package)
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     templates_dir = os.path.join(base_dir, 'templates')
@@ -31,7 +31,7 @@ def create_app():
     
     # Configuration
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-change-in-production')
-    app.config['DATABASE'] = os.path.join(base_dir, 'database.db')  # Changed filename
+    app.config['DATABASE'] = os.environ.get('DATABASE', os.path.join(base_dir, 'database.db'))
     app.config['PUBLISHED_ROOT'] = os.environ.get('PUBLISHED_ROOT', os.path.join(base_dir, 'published'))
     app.config['MAX_CONTENT_LENGTH'] = int(os.environ.get('MAX_CONTENT_LENGTH', 16777216))  # 16MB
     app.config['UPLOAD_FOLDER'] = os.environ.get('UPLOAD_FOLDER', os.path.join(base_dir, 'uploads'))
@@ -39,6 +39,13 @@ def create_app():
     app.config['ADMIN_SECRET_PATH'] = os.environ.get('ADMIN_SECRET_PATH', 'admin-panel-xyz123')
     app.config['WILDCARD_DOMAIN'] = os.environ.get('WILDCARD_DOMAIN', 'localhost:8080')
     app.config['FALLBACK_GOOGLE_FORM_URL'] = os.environ.get('FALLBACK_GOOGLE_FORM_URL', '').strip()
+    app.config['CLICK_TRACKING_ENABLED'] = os.environ.get('CLICK_TRACKING_ENABLED', 'true').lower() in ('1', 'true', 'yes', 'on')
+    app.config['TRUST_CLOUDFLARE_IP'] = os.environ.get('TRUST_CLOUDFLARE_IP', 'true').lower() in ('1', 'true', 'yes', 'on')
+    app.config['CLICK_TRACKING_RETENTION_DAYS'] = int(os.environ.get('CLICK_TRACKING_RETENTION_DAYS', 90))
+    app.config['CLICK_TRACKING_ALLOWED_COUNTRIES'] = os.environ.get('CLICK_TRACKING_ALLOWED_COUNTRIES', 'VN')
+
+    if test_config:
+        app.config.update(test_config)
     
     # Subdomain support (commented out for now)
     # app.config['SERVER_NAME'] = 'localhost:5000'
@@ -68,7 +75,8 @@ def create_app():
     
     # Initialize users table
     from .auth import init_users_table
-    init_users_table()
+    with app.app_context():
+        init_users_table()
 
     # Register all blueprints using new modular system
     from .routes import register_blueprints

@@ -32,7 +32,6 @@
       <th>Hotline</th>
       <th>Zalo Phone</th>
       <th>Google Form</th>
-      <th>Tracking (Phone/Zalo/Form)</th>
       <th>Link</th>
       <th>Trạng thái</th>
       <th>Hành động</th>
@@ -69,11 +68,6 @@
         {% if l.google_form_link %}<a href="{{l.google_form_link}}" target="_blank">Form</a>{% endif %}
       </td>
       <td>
-        <small class="d-block">P: {{l.phone_tracking}}</small>
-        <small class="d-block">Z: {{l.zalo_tracking}}</small>
-        <small class="d-block">F: {{l.form_tracking}}</small>
-      </td>
-      <td>
         <a href="{% if l.page_type=='homepage' %}/{% else %}/landing/{{l.subdomain}}{% endif %}" target="_blank" class="btn btn-sm btn-outline-success">
           <i class="fas fa-external-link-alt"></i> Xem
         </a>
@@ -99,8 +93,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <form id="createForm" enctype="multipart/form-data">
-          <input type="hidden" name="upload_type" value="folder">
+        <form id="createForm">
           <div class="row g-3">
             <div class="col-md-3">
               <label class="form-label">Loại giao diện</label>
@@ -122,53 +115,39 @@
                 {% endfor %}
               </select>
             </div>
-            <div class="col-md-6">
-              <label class="form-label">File ZIP chứa website</label>
-              <input type="file" name="folder_zip" accept=".zip" class="form-control" required>
-              <small class="text-muted">Upload file ZIP chứa toàn bộ website (index.html phải ở thư mục gốc)</small>
-            </div>
             <div class="col-md-12">
               <label class="form-label">Google Form Link</label>
               <input name="google_form_link" class="form-control" placeholder="https://docs.google.com/forms/...">
             </div>
-            <div class="col-12">
-              <label class="form-label">Global Site Tag</label>
-              <textarea name="global_site_tag" class="form-control" rows="3" placeholder="<!-- gtag -->"></textarea>
+            <div class="col-md-12">
+              <label class="form-label">File ZIP giao diện (tùy chọn)</label>
+              <input type="file" name="folder_zip" class="form-control" accept=".zip,application/zip">
+              <small class="text-muted">Nếu không chọn ZIP, hệ thống sẽ tạo trang mặc định.</small>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label"><i class="fab fa-facebook"></i> Facebook Pixel ID</label>
+              <input name="fb_pixel_id" class="form-control" placeholder="1234567890123456">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label"><i class="fab fa-tiktok"></i> TikTok Pixel ID</label>
+              <input name="tiktok_pixel_id" class="form-control" placeholder="XXXXXXXXXXXXXXXXXX">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Mã chuyển đổi Google Ads (AW)</label>
+              <input name="google_ads_conversion_id" class="form-control" placeholder="16590250699 hoặc AW-16590250699">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Nhãn chuyển đổi SĐT</label>
+              <input name="google_ads_label_phone" class="form-control" placeholder="GoKSCL2gqoEcEMvF7OY9">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Nhãn chuyển đổi Zalo</label>
+              <input name="google_ads_label_zalo" class="form-control" placeholder="nuf0CMCgqoEcEMvF7OY9">
             </div>
             <div class="col-12">
-              <div class="alert alert-info">
-                <h6><i class="fas fa-info-circle"></i> Cấu trúc ZIP chuẩn:</h6>
-                <div class="row">
-                  <div class="col-md-6">
-                    <strong class="text-success">✅ ĐÚNG:</strong>
-                    <pre class="small bg-light p-2 rounded mt-1">website.zip
-├── index.html
-├── css/style.css
-├── js/main.js
-└── images/logo.png</pre>
-                  </div>
-                  <div class="col-md-6">
-                    <strong class="text-danger">❌ SAI:</strong>
-                    <pre class="small bg-light p-2 rounded mt-1">website.zip
-└── website-folder/
-    ├── index.html
-    └── css/...</pre>
-                    <small class="text-muted">*Hệ thống tự động sửa lỗi này</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Phone Tracking</label>
-              <input name="phone_tracking" class="form-control">
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Form Tracking</label>
-              <input name="form_tracking" class="form-control">
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Zalo/Messenger Tracking</label>
-              <input name="zalo_tracking" class="form-control">
+              <label class="form-label">Global Site Tag (Google Ads conversion)</label>
+              <textarea name="global_site_tag" class="form-control" rows="12" placeholder="<!-- Google tag (gtag.js) AW-XXXXXXXXXX -->"></textarea>
+              {% include '_google_ads_conversion_guide.html' %}
             </div>
             <div class="col-md-3">
               <label class="form-label">Hotline Phone</label>
@@ -343,3 +322,4 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 </script>
 {% endblock %}
+

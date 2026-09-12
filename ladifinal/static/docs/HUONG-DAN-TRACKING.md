@@ -214,14 +214,18 @@ TikTok Pixel ID:        C5JLGR3BVJC2P8DNFHKG
 
 ## 5. Cac truong tracking tuy chinh
 
-Ngoai 3 nen tang chinh, he thong con ho tro cac truong tuy chinh:
+He thong hien tai chi giu mot truong tuy chinh:
 
 | Truong | Muc dich |
 |--------|----------|
-| **Global Site Tag** | Dan bat ky doan ma tracking nao khac (Google Tag Manager, Hotjar, v.v.) |
-| **Phone Tracking** | Ma tracking tuy chinh khi nhan so dien thoai |
-| **Form Tracking** | Ma tracking tuy chinh khi gui form |
-| **Zalo/Messenger Tracking** | Ma tracking tuy chinh khi nhan Zalo/Messenger |
+| **Global Site Tag** | Dan doan ma head script tuy chinh (Google Tag Manager, Hotjar, Google Ads custom snippet, v.v.) |
+
+**Da loai bo khoi form:**
+- Phone Tracking
+- Form Tracking
+- Zalo/Messenger Tracking
+
+Phone/Zalo/Form van duoc do luong qua hanh vi thuc te (`tel:`, `zalo.me`, `form submit`) tu he thong auto-tracking.
 
 ### Vi du su dung Global Site Tag voi Google Tag Manager:
 
@@ -250,7 +254,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 | Loi | Nguyen nhan | Cach xu ly |
 |-----|-------------|------------|
 | Pixel khong hoat dong | Sai ID | Kiem tra lai ID, dam bao copy dung |
-| GA4 khong nhan du lieu | Sai format | Phai bat dau bang `G-` (vi du: G-1A2B3C4D5E) |
+| GA4 khong nhan du lieu | Sai format | Phai bat dau bang `G-` hoac `GT-` (vi du: G-1A2B3C4D5E) |
 | FB Pixel bao loi | Sai format | Phai la chuoi so 10-20 ky tu |
 | TikTok khong tracking | Pixel chua duoc kich hoat | Vao TikTok Ads Manager kiem tra trang thai Pixel |
 | Trung lap su kien | Dan ca ID lan script | Chi nhap ID, bo doan script trong Global Site Tag |

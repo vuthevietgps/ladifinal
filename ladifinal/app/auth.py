@@ -1,7 +1,14 @@
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask import current_app, has_app_context
 import sqlite3
 import os
+
+
+def _database_path():
+    if has_app_context():
+        return current_app.config['DATABASE']
+    return os.path.join(os.path.dirname(os.path.dirname(__file__)), 'database.db')
 
 class User(UserMixin):
     def __init__(self, id, username, password_hash):
@@ -12,7 +19,7 @@ class User(UserMixin):
     @staticmethod
     def get(user_id):
         """Get user by ID"""
-        db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'database.db')
+        db_path = _database_path()
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         cursor.execute('SELECT id, username, password_hash FROM users WHERE id = ?', (user_id,))
@@ -26,7 +33,7 @@ class User(UserMixin):
     @staticmethod
     def get_by_username(username):
         """Get user by username"""
-        db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'database.db')
+        db_path = _database_path()
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         cursor.execute('SELECT id, username, password_hash FROM users WHERE username = ?', (username,))
@@ -44,7 +51,7 @@ class User(UserMixin):
     @staticmethod
     def create_user(username, password):
         """Create new user"""
-        db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'database.db')
+        db_path = _database_path()
         conn = sqlite3.connect(db_path)
         cursor = conn.cursor()
         
@@ -67,7 +74,7 @@ class User(UserMixin):
 
 def init_users_table():
     """Initialize users table if not exists"""
-    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'database.db')
+    db_path = _database_path()
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     

@@ -59,10 +59,10 @@ class LandingPageForm(FlaskForm):
     
     # Tracking fields
     global_site_tag = TextAreaField('Global Site Tag (Legacy)', validators=[Optional()])
-    ga_tracking_id = StringField('Google Analytics 4 ID', validators=[
+    ga_tracking_id = StringField('Google tag ID', validators=[
                                     Optional(),
-                                    Regexp(r'^G-[A-Za-z0-9]+$', message='GA4 ID phải có định dạng G-XXXXXXXXXX')
-                                 ], render_kw={"placeholder": "G-XXXXXXXXXX"})
+                                    Regexp(r'^(?:G|GT)-[A-Za-z0-9]+$', message='Google tag ID phải có định dạng G-XXXXXXXXXX hoặc GT-XXXXXXXXXX')
+                                 ], render_kw={"placeholder": "G-XXXXXXXXXX hoặc GT-XXXXXXXXXX"})
     fb_pixel_id = StringField('Facebook Pixel ID', validators=[
                                  Optional(),
                                  Regexp(r'^\d{10,20}$', message='Facebook Pixel ID phải là chuỗi số (10-20 chữ số)')
@@ -71,10 +71,6 @@ class LandingPageForm(FlaskForm):
                                      Optional(),
                                      Regexp(r'^[A-Za-z0-9]+$', message='TikTok Pixel ID không hợp lệ')
                                   ], render_kw={"placeholder": "XXXXXXXXXXXXXXXXXX"})
-    phone_tracking = TextAreaField('Phone Tracking', validators=[Optional()])
-    zalo_tracking = TextAreaField('Zalo/Messenger Tracking', validators=[Optional()])
-    form_tracking = TextAreaField('Form Tracking', validators=[Optional()])
-    
     # Contact info
     hotline_phone = StringField('Hotline Phone', validators=[Optional()])
     zalo_phone = StringField('Zalo Phone', validators=[Optional()])

@@ -4,6 +4,7 @@ from flask_login import login_required
 import os
 import json
 import re
+from html import escape
 from .. import repository, agents_repository
 from .file_handler import (
     validate_zip_structure,
@@ -17,7 +18,6 @@ from ..constants import (
     CACHE_EXPIRES_DATE,
     ERROR_MESSAGES,
     TRACKING_TEMPLATE_HEAD,
-    TRACKING_TEMPLATE_BODY,
 )
 from ..exceptions import ValidationError, FileUploadError, ZipProcessingError, SubdomainError
 
@@ -25,19 +25,36 @@ landing_bp = Blueprint('landing', __name__)
 PROJECT_ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 LANDINGPAGES_COMPLETED_DIR = os.path.join(PROJECT_ROOT_DIR, 'landingpages-thanh-pham')
 
-GA_TRACKING_ID_PATTERN = re.compile(r'^G-[A-Za-z0-9]+$')
+GA_TRACKING_ID_PATTERN = re.compile(r'^(?:G|GT)-[A-Za-z0-9]+$')
 FB_PIXEL_ID_PATTERN = re.compile(r'^\d{10,20}$')
 TIKTOK_PIXEL_ID_PATTERN = re.compile(r'^[A-Za-z0-9]+$')
+GOOGLE_ADS_CONVERSION_ID_PATTERN = re.compile(r'^(?:AW-)?\d+$', re.IGNORECASE)
+GOOGLE_ADS_LABEL_PATTERN = re.compile(r'^[A-Za-z0-9_-]{3,100}$')
 
 
-def validate_tracking_ids(ga_tracking_id: str, fb_pixel_id: str, tiktok_pixel_id: str):
-    """Validate GA4/Facebook/TikTok tracking IDs."""
+def validate_tracking_ids(
+    ga_tracking_id: str,
+    fb_pixel_id: str,
+    tiktok_pixel_id: str,
+    google_ads_conversion_id: str,
+    google_ads_label_phone: str,
+    google_ads_label_zalo: str
+):
+    """Validate tracking IDs and Google Ads conversion labels."""
     if ga_tracking_id and not GA_TRACKING_ID_PATTERN.match(ga_tracking_id):
-        return False, 'GA4 ID không hợp lệ. Định dạng đúng: G-XXXXXXXXXX'
+        return False, 'Google tag ID không hợp lệ. Định dạng đúng: G-XXXXXXXXXX hoặc GT-XXXXXXXXXX'
     if fb_pixel_id and not FB_PIXEL_ID_PATTERN.match(fb_pixel_id):
         return False, 'Facebook Pixel ID không hợp lệ. Chỉ được nhập chuỗi số 10-20 chữ số.'
     if tiktok_pixel_id and not TIKTOK_PIXEL_ID_PATTERN.match(tiktok_pixel_id):
         return False, 'TikTok Pixel ID không hợp lệ. Chỉ gồm chữ và số.'
+    if google_ads_conversion_id and not GOOGLE_ADS_CONVERSION_ID_PATTERN.match(google_ads_conversion_id):
+        return False, 'Mã chuyển đổi Google Ads không hợp lệ. Nhập dạng số (vd: 16590250699) hoặc AW-16590250699.'
+    if google_ads_label_phone and not GOOGLE_ADS_LABEL_PATTERN.match(google_ads_label_phone):
+        return False, 'Nhãn chuyển đổi SỐ ĐIỆN THOẠI không hợp lệ. Chỉ gồm chữ, số, gạch ngang hoặc gạch dưới.'
+    if google_ads_label_zalo and not GOOGLE_ADS_LABEL_PATTERN.match(google_ads_label_zalo):
+        return False, 'Nhãn chuyển đổi ZALO không hợp lệ. Chỉ gồm chữ, số, gạch ngang hoặc gạch dưới.'
+    if (google_ads_label_phone or google_ads_label_zalo) and not google_ads_conversion_id:
+        return False, 'Bạn đã nhập nhãn chuyển đổi nhưng chưa nhập Mã chuyển đổi Google Ads.'
     return True, ''
 
 
@@ -46,28 +63,119 @@ def build_tracking_snippets(
     ga_tracking_id: str,
     fb_pixel_id: str,
     tiktok_pixel_id: str,
-    phone_tracking: str,
-    zalo_tracking: str,
-    form_tracking: str
+    google_ads_conversion_id: str,
+    google_ads_label_phone: str,
+    google_ads_label_zalo: str
 ):
     """Build tracking snippets with JSON-safe values for injected JavaScript."""
-    has_head_tracking = any([global_site_tag, ga_tracking_id, fb_pixel_id, tiktok_pixel_id])
-    has_body_tracking = any([phone_tracking, zalo_tracking, form_tracking])
+    has_head_tracking = any([
+        global_site_tag,
+        ga_tracking_id,
+        fb_pixel_id,
+        tiktok_pixel_id,
+        google_ads_conversion_id,
+        google_ads_label_phone,
+        google_ads_label_zalo
+    ])
 
     head_snippet = TRACKING_TEMPLATE_HEAD.format(
         global_site_tag=global_site_tag or '',
         ga_id_json=json.dumps(ga_tracking_id or None),
         fb_pixel_id_json=json.dumps(fb_pixel_id or None),
         tiktok_pixel_id_json=json.dumps(tiktok_pixel_id or None),
+        google_ads_conversion_id_json=json.dumps(google_ads_conversion_id or None),
+        google_ads_phone_label_json=json.dumps(google_ads_label_phone or None),
+        google_ads_zalo_label_json=json.dumps(google_ads_label_zalo or None),
     ) if has_head_tracking else ''
 
-    body_snippet = TRACKING_TEMPLATE_BODY.format(
-        phone_tracking_json=json.dumps(phone_tracking or ''),
-        zalo_tracking_json=json.dumps(zalo_tracking or ''),
-        form_tracking_json=json.dumps(form_tracking or ''),
-    ) if has_body_tracking else ''
+    body_snippet = ''
 
     return head_snippet, body_snippet
+
+
+def apply_tracking_to_folder(target_dir: str, landing_data: dict):
+    """Rebuild and apply tracking snippets for all HTML files in a published folder."""
+    head_snippet, body_snippet = build_tracking_snippets(
+        landing_data.get('global_site_tag', ''),
+        landing_data.get('ga_tracking_id', ''),
+        landing_data.get('fb_pixel_id', ''),
+        landing_data.get('tiktok_pixel_id', ''),
+        landing_data.get('google_ads_conversion_id', ''),
+        landing_data.get('google_ads_label_phone', ''),
+        landing_data.get('google_ads_label_zalo', ''),
+    )
+    return process_html_tracking_in_folder(target_dir, head_snippet, body_snippet)
+
+
+def create_default_page_content(
+    target_dir: str,
+    page_type: str,
+    subdomain: str,
+    hotline_phone: str,
+    zalo_phone: str,
+    google_form_link: str
+):
+    """Create a minimal default page when user does not upload a ZIP file."""
+    os.makedirs(target_dir, exist_ok=True)
+
+    safe_subdomain = escape(subdomain or '')
+    safe_hotline = escape(hotline_phone or '')
+    safe_zalo = escape(zalo_phone or '')
+    safe_form_link = escape(google_form_link or '')
+    page_label = 'Homepage' if page_type == 'homepage' else 'Landing Page'
+
+    contact_items = []
+    if safe_hotline:
+        contact_items.append(f'<li>Hotline: <a href="tel:{safe_hotline}">{safe_hotline}</a></li>')
+    if safe_zalo:
+        contact_items.append(f'<li>Zalo: <a href="https://zalo.me/{safe_zalo}" target="_blank" rel="noopener">{safe_zalo}</a></li>')
+    if safe_form_link:
+        contact_items.append(f'<li>Form: <a href="{safe_form_link}" target="_blank" rel="noopener">Điền thông tin</a></li>')
+    if not contact_items:
+        contact_items.append('<li>Chưa cấu hình thông tin liên hệ.</li>')
+
+    index_html = f"""<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{page_label} - {safe_subdomain}</title>
+  <style>
+    body {{ font-family: Arial, sans-serif; margin: 0; padding: 24px; background: #f7f8fa; color: #1f2937; }}
+    .wrap {{ max-width: 760px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08); }}
+    h1 {{ margin: 0 0 8px; font-size: 28px; }}
+    .muted {{ color: #6b7280; margin: 0 0 20px; }}
+    ul {{ margin: 0; padding-left: 18px; line-height: 1.8; }}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>{page_label}</h1>
+    <p class="muted">Trang mặc định được tạo tự động (không cần upload ZIP).</p>
+    <p><strong>Subdomain:</strong> {safe_subdomain or '(homepage)'}</p>
+    <h3>Thông tin liên hệ</h3>
+    <ul>
+      {''.join(contact_items)}
+    </ul>
+  </div>
+</body>
+</html>"""
+
+    index_path = os.path.join(target_dir, 'index.html')
+    with open(index_path, 'w', encoding='utf-8') as f:
+        f.write(index_html)
+
+    file_size = os.path.getsize(index_path)
+    extracted_files = [{
+        'path': 'index.html',
+        'original_name': 'index.html',
+        'type': 'html',
+        'size': file_size
+    }]
+    folder_structure = {
+        'index.html': {'type': 'html', 'size': file_size}
+    }
+    return extracted_files, folder_structure
 
 # ============ LANDING PAGES INDEX ============
 
@@ -82,6 +190,13 @@ def landings_index():
 def real_talk_english():
     """Serve the Real Talk English course landing page"""
     return render_template('real_talk_english.html')
+
+
+@landing_bp.route('/dich-vu-lam-phu-hieu-xe', strict_slashes=False)
+@landing_bp.route('/phu-hieu-xe', strict_slashes=False)
+def phu_hieu_xe_service():
+    """Serve the Google Ads landing page for phu hieu xe service."""
+    return render_template('landing_phu_hieu_xe.html')
 
 
 @landing_bp.route('/phu-hieu-xe-check-new/')
@@ -230,14 +345,17 @@ def api_create():
         ga_tracking_id = request.form.get('ga_tracking_id', '').strip()
         fb_pixel_id = request.form.get('fb_pixel_id', '').strip()
         tiktok_pixel_id = request.form.get('tiktok_pixel_id', '').strip()
-        phone_tracking = request.form.get('phone_tracking', '').strip()
-        zalo_tracking = request.form.get('zalo_tracking', '').strip()
-        form_tracking = request.form.get('form_tracking', '').strip()
+        google_ads_conversion_id = request.form.get('google_ads_conversion_id', '').strip()
+        google_ads_label_phone = request.form.get('google_ads_label_phone', '').strip()
+        google_ads_label_zalo = request.form.get('google_ads_label_zalo', '').strip()
 
         tracking_valid, tracking_msg = validate_tracking_ids(
             ga_tracking_id,
             fb_pixel_id,
-            tiktok_pixel_id
+            tiktok_pixel_id,
+            google_ads_conversion_id,
+            google_ads_label_phone,
+            google_ads_label_zalo
         )
         if not tracking_valid:
             return jsonify({'success': False, 'message': tracking_msg}), 400
@@ -281,16 +399,16 @@ def api_create():
             zip_file = request.files['folder_zip']
         elif 'zipFile' in request.files:
             zip_file = request.files['zipFile']
-        
-        if not zip_file:
-            return jsonify({'success': False, 'message': 'Không có file ZIP được upload'}), 400
-        if zip_file.filename == '':
-            return jsonify({'success': False, 'message': 'Không có file nào được chọn'}), 400
-        
-        # Validate ZIP structure
-        validation_result = validate_zip_structure(zip_file)
-        if validation_result['status'] == 'error':
-            return jsonify({'success': False, 'message': validation_result['message']}), 400
+        if zip_file and zip_file.filename == '':
+            zip_file = None
+
+        uploaded_filename = 'auto-generated-default'
+        upload_type = 'default'
+        if zip_file:
+            # Validate ZIP structure
+            validation_result = validate_zip_structure(zip_file)
+            if validation_result['status'] == 'error':
+                return jsonify({'success': False, 'message': validation_result['message']}), 400
         
         # Create target directory
         pub_root = current_app.config['PUBLISHED_ROOT']
@@ -302,17 +420,30 @@ def api_create():
         os.makedirs(target_dir, exist_ok=True)
         
         try:
-            # Extract and validate
-            extracted_files, folder_structure = extract_and_validate_folder(zip_file, target_dir)
-            
+            if zip_file:
+                # Extract and validate uploaded ZIP
+                extracted_files, folder_structure = extract_and_validate_folder(zip_file, target_dir)
+                uploaded_filename = zip_file.filename
+                upload_type = 'folder'
+            else:
+                # No upload: create default content
+                extracted_files, folder_structure = create_default_page_content(
+                    target_dir,
+                    page_type,
+                    subdomain,
+                    hotline_phone,
+                    zalo_phone,
+                    google_form_link
+                )
+             
             head_snippet, body_snippet = build_tracking_snippets(
                 global_site_tag,
                 ga_tracking_id,
                 fb_pixel_id,
                 tiktok_pixel_id,
-                phone_tracking,
-                zalo_tracking,
-                form_tracking
+                google_ads_conversion_id,
+                google_ads_label_phone,
+                google_ads_label_zalo
             )
             process_html_tracking_in_folder(target_dir, head_snippet, body_snippet)
 
@@ -331,15 +462,15 @@ def api_create():
                 'ga_tracking_id': ga_tracking_id,
                 'fb_pixel_id': fb_pixel_id,
                 'tiktok_pixel_id': tiktok_pixel_id,
-                'phone_tracking': phone_tracking,
-                'zalo_tracking': zalo_tracking,
-                'form_tracking': form_tracking,
+                'google_ads_conversion_id': google_ads_conversion_id,
+                'google_ads_label_phone': google_ads_label_phone,
+                'google_ads_label_zalo': google_ads_label_zalo,
                 'hotline_phone': hotline_phone,
                 'zalo_phone': zalo_phone,
                 'google_form_link': google_form_link,
                 'status': 'active',
-                'original_filename': zip_file.filename,
-                'upload_type': 'folder',
+                'original_filename': uploaded_filename,
+                'upload_type': upload_type,
                 'folder_structure': json.dumps(folder_structure, ensure_ascii=False)
             }
             
@@ -386,9 +517,9 @@ def api_update(landing_id):
             'ga_tracking_id': request.form.get('ga_tracking_id', '').strip(),
             'fb_pixel_id': request.form.get('fb_pixel_id', '').strip(),
             'tiktok_pixel_id': request.form.get('tiktok_pixel_id', '').strip(),
-            'phone_tracking': request.form.get('phone_tracking', '').strip(),
-            'zalo_tracking': request.form.get('zalo_tracking', '').strip(),
-            'form_tracking': request.form.get('form_tracking', '').strip(),
+            'google_ads_conversion_id': request.form.get('google_ads_conversion_id', '').strip(),
+            'google_ads_label_phone': request.form.get('google_ads_label_phone', '').strip(),
+            'google_ads_label_zalo': request.form.get('google_ads_label_zalo', '').strip(),
             'hotline_phone': request.form.get('hotline_phone', '').strip(),
             'zalo_phone': request.form.get('zalo_phone', '').strip(),
             'google_form_link': request.form.get('google_form_link', '').strip(),
@@ -397,7 +528,10 @@ def api_update(landing_id):
         tracking_valid, tracking_msg = validate_tracking_ids(
             updates['ga_tracking_id'],
             updates['fb_pixel_id'],
-            updates['tiktok_pixel_id']
+            updates['tiktok_pixel_id'],
+            updates['google_ads_conversion_id'],
+            updates['google_ads_label_phone'],
+            updates['google_ads_label_zalo']
         )
         if not tracking_valid:
             return jsonify({'success': False, 'message': tracking_msg}), 400
@@ -407,9 +541,9 @@ def api_update(landing_id):
             updates.get('ga_tracking_id', ''),
             updates.get('fb_pixel_id', ''),
             updates.get('tiktok_pixel_id', ''),
-            updates.get('phone_tracking', ''),
-            updates.get('zalo_tracking', ''),
-            updates.get('form_tracking', '')
+            updates.get('google_ads_conversion_id', ''),
+            updates.get('google_ads_label_phone', ''),
+            updates.get('google_ads_label_zalo', '')
         )
 
         pub_root = current_app.config['PUBLISHED_ROOT']
@@ -522,6 +656,30 @@ def api_change_status(landing_id):
         return jsonify({'success': False, 'message': f'Lỗi thay đổi trạng thái: {str(e)}'}), 500
 
 
+@landing_bp.route('/api/landingpages/<int:landing_id>/cleanup-tracking', methods=['POST'])
+@login_required
+def api_cleanup_tracking(landing_id):
+    """Cleanup legacy Google tracking and re-apply managed tracking block."""
+    try:
+        landing = repository.get_landing(landing_id)
+        if not landing:
+            return jsonify({'success': False, 'message': 'Landing page not found'}), 404
+
+        pub_root = current_app.config['PUBLISHED_ROOT']
+        target_dir = os.path.join(pub_root, landing['subdomain'])
+        if not os.path.exists(target_dir):
+            return jsonify({'success': False, 'message': 'Published folder not found'}), 404
+
+        processed_files = apply_tracking_to_folder(target_dir, landing)
+        return jsonify({
+            'success': True,
+            'message': f'Đã dọn tracking Google cũ và chuẩn hóa {len(processed_files)} file HTML.',
+            'processed_files': len(processed_files)
+        })
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Lỗi dọn tracking: {str(e)}'}), 500
+
+
 @landing_bp.route('/api/landingpages/<int:landing_id>', methods=['DELETE'])
 @login_required
 def api_delete(landing_id):
@@ -578,3 +736,4 @@ def edit_landing(landing_id):
     return render_template('edit.html', 
                          landing=landing, 
                          agents=agents_list)
+

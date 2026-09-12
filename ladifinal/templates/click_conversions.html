@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <div><h2>Theo dõi IP · Chuyển đổi & đơn hàng</h2><p class="text-muted mb-0">Đối chiếu từng lượt truy cập với khách liên hệ. Thời gian hiển thị theo giờ Việt Nam (UTC+7).</p></div>
+  <a class="btn btn-outline-secondary" href="{{ url_for('click_tracking.admin_click_fraud') }}">Xem tổng hợp rủi ro IP</a>
+</div>
+<div class="alert alert-info">Bấm gọi/Zalo hoặc gửi form là tín hiệu liên hệ, chưa xác nhận có cuộc gọi, tin nhắn hay đơn hàng. Nhân viên đối chiếu và chọn <strong>Đã xác nhận đơn</strong> khi chốt. Mỗi dòng lưu một hồ sơ đơn hàng cho một lượt truy cập; ghép theo thời điểm là đối chiếu thủ công.</div>
+<form method="get" class="card card-body mb-3">
+  <input type="hidden" name="view" value="conversions">
+  <div class="row g-3 align-items-end">
+    <div class="col-md-2"><label for="days" class="form-label">Lượt vào trong</label><select id="days" name="days" class="form-select">
+      {% for value, label in [(1,'24 giờ'),(3,'3 ngày'),(7,'7 ngày'),(14,'14 ngày'),(30,'30 ngày'),(90,'90 ngày'),(0,'Tất cả dữ liệu còn lưu')] %}<option value="{{ value }}" {% if filters.days == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select></div>
+    <div class="col-md-3"><label for="conversion" class="form-label">Bộ lọc chuyển đổi</label><select id="conversion" name="conversion" class="form-select">
+      {% for value, label in [('all','Tất cả lượt truy cập'),('contact','Có tín hiệu liên hệ / gửi form'),('phone','Bấm gọi điện'),('zalo','Bấm Zalo'),('inbox','Bấm Messenger'),('form_submit','Gửi form'),('none','Chưa có tín hiệu liên hệ'),('noted','Đã lưu thông tin khách / đơn'),('confirmed','Đã xác nhận đơn')] %}<option value="{{ value }}" {% if filters.conversion == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select></div>
+    <div class="col-md-5"><label for="search" class="form-label">Tìm khách / nguồn quảng cáo</label><input id="search" name="q" class="form-control" value="{{ filters.q }}" placeholder="Tên, điện thoại, IP, click ID, ID nhóm, chiến dịch, landing"></div>
+    <div class="col-md-2 d-grid"><button class="btn btn-primary">Lọc / cập nhật</button></div>
+  </div>
+</form>
+<p class="small text-muted">{{ total }} lượt phù hợp · Mới nhất theo thời gian liên hệ, hoặc thời gian vào trang nếu chưa liên hệ. Dữ liệu cũ chỉ có tổng số hành động, chưa có giờ/kênh liên hệ riêng.</p>
+<div class="card table-responsive">
+<table class="table table-hover align-middle mb-0">
+<thead class="table-light"><tr><th>Thời gian / IP</th><th>Nguồn quảng cáo</th><th>Tín hiệu liên hệ</th><th>Khách hàng / đơn hàng</th><th>Giá trị (VND)</th><th></th></tr></thead>
+<tbody>
+{% for row in rows %}
+<tr>
+  <td style="min-width:185px"><strong>{{ local_time(row.contact_at or row.occurred_at) }}</strong><div class="small text-muted">Vào: {{ local_time(row.occurred_at) }}</div><div class="small font-monospace">{{ row.ip_address }}</div><small>Lượt #{{ row.id }}</small></td>
+  <td style="min-width:220px;max-width:300px"><div>Nhóm: <strong>{{ row.ad_group_id or 'Chưa có ID' }}</strong></div><div class="small">Chiến dịch: {{ row.campaign_id or '—' }}</div><div class="small">{{ row.landing_name }} · {{ row.keyword or '—' }}</div><details class="small"><summary>Click ID ({{ row.click_id_type or '—' }})</summary><span style="overflow-wrap:anywhere">{{ row.click_id or 'Không có click ID' }}</span></details></td>
+  <td style="min-width:200px"><div>Liên hệ: {{ row.contact_actions }} · Form: {{ row.form_submits }}</div>{% if row.events %}<details><summary class="small">{{ row.events|length }} sự kiện · xem giờ</summary>{% for event in row.events %}<div class="small">{{ {'phone':'Bấm gọi', 'zalo':'Bấm Zalo', 'inbox':'Bấm Messenger', 'contact':'Bấm liên hệ', 'form_submit':'Gửi form'}.get(event.event_type, event.event_type) }}: {{ local_time(event.occurred_at) }}</div>{% endfor %}</details>{% elif row.contact_actions or row.form_submits %}<small class="text-muted">Dữ liệu cũ: chưa có giờ liên hệ</small>{% endif %}</td>
+  <td style="min-width:190px"><strong id="customer-{{ row.id }}">{{ row.customer_name or row.recipient_name or 'Chưa ghi nhận' }}</strong><div id="summary-phone-{{ row.id }}">{{ row.phone or '' }}</div><small id="status-{{ row.id }}" class="badge bg-secondary">{{ {'noted':'Đã ghi chú', 'confirmed':'Đã xác nhận đơn', 'cancelled':'Đã hủy'}.get(row.status, 'Chưa lưu') }}</small></td>
+  <td style="min-width:155px" id="money-{{ row.id }}">{% for field, label in [('sale_total','Giá bán'),('deposit','Cọc'),('cod_amount','COD'),('supplier_cost','Giá vốn/NCC')] %}<div class="small">{{ label }}: {{ '{:,}'.format(row[field]) if row[field] is not none else '—' }}</div>{% endfor %}</td>
+  <td><button class="btn btn-sm btn-outline-primary edit-order" type="button" data-target="edit-{{ row.id }}" aria-expanded="false">Nhập / sửa</button></td>
+</tr>
+<tr id="edit-{{ row.id }}" hidden><td colspan="6" class="bg-light p-3">
+  <form class="order-form" data-id="{{ row.id }}" data-version="{{ row.version }}" data-url="{{ url_for('click_tracking.save_conversion_order', visit_token=row.visit_token) }}">
+    <div class="row g-3">
+    {% for field, label in [('customer_name','Tên khách hàng'),('recipient_name','Tên người nhận'),('phone','Số điện thoại'),('shipping_address','Địa chỉ giao hàng')] %}
+      <div class="col-md-{{ 6 if field == 'shipping_address' else 2 }}"><label class="form-label" for="{{ field }}-{{ row.id }}">{{ label }}</label><input class="form-control" id="{{ field }}-{{ row.id }}" name="{{ field }}" type="{{ 'tel' if field == 'phone' else 'text' }}" maxlength="{{ 1000 if field == 'shipping_address' else 40 if field == 'phone' else 200 }}" value="{{ row[field] or '' }}"></div>
+    {% endfor %}
+    {% for field, label in [('sale_total','Tổng giá bán'),('deposit','Tiền cọc'),('cod_amount','Tiền COD cần thu'),('supplier_cost','Giá vốn / báo giá NCC')] %}
+      <div class="col-md-3"><label class="form-label" for="{{ field }}-{{ row.id }}">{{ label }} (VND)</label><input class="form-control" id="{{ field }}-{{ row.id }}" name="{{ field }}" type="number" min="0" max="9999999999999" step="1" value="{{ row[field] if row[field] is not none else '' }}"></div>
+    {% endfor %}
+      <div class="col-md-3"><label class="form-label" for="state-{{ row.id }}">Trạng thái</label><select id="state-{{ row.id }}" class="form-select" name="status">{% for value, label in [('noted','Đã ghi chú / đang tư vấn'),('confirmed','Đã xác nhận đơn'),('cancelled','Đã hủy')] %}<option value="{{ value }}" {% if row.status == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select></div>
+      <div class="col-md-9"><label class="form-label" for="notes-{{ row.id }}">Ghi chú đối chiếu khách / đơn hàng</label><textarea id="notes-{{ row.id }}" class="form-control" name="notes" maxlength="2000" rows="2">{{ row.notes or '' }}</textarea></div>
+    </div>
+    <div class="d-flex flex-wrap align-items-center gap-3 mt-3"><button type="submit" class="btn btn-primary">Lưu thông tin</button><button type="button" class="btn btn-outline-secondary calculate-cod">Điền COD = giá bán − cọc</button><span role="status" class="save-status small">{% if row.updated_at %}Lưu lần cuối: {{ local_time(row.updated_at) }} · Nhân viên #{{ row.updated_by }}{% endif %}</span></div>
+    <small class="text-muted">COD được lưu theo số bạn nhập. Chỉ bấm nút tính khi muốn điền bằng giá bán trừ cọc. Thông tin đã lưu và nguồn quảng cáo được giữ khi dọn log cũ.</small>
+  </form>
+</td></tr>
+{% else %}<tr><td colspan="6" class="text-center p-5 text-muted">Chưa có lượt phù hợp. Thử đổi bộ lọc hoặc khoảng thời gian.</td></tr>{% endfor %}
+</tbody></table>
+</div>
+<nav class="d-flex justify-content-between align-items-center my-3" aria-label="Phân trang">
+  <a class="btn btn-outline-secondary {{ 'disabled' if page <= 1 }}" href="{{ url_for('click_tracking.admin_click_fraud', view='conversions', days=filters.days, conversion=filters.conversion, q=filters.q, page=page-1) }}">Trang trước</a><span>Trang {{ page }} / {{ pages }}</span><a class="btn btn-outline-secondary {{ 'disabled' if page >= pages }}" href="{{ url_for('click_tracking.admin_click_fraud', view='conversions', days=filters.days, conversion=filters.conversion, q=filters.q, page=page+1) }}">Trang sau</a>
+</nav>
+<script>
+(() => {
+  const csrf = {{ csrf_token_value|tojson }};
+  const dirty = new Set();
+  document.querySelectorAll('.edit-order').forEach(button => button.addEventListener('click', () => {
+    const row = document.getElementById(button.dataset.target);
+    row.hidden = !row.hidden;
+    button.setAttribute('aria-expanded', String(!row.hidden));
+  }));
+  document.querySelectorAll('.order-form').forEach(form => {
+    form.addEventListener('input', () => dirty.add(form));
+    form.querySelector('.calculate-cod').addEventListener('click', () => {
+      const total = form.elements.sale_total.value, deposit = form.elements.deposit.value;
+      if (!total || !deposit || Number(deposit) > Number(total)) {
+        form.querySelector('.save-status').textContent = 'Nhập giá bán và cọc (có thể là 0); cọc không vượt giá bán để tính COD.';
+        return;
+      }
+      form.elements.cod_amount.value = Number(total) - Number(deposit);
+      dirty.add(form);
+    });
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      const button = form.querySelector('[type=submit]'), message = form.querySelector('.save-status');
+      const data = Object.fromEntries(new FormData(form));
+      data.version = Number(form.dataset.version);
+      const controls = Array.from(form.elements);
+      controls.forEach(control => control.disabled = true);
+      message.textContent = 'Đang lưu…';
+      try {
+        const response = await fetch(form.dataset.url, {method:'POST', headers:{'Content-Type':'application/json','X-CSRFToken':csrf}, body:JSON.stringify(data)});
+        if (response.redirected) throw new Error('Phiên đăng nhập hết hạn. Hãy đăng nhập lại trước khi lưu.');
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || 'Không thể lưu.');
+        form.dataset.version = result.version;
+        dirty.delete(form);
+        message.textContent = 'Đã lưu thành công · ' + new Date().toLocaleString('vi-VN', {timeZone:'Asia/Ho_Chi_Minh'});
+        document.getElementById('customer-' + form.dataset.id).textContent = data.customer_name || data.recipient_name || 'Đã ghi nhận';
+        document.getElementById('summary-phone-' + form.dataset.id).textContent = data.phone;
+        document.getElementById('status-' + form.dataset.id).textContent = {noted:'Đã ghi chú', confirmed:'Đã xác nhận đơn', cancelled:'Đã hủy'}[data.status];
+        const money = document.getElementById('money-' + form.dataset.id);
+        money.replaceChildren();
+        [['sale_total','Giá bán'],['deposit','Cọc'],['cod_amount','COD'],['supplier_cost','Giá vốn/NCC']].forEach(([key,label]) => {
+          const line = document.createElement('div'); line.className = 'small';
+          line.textContent = label + ': ' + (data[key] === '' ? '—' : Number(data[key]).toLocaleString('vi-VN')); money.appendChild(line);
+        });
+      } catch(error) { message.textContent = error.message || 'Lỗi kết nối. Thông tin chưa được lưu.'; }
+      finally { controls.forEach(control => control.disabled = false); }
+    });
+  });
+  window.addEventListener('beforeunload', event => { if (dirty.size) { event.preventDefault(); event.returnValue = ''; } });
+})();
+</script>
+{% endblock %}

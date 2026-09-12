@@ -39,7 +39,6 @@
       <th>Hotline</th>
       <th>Zalo Phone</th>
       <th>Google Form</th>
-      <th>Tracking</th>
       <th>Link</th>
       <th>Trạng thái</th>
       <th>Hành động</th>
@@ -60,11 +59,6 @@
         {% endif %}
       </td>
       <td>
-        <small class="d-block">P: {{l.phone_tracking[:20]}}...</small>
-        <small class="d-block">Z: {{l.zalo_tracking[:20]}}...</small>
-        <small class="d-block">F: {{l.form_tracking[:20]}}...</small>
-      </td>
-      <td>
         <a href="/landing/{{l.subdomain}}" target="_blank" class="btn btn-sm btn-outline-success">
           <i class="fas fa-external-link-alt"></i> Xem
         </a>
@@ -78,6 +72,9 @@
       </td>
       <td>
         <a class="btn btn-sm btn-outline-primary" href="/admin-panel-xyz123/edit/{{l.id}}">Sửa</a>
+        <button data-id="{{l.id}}" class="btn btn-sm btn-outline-secondary btn-clean-tracking">
+          Dọn tracking
+        </button>
         <button data-id="{{l.id}}" class="btn btn-sm btn-outline-warning btn-toggle-status">
           {{'Tạm dừng' if l.status=='active' else 'Kích hoạt'}}
         </button>
@@ -98,9 +95,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <form id="createLandingForm" enctype="multipart/form-data">
+        <form id="createLandingForm">
           <input type="hidden" name="page_type" value="landing">
-          <input type="hidden" name="upload_type" value="folder">
           
           <div class="row g-3">
             <div class="col-md-6">
@@ -119,28 +115,19 @@
               </select>
             </div>
             <div class="col-md-12">
-              <label class="form-label">File ZIP chứa website <span class="text-danger">*</span></label>
-              <input type="file" name="folder_zip" accept=".zip" class="form-control" required>
-              <small class="text-muted">Upload file ZIP chứa toàn bộ website (index.html phải ở thư mục gốc)</small>
-            </div>
-            <div class="col-md-12">
               <label class="form-label">Google Form Link</label>
               <input name="google_form_link" class="form-control" placeholder="https://docs.google.com/forms/...">
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">File ZIP landing page (tùy chọn)</label>
+              <input type="file" name="folder_zip" class="form-control" accept=".zip,application/zip">
+              <small class="text-muted">Nếu không chọn ZIP, hệ thống sẽ tạo trang mặc định.</small>
             </div>
             
             <!-- Advanced Tracking Section -->
             <div class="col-12 mt-3">
-              <h6 class="fw-bold text-primary"><i class="fas fa-chart-line"></i> Advanced Analytics & Tracking</h6>
-              <p class="small text-muted mb-2">Tích hợp Google Analytics 4 và Facebook Pixel để theo dõi hiệu quả chi tiết</p>
-            </div>
-            
-            <div class="col-md-6">
-              <label class="form-label">
-                <i class="fab fa-google"></i> Google Analytics 4 ID
-                <span class="badge bg-success">Recommended</span>
-              </label>
-              <input name="ga_tracking_id" class="form-control" placeholder="G-XXXXXXXXXX">
-              <small class="text-muted">Ví dụ: G-1A2B3C4D5E hoặc để trống nếu chưa có</small>
+              <h6 class="fw-bold text-primary"><i class="fas fa-chart-line"></i> Phân tích & Theo dõi nâng cao</h6>
+              <p class="small text-muted mb-2">Tích hợp Facebook Pixel, TikTok Pixel và mã chuyển đổi Google Ads</p>
             </div>
             
             <div class="col-md-6">
@@ -159,24 +146,26 @@
               <input name="tiktok_pixel_id" class="form-control" placeholder="XXXXXXXXXXXXXXXXXX">
               <small class="text-muted">Ví dụ: C5XXXXXXXXXXXXXX hoặc để trống nếu chưa có</small>
             </div>
-
+            <div class="col-md-4">
+              <label class="form-label">Mã chuyển đổi Google Ads (AW)</label>
+              <input name="google_ads_conversion_id" class="form-control" placeholder="16590250699 hoặc AW-16590250699">
+              <small class="text-muted">Lấy từ mục "Mã chuyển đổi" trong Google Ads</small>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Nhãn chuyển đổi SĐT</label>
+              <input name="google_ads_label_phone" class="form-control" placeholder="GoKSCL2gqoEcEMvF7OY9">
+              <small class="text-muted">Dùng cho click <code>tel:</code></small>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Nhãn chuyển đổi Zalo</label>
+              <input name="google_ads_label_zalo" class="form-control" placeholder="nuf0CMCgqoEcEMvF7OY9">
+              <small class="text-muted">Dùng cho click link <code>zalo.me</code></small>
+            </div>
             <div class="col-12">
               <label class="form-label">Global Site Tag (Legacy - Optional)</label>
-              <textarea name="global_site_tag" class="form-control" rows="2" placeholder="<!-- Custom tracking code (optional) -->"></textarea>
+              <textarea name="global_site_tag" class="form-control" rows="12" placeholder="<!-- Google tag (gtag.js) AW-XXXXXXXXXX -->"></textarea>
               <small class="text-muted">Dành cho tracking code tùy chỉnh khác (không bắt buộc)</small>
-            </div>
-            
-            <div class="col-md-4">
-              <label class="form-label">Phone Tracking Code</label>
-              <input name="phone_tracking" class="form-control" placeholder="Optional custom code">
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Form Tracking Code</label>
-              <input name="form_tracking" class="form-control" placeholder="Optional custom code">
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Zalo/Messenger Tracking</label>
-              <input name="zalo_tracking" class="form-control" placeholder="Optional custom code">
+              {% include '_google_ads_conversion_guide.html' %}
             </div>
             
             <div class="col-md-6">
@@ -261,6 +250,10 @@ document.querySelectorAll('.btn-delete').forEach(btn => {
   btn.addEventListener('click', () => deleteLanding(btn.dataset.id));
 });
 
+document.querySelectorAll('.btn-clean-tracking').forEach(btn => {
+  btn.addEventListener('click', () => cleanupTracking(btn.dataset.id));
+});
+
 // Helper functions
 async function changeStatus(id, status){
   showLoading('Đang thay đổi trạng thái...');
@@ -300,5 +293,25 @@ async function deleteLanding(id){
     alert('Lỗi kết nối: ' + error.message);
   }
 }
+
+async function cleanupTracking(id){
+  if(!confirm('Dọn toàn bộ mã Google cũ và chỉ giữ block tracking chuẩn cho trang này?')) return;
+  showLoading('Đang dọn tracking...');
+  try {
+    const r = await fetch(`/api/landingpages/${id}/cleanup-tracking`, {method:'POST'});
+    const data = await r.json();
+    if(r.ok) {
+      showSuccess(data.message || 'Đã dọn tracking thành công!');
+      setTimeout(() => location.reload(), 1500);
+    } else {
+      hideLoading();
+      alert('Lỗi: ' + (data.message || 'Không thể dọn tracking'));
+    }
+  } catch(error) {
+    hideLoading();
+    alert('Lỗi kết nối: ' + error.message);
+  }
+}
 </script>
 {% endblock %}
+

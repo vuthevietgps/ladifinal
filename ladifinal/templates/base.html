@@ -60,6 +60,7 @@
       <li class="nav-item"><a class="nav-link text-white {% if request.path == '/admin-panel-xyz123/homepage' %}active bg-primary{% endif %}" href="/admin-panel-xyz123/homepage">Quản lý Homepage</a></li>
       <li class="nav-item"><a class="nav-link text-white {% if request.path == '/admin-panel-xyz123/landing' %}active bg-primary{% endif %}" href="/admin-panel-xyz123/landing">Quản lý Landing Pages</a></li>
       <li class="nav-item"><a class="nav-link text-white {% if request.path.startswith('/admin-panel-xyz123/agents') %}active bg-primary{% endif %}" href="/admin-panel-xyz123/agents">Quản lý Agent</a></li>
+      <li class="nav-item"><a class="nav-link text-white {% if request.path.startswith('/admin-panel-xyz123/click-fraud') %}active bg-primary{% endif %}" href="/admin-panel-xyz123/click-fraud"><i class="fas fa-shield-halved me-1"></i> IP nghi ngờ Ads</a></li>
     </ul>
     
     <!-- User info and logout -->

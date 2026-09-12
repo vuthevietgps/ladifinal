@@ -237,6 +237,45 @@ CUSTOM_TRACKING_BLOCK_RE = re.compile(
     r'<!--\s*Custom\s*Tracking\s*Events\s*-->.*?<!--\s*/Custom\s*Tracking\s*Events\s*-->\s*',
     re.IGNORECASE | re.DOTALL
 )
+LEGACY_GOOGLE_SCRIPT_SRC_RE = re.compile(
+    r'<script\b[^>]*\bsrc\s*=\s*["\'][^"\']*(?:'
+    r'googletagmanager\.com/(?:gtag/js|gtm\.js)|'
+    r'google-analytics\.com/(?:analytics\.js|ga\.js)'
+    r')[^"\']*["\'][^>]*>\s*</script>\s*',
+    re.IGNORECASE | re.DOTALL
+)
+SCRIPT_BLOCK_RE = re.compile(
+    r'<script\b(?P<attrs>[^>]*)>(?P<body>.*?)</script>\s*',
+    re.IGNORECASE | re.DOTALL
+)
+LEGACY_GTM_NOSCRIPT_RE = re.compile(
+    r'<noscript>\s*<iframe[^>]*googletagmanager\.com/ns\.html[^>]*>\s*</iframe>\s*</noscript>\s*',
+    re.IGNORECASE | re.DOTALL
+)
+
+
+def remove_legacy_google_tracking(html_content: str) -> str:
+    """Remove legacy Google tracking scripts to avoid duplicate AW/UA/GT tags."""
+    if not html_content:
+        return html_content
+
+    content = LEGACY_GOOGLE_SCRIPT_SRC_RE.sub('', html_content)
+    content = LEGACY_GTM_NOSCRIPT_RE.sub('', content)
+
+    def script_replacer(match: re.Match) -> str:
+        body = (match.group('body') or '').lower()
+        # Remove inline scripts that initialize or configure legacy Google tags.
+        has_legacy_google = (
+            'window.datalayer' in body
+            or 'function gtag' in body
+            or 'gtag(' in body
+            or "ga('create'" in body
+            or 'google_tag_manager' in body
+            or 'googletagmanager.com/gtm.js' in body
+        )
+        return '' if has_legacy_google else match.group(0)
+
+    return SCRIPT_BLOCK_RE.sub(script_replacer, content)
 
 
 def _insert_before_closing_tag(content: str, tag: str, snippet: str, fallback_to_start: bool) -> str:
@@ -258,6 +297,7 @@ def inject_tracking(html_content, head_snippet="", body_snippet=""):
         # Remove previously managed tracking blocks before injecting fresh snippets.
         html_content = ANALYTICS_BLOCK_RE.sub('', html_content)
         html_content = CUSTOM_TRACKING_BLOCK_RE.sub('', html_content)
+        html_content = remove_legacy_google_tracking(html_content)
 
         if head_snippet.strip():
             html_content = _insert_before_closing_tag(
@@ -312,6 +352,9 @@ def _should_rewrite_url(u: str) -> bool:
     if not u:
         return False
     s = u.strip()
+    # Keep framework-level static assets untouched (tracking library is served from /static/js).
+    if s.startswith('/static/js/advanced-tracking.js'):
+        return False
     if s.startswith('http://') or s.startswith('https://'):
         return False
     if s.startswith('data:') or s.startswith('mailto:') or s.startswith('#'):

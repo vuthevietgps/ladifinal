@@ -1,82 +1,99 @@
-// Scroll animation - fade in elements
-document.addEventListener('DOMContentLoaded', function() {
-    // Add fade-in class to animated elements
-    var animatedSelectors = [
-        '.pain-card', '.solution-card', '.compare-table',
-        '.process-step', '.module-item', '.kpi-card',
-        '.audience-card', '.section-header'
-    ];
+document.addEventListener("DOMContentLoaded", function () {
+    var topbar = document.querySelector(".topbar");
+    var revealElements = document.querySelectorAll(".reveal");
+    var counterElements = document.querySelectorAll("[data-count]");
 
-    animatedSelectors.forEach(function(selector) {
-        document.querySelectorAll(selector).forEach(function(el) {
-            el.classList.add('fade-in');
-        });
-    });
+    function syncTopbar() {
+        if (!topbar) {
+            return;
+        }
 
-    // Intersection Observer for scroll animations
-    var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
+        if (window.scrollY > 20) {
+            topbar.classList.add("scrolled");
+        } else {
+            topbar.classList.remove("scrolled");
+        }
+    }
 
-    document.querySelectorAll('.fade-in').forEach(function(el) {
-        observer.observe(el);
-    });
+    syncTopbar();
+    window.addEventListener("scroll", syncTopbar, { passive: true });
 
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            var target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    });
-
-    // Counter animation for stats
-    var statNumbers = document.querySelectorAll('.stat-number, .kpi-number');
-    var statsObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-                animateCounter(entry.target);
-                statsObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-
-    statNumbers.forEach(function(el) {
-        statsObserver.observe(el);
-    });
-
-    function animateCounter(el) {
-        var text = el.textContent.trim();
-        var match = text.match(/(\d+)/);
-        if (!match) return;
-
-        var target = parseInt(match[1]);
-        var prefix = text.substring(0, text.indexOf(match[1]));
-        var suffix = text.substring(text.indexOf(match[1]) + match[1].length);
-        var current = 0;
-        var duration = 1500;
-        var step = target / (duration / 16);
-
-        function update() {
-            current += step;
-            if (current >= target) {
-                el.textContent = prefix + target + suffix;
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+        anchor.addEventListener("click", function (event) {
+            var target = document.querySelector(this.getAttribute("href"));
+            if (!target) {
                 return;
             }
-            el.textContent = prefix + Math.floor(current) + suffix;
-            requestAnimationFrame(update);
+
+            event.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+    });
+
+    if ("IntersectionObserver" in window) {
+        var revealObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) {
+                    return;
+                }
+
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+            });
+        }, {
+            threshold: 0.14,
+            rootMargin: "0px 0px -48px 0px"
+        });
+
+        revealElements.forEach(function (element) {
+            revealObserver.observe(element);
+        });
+
+        var counterObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) {
+                    return;
+                }
+
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            });
+        }, {
+            threshold: 0.35
+        });
+
+        counterElements.forEach(function (element) {
+            counterObserver.observe(element);
+        });
+    } else {
+        revealElements.forEach(function (element) {
+            element.classList.add("visible");
+        });
+        counterElements.forEach(animateCounter);
+    }
+
+    function animateCounter(element) {
+        var target = parseInt(element.dataset.count || "0", 10);
+        var prefix = element.dataset.prefix || "";
+        var suffix = element.dataset.suffix || "";
+        var duration = 1300;
+        var startTime = null;
+
+        function tick(timestamp) {
+            if (!startTime) {
+                startTime = timestamp;
+            }
+
+            var progress = Math.min((timestamp - startTime) / duration, 1);
+            var eased = 1 - Math.pow(1 - progress, 3);
+            var current = Math.round(target * eased);
+            element.textContent = prefix + current + suffix;
+
+            if (progress < 1) {
+                requestAnimationFrame(tick);
+            }
         }
-        update();
+
+        requestAnimationFrame(tick);
     }
 });

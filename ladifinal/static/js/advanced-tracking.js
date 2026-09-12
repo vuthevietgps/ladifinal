@@ -1,7 +1,7 @@
 /**
  * Advanced Analytics & Tracking Library
  * Supports: Google Analytics 4, Facebook Pixel, TikTok Pixel, Custom Events
- * Version: 3.0
+ * Version: 3.1
  */
 
 class AdvancedTracking {
@@ -10,12 +10,27 @@ class AdvancedTracking {
             gaId: config.gaId || null,
             fbPixelId: config.fbPixelId || null,
             tiktokPixelId: config.tiktokPixelId || null,
+            googleAdsConversionId: config.googleAdsConversionId || null,
+            googleAdsPhoneLabel: config.googleAdsPhoneLabel || null,
+            googleAdsZaloLabel: config.googleAdsZaloLabel || null,
             debug: config.debug || false,
-            autoTrack: config.autoTrack !== false // Default true
+            autoTrack: config.autoTrack !== false, // Default true
+            consentModeEnabled: config.consentModeEnabled !== false,
+            defaultConsent: config.defaultConsent || {
+                ad_storage: 'granted',
+                analytics_storage: 'granted',
+                ad_user_data: 'granted',
+                ad_personalization: 'granted'
+            },
+            waitForConsentUpdateMs: Number.isFinite(config.waitForConsentUpdateMs)
+                ? config.waitForConsentUpdateMs
+                : 500
         };
+        this.config.googleAdsConversionId = this.normalizeGoogleAdsConversionId(this.config.googleAdsConversionId);
         
         this.initialized = false;
         this.eventQueue = [];
+        this.initialGaPageViewTracked = false;
         
         if (this.config.autoTrack) {
             this.init();
@@ -34,6 +49,11 @@ class AdvancedTracking {
         if (this.config.gaId) {
             this.initGA4();
         }
+
+        // Initialize Google Ads conversion tag (AW) for auto phone/zalo conversion tracking
+        if (this.config.googleAdsConversionId) {
+            this.initGoogleAdsConversion();
+        }
         
         // Initialize Facebook Pixel
         if (this.config.fbPixelId) {
@@ -45,40 +65,175 @@ class AdvancedTracking {
             this.initTikTokPixel();
         }
 
-        // Auto-track page view
-        this.trackPageView();
+        // Auto-track page view for platforms already ready.
+        // GA page_view is dispatched after Google tag is available.
+        if (this.config.gaId) {
+            this.trackPageView(null, { includeGA: false });
+        } else {
+            this.trackPageView();
+        }
         
         // Setup auto event listeners
         this.setupAutoTracking();
         
+        this.initialized = true;
+
         // Process queued events
         this.processQueue();
         
-        this.initialized = true;
         this.log('Advanced Tracking initialized successfully');
+    }
+
+    normalizeGoogleAdsConversionId(value) {
+        if (!value) {
+            return null;
+        }
+        const raw = String(value).trim();
+        if (!raw) {
+            return null;
+        }
+        return raw.toUpperCase().startsWith('AW-') ? raw.toUpperCase() : `AW-${raw}`;
+    }
+
+    ensureGoogleTagReady(tagId, onScriptLoad = null) {
+        if (!tagId) {
+            return;
+        }
+
+        window.dataLayer = window.dataLayer || [];
+        if (typeof window.gtag === 'undefined') {
+            window.gtag = function() { window.dataLayer.push(arguments); };
+        }
+
+        if (this.config.consentModeEnabled && !window.__advancedTrackingConsentDefaultSet) {
+            gtag('consent', 'default', {
+                ...this.buildConsentPayload(this.config.defaultConsent),
+                wait_for_update: this.config.waitForConsentUpdateMs
+            });
+            window.__advancedTrackingConsentDefaultSet = true;
+        }
+
+        if (!window.__advancedTrackingGtagJsInitialized) {
+            gtag('js', new Date());
+            window.__advancedTrackingGtagJsInitialized = true;
+        }
+
+        const encodedTagId = encodeURIComponent(tagId);
+        const existingScript = document.querySelector(`script[src*="googletagmanager.com/gtag/js?id=${encodedTagId}"]`);
+        if (existingScript) {
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${tagId}`;
+        if (typeof onScriptLoad === 'function') {
+            script.onload = onScriptLoad;
+        }
+        document.head.appendChild(script);
+    }
+
+    initGoogleAdsConversion() {
+        const conversionId = this.config.googleAdsConversionId;
+        if (!conversionId) {
+            return;
+        }
+
+        this.ensureGoogleTagReady(conversionId);
+        if (typeof gtag !== 'undefined') {
+            gtag('config', conversionId);
+            this.log('Google Ads conversion initialized:', conversionId);
+        }
     }
 
     /**
      * Initialize Google Analytics 4
      */
     initGA4() {
+        this.ensureGoogleTagReady(this.config.gaId, () => {
+            this.log('Google tag script loaded');
+            this.sendInitialGaPageView();
+        });
+
         if (typeof gtag === 'undefined') {
-            // Load GA4 script
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = `https://www.googletagmanager.com/gtag/js?id=${this.config.gaId}`;
-            document.head.appendChild(script);
-            
-            // Initialize dataLayer
-            window.dataLayer = window.dataLayer || [];
-            window.gtag = function() { dataLayer.push(arguments); };
-            gtag('js', new Date());
-            gtag('config', this.config.gaId, {
-                'send_page_view': false // We'll send manually
-            });
-            
-            this.log('GA4 initialized:', this.config.gaId);
+            return;
         }
+
+        gtag('config', this.config.gaId, {
+            send_page_view: false // We'll send manually
+        });
+
+        this.log('GA4 initialized:', this.config.gaId);
+
+        // If Google tag is already loaded by another snippet, fire initial GA page_view now.
+        if (typeof window.google_tag_manager !== 'undefined') {
+            this.sendInitialGaPageView();
+        }
+    }
+
+    /**
+     * Normalize and filter consent states for Consent Mode v2.
+     */
+    buildConsentPayload(consentState = {}) {
+        const normalizeValue = (value) => (value === 'denied' ? 'denied' : 'granted');
+        return {
+            ad_storage: normalizeValue(consentState.ad_storage),
+            analytics_storage: normalizeValue(consentState.analytics_storage),
+            ad_user_data: normalizeValue(consentState.ad_user_data),
+            ad_personalization: normalizeValue(consentState.ad_personalization)
+        };
+    }
+
+    /**
+     * Update consent state at runtime.
+     */
+    updateConsent(consentState = {}) {
+        if (!this.config.gaId || typeof gtag === 'undefined') {
+            return;
+        }
+
+        const updates = {};
+        ['ad_storage', 'analytics_storage', 'ad_user_data', 'ad_personalization'].forEach((key) => {
+            if (consentState[key] !== undefined) {
+                updates[key] = consentState[key] === 'denied' ? 'denied' : 'granted';
+            }
+        });
+
+        if (Object.keys(updates).length === 0) {
+            return;
+        }
+
+        gtag('consent', 'update', updates);
+        this.log('Consent updated:', updates);
+    }
+
+    grantAllConsent() {
+        this.updateConsent({
+            ad_storage: 'granted',
+            analytics_storage: 'granted',
+            ad_user_data: 'granted',
+            ad_personalization: 'granted'
+        });
+    }
+
+    denyAllConsent() {
+        this.updateConsent({
+            ad_storage: 'denied',
+            analytics_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied'
+        });
+    }
+
+    sendInitialGaPageView() {
+        if (this.initialGaPageViewTracked) {
+            return;
+        }
+        this.initialGaPageViewTracked = true;
+        this.trackPageView(null, {
+            includeFacebook: false,
+            includeTikTok: false
+        });
     }
 
     /**
@@ -119,11 +274,14 @@ class AdvancedTracking {
     /**
      * Track page view
      */
-    trackPageView(pagePath = null) {
+    trackPageView(pagePath = null, options = {}) {
         const path = pagePath || window.location.pathname;
+        const includeGA = options.includeGA !== false;
+        const includeFacebook = options.includeFacebook !== false;
+        const includeTikTok = options.includeTikTok !== false;
         
         // GA4
-        if (this.config.gaId && typeof gtag !== 'undefined') {
+        if (includeGA && this.config.gaId && typeof gtag !== 'undefined') {
             gtag('event', 'page_view', {
                 page_path: path,
                 page_title: document.title,
@@ -132,12 +290,12 @@ class AdvancedTracking {
         }
         
         // Facebook Pixel
-        if (this.config.fbPixelId && typeof fbq !== 'undefined') {
+        if (includeFacebook && this.config.fbPixelId && typeof fbq !== 'undefined') {
             fbq('track', 'PageView');
         }
 
         // TikTok Pixel
-        if (this.config.tiktokPixelId && typeof ttq !== 'undefined') {
+        if (includeTikTok && this.config.tiktokPixelId && typeof ttq !== 'undefined') {
             ttq.page();
         }
 
@@ -183,10 +341,28 @@ class AdvancedTracking {
         });
     }
 
+    trackGoogleAdsConversion(label, extraParams = {}) {
+        const conversionId = this.config.googleAdsConversionId;
+        if (!conversionId || !label || typeof gtag === 'undefined') {
+            return;
+        }
+
+        gtag('event', 'conversion', {
+            send_to: `${conversionId}/${label}`,
+            ...extraParams
+        });
+        this.log('Google Ads conversion tracked:', `${conversionId}/${label}`);
+    }
+
     /**
      * Track phone call
      */
     trackPhoneClick(phoneNumber) {
+        this.trackGoogleAdsConversion(this.config.googleAdsPhoneLabel, {
+            event_category: 'contact',
+            event_label: 'phone'
+        });
+
         // GA4
         this.trackEvent('call_clicked', {
             event_category: 'contact',
@@ -212,6 +388,11 @@ class AdvancedTracking {
      * Track Zalo click
      */
     trackZaloClick(zaloNumber) {
+        this.trackGoogleAdsConversion(this.config.googleAdsZaloLabel, {
+            event_category: 'contact',
+            event_label: 'zalo'
+        });
+
         this.trackEvent('zalo_clicked', {
             event_category: 'contact',
             event_label: 'zalo',
@@ -434,6 +615,11 @@ class AdvancedTracking {
 // Initialize from window config if available
 if (typeof window !== 'undefined') {
     window.AdvancedTracking = AdvancedTracking;
+    window.updateTrackingConsent = function(consentState) {
+        if (window.tracker) {
+            window.tracker.updateConsent(consentState);
+        }
+    };
     
     // Auto-initialize if config is present
     if (window.TRACKING_CONFIG) {

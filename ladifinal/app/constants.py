@@ -66,19 +66,22 @@ window.TRACKING_CONFIG = {{
     gaId: {ga_id_json},
     fbPixelId: {fb_pixel_id_json},
     tiktokPixelId: {tiktok_pixel_id_json},
-    autoTrack: true
+    googleAdsConversionId: {google_ads_conversion_id_json},
+    googleAdsPhoneLabel: {google_ads_phone_label_json},
+    googleAdsZaloLabel: {google_ads_zalo_label_json},
+    autoTrack: true,
+    consentModeEnabled: true,
+    defaultConsent: {{
+        ad_storage: 'granted',
+        analytics_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted'
+    }},
+    waitForConsentUpdateMs: 500
 }};
 </script>
 <script src="/static/js/advanced-tracking.js" defer></script>
 <!-- /Analytics & Tracking -->"""
-
-TRACKING_TEMPLATE_BODY = """<!-- Custom Tracking Events -->
-<script>
-window.PHONE_TRACKING = {phone_tracking_json};
-window.ZALO_TRACKING = {zalo_tracking_json};
-window.FORM_TRACKING = {form_tracking_json};
-</script>
-<!-- /Custom Tracking Events -->"""
 
 # Database Configuration
 LANDING_PAGE_STATUSES = ('active', 'paused')

@@ -4,6 +4,7 @@ from .landing_routes import landing_bp
 from .auth_routes import auth_bp
 from .agents_routes import agents_bp
 from .health_routes import health_bp
+from .click_tracking_routes import click_tracking_bp
 
 def register_blueprints(app):
     """Register all blueprints with the Flask app"""
@@ -22,6 +23,9 @@ def register_blueprints(app):
     
     # Register agents routes (no prefix)
     app.register_blueprint(agents_bp)
+
+    # Public collection endpoint + authenticated manual IP suggestions.
+    app.register_blueprint(click_tracking_bp)
 
     # Finally, register legacy routes (must be last for catch-all). This file is app/routes.py,
     # but since we also have a package app.routes (this folder), import it by path to avoid name collision.

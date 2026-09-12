@@ -14,6 +14,7 @@ Hệ thống tạo và quản lý landing page chuyên nghiệp với Flask, h�
 - � **ZIP Upload**: Hỗ trợ tải lên file ZIP với cấu trúc chuẩn
 - 🔄 **Auto Rewrite**: Tự động chuyển đổi đường dẫn asset khi deploy
 - 📊 **Analytics**: Theo dõi và phân tích lưu lượng truy cập
+- 🛡️ **Google Ads IP Suggestions**: Ghi nhận IP qua Cloudflare và đề xuất IP nghi ngờ để kiểm tra/chặn thủ công
 - 🔐 **Secure Admin Panel**: Role-based access control
 - 🐳 **Docker Optimized**: Production-ready containerization
 

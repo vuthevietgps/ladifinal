@@ -9,6 +9,10 @@ services:
       - PORT=5001
       - PUBLISHED_ROOT=/app/published
       - UPLOAD_FOLDER=/app/uploads
+      - CLICK_TRACKING_ENABLED=${CLICK_TRACKING_ENABLED:-true}
+      - TRUST_CLOUDFLARE_IP=${TRUST_CLOUDFLARE_IP:-true}
+      - CLICK_TRACKING_RETENTION_DAYS=${CLICK_TRACKING_RETENTION_DAYS:-90}
+      - CLICK_TRACKING_ALLOWED_COUNTRIES=${CLICK_TRACKING_ALLOWED_COUNTRIES:-VN}
     volumes:
       - ./uploads:/app/uploads
       - ./published:/app/published

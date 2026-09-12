@@ -65,6 +65,12 @@ create-*.ps1
 *.backup
 *.orig
 
+# Local SQLite databases and database backups must never be baked into images
+*.db
+*.db-*
+*.db.*
+database.db*
+
 # Node modules if any
 node_modules/
 

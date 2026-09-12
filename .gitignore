@@ -15,6 +15,8 @@ venv.bak/
 
 # Database
 *.db
+*.db-*
+*.db.*
 *.sqlite3
 database.db
 
@@ -39,8 +41,13 @@ Thumbs.db
 
 # Temporary files
 temp-check/
+.codex_tmp/
+outputs/
 *.tmp
 *.temp
+
+# Generated archives (keep source directories in Git)
+*.zip
 
 # Node modules (if any)
 node_modules/

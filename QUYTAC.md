@@ -2,6 +2,8 @@
 
 > File nay danh cho AI (Claude, Codex, ChatGPT) doc de thiet ke landing page tuong thich voi he thong ladifinal.
 > **QUY TRINH BAT BUOC: 2 PHA** - Thiet ke truoc, test bang link, chi dong goi sau khi user yeu cau ro rang.
+> **CAP NHAT:** Admin hien tai co the tao page ma khong can upload ZIP. Neu khong co ZIP, he thong tao trang mac dinh.
+> Tuy nhien, de co landing page day du giao dien/noi dung, van nen chuan bi bo file va dong goi ZIP.
 
 ---
 
@@ -72,6 +74,14 @@ ten-landing.zip
 └── ten-folder/         <-- SAI: index.html bi lot
     └── index.html
 ```
+
+---
+
+## LUU Y VAN HANH (ADMIN HIEN TAI)
+
+- Form admin tao Landing/Homepage hien tai KHONG bat buoc upload ZIP.
+- Neu tao moi ma khong co ZIP, he thong se tao 1 trang mac dinh (`index.html`) de page van hoat dong.
+- Neu can landing page day du (HTML/CSS/JS/anh theo thiet ke), van phai co bo file va dong goi ZIP de deploy.
 
 ---
 
@@ -242,15 +252,51 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;color:#333}
 
 ## TRACKING - KHONG TU THEM SCRIPT
 
-> **QUAN TRONG:** KHONG tu them script Google Analytics, Facebook Pixel, TikTok Pixel vao HTML.
+> **QUAN TRONG:** KHONG tu them script tracking vao HTML neu khong duoc user yeu cau ro.
 
-He thong **tu dong inject** tracking code khi upload. Nguoi dung chi nhap ID vao form quan tri:
+He thong tu dong inject tracking khi tao/cap nhat page.
+Form quan tri hien tai co cac o lien quan tracking:
 
-| Platform | Format ID | Vi du |
-|----------|-----------|-------|
-| Google Analytics 4 | `G-XXXXXXXXXX` | `G-1A2B3C4D5E` |
-| Facebook Pixel | Chuoi 10-20 so | `123456789012345` |
-| TikTok Pixel | Chuoi chu + so | `C5JLGR3BVJC2P8DNFHKG` |
+| Truong | Format | Vi du |
+|--------|--------|-------|
+| Facebook Pixel ID | Chuoi 10-20 so | `123456789012345` |
+| TikTok Pixel ID | Chuoi chu + so | `C5JLGR3BVJC2P8DNFHKG` |
+| Ma chuyen doi Google Ads (AW) | So hoac `AW-<so>` | `16590250699` hoac `AW-16590250699` |
+| Nhan chuyen doi SDT | Chu + so + `_` + `-` | `GoKSCL2gqoEcEMvF7OY9` |
+| Nhan chuyen doi Zalo | Chu + so + `_` + `-` | `nuf0CMCgqoEcEMvF7OY9` |
+| Global Site Tag (Legacy - Optional) | Doan script/ma tuy chinh | Script tuy bien them |
+
+**Khong con truong "Google Analytics 4 ID / Google tag ID" tren form admin.**
+
+### Google Ads conversion (chi tiet can nho)
+
+Ban can dung 2 nhom ma:
+1. Google tag goc (vi du `AW-16590250699`)
+2. Event conversion cho tung hanh dong (`send_to: 'AW-.../LABEL'`)
+
+Noi lay ma:
+- Google Ads -> Muc tieu -> Luot chuyen doi
+- Tao conversion website
+- Chon cai dat thu cong de lay:
+  - Doan Google tag base
+  - Doan event snippet
+
+Noi dien tren form admin:
+- `Ma chuyen doi` trong Google Ads -> o `Ma chuyen doi Google Ads (AW)`.
+- `Nhan chuyen doi` cho hanh dong goi dien -> o `Nhan chuyen doi SDT`.
+- `Nhan chuyen doi` cho hanh dong Zalo -> o `Nhan chuyen doi Zalo`.
+
+Co che he thong:
+- He thong tu khoi tao Google tag AW va tu ban su kien conversion cho `tel:` va `zalo.me` theo dung `send_to: AW-.../LABEL`.
+- `Global Site Tag (Legacy - Optional)` chi dung khi can chen them script tuy bien.
+- Khong can copy event snippet vao HTML thu cong neu da dien dung 3 o tren.
+
+**Da loai bo khoi he thong:**
+- `Phone Tracking`
+- `Form Tracking`
+- `Zalo/Messenger Tracking`
+
+Phone/Zalo/Form van duoc do luong qua hanh vi thuc te (`tel:`, `zalo.me`, `form submit`), khong can field rieng.
 
 **He thong tu dong theo doi:**
 - Page view (xem trang)
@@ -260,7 +306,10 @@ He thong **tu dong inject** tracking code khi upload. Nguoi dung chi nhap ID vao
 - CTA button click (nut `.btn-buy`, `.btn-order`, `.cta-button`)
 - Scroll depth (25%, 50%, 75%, 100%)
 
-**Dieu duy nhat can lam:** Dam bao link dien thoai va Zalo dung format chuan:
+**Dieu can lam de do conversion Google Ads dung:** 
+1. Dien dung `Ma chuyen doi Google Ads (AW)`.
+2. Dien `Nhan chuyen doi SDT` va `Nhan chuyen doi Zalo` dung label trong Google Ads.
+3. Dam bao link dien thoai va Zalo dung format chuan:
 
 ```html
 <a href="tel:0901234567">Goi ngay</a>
@@ -338,6 +387,7 @@ OK, dong goi ZIP cho toi
 
 ## KIEM THU SAU KHI UPLOAD LEN HE THONG
 
+- Neu khong upload ZIP, page moi se la trang mac dinh (khong phai giao dien landing da thiet ke).
 - Landing page: mo `/landing/<subdomain>`
 - Homepage: mo `/` (root)
 - Kiem tra: F12 > Network > tat ca asset tra ve 200 OK

@@ -24,47 +24,44 @@
         </select>
       </div>
       <div class="col-md-6">
-        <label class="form-label">Upload folder mới (tùy chọn)</label>
-        <input type="file" name="folder_zip" accept=".zip" class="form-control">
-        <div class="form-text">Upload file ZIP để thay thế toàn bộ folder website hiện tại</div>
-      </div>
-      <div class="col-md-3">
         <label class="form-label">Google Form Link</label>
         <input name="google_form_link" class="form-control" value="{{landing.google_form_link}}" placeholder="https://docs.google.com/forms/...">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Cập nhật file ZIP (tùy chọn)</label>
+        <input type="file" name="folder_zip" class="form-control" accept=".zip,application/zip">
+        <small class="text-muted">Chỉ chọn khi muốn thay toàn bộ giao diện hiện tại bằng bản ZIP mới.</small>
       </div>
     </div>
   </fieldset>
   <fieldset class="border rounded p-3 mb-3">
     <legend class="float-none w-auto px-2 small">Analytics & Tracking</legend>
     <div class="row g-3">
-      <div class="col-md-4">
-        <label class="form-label"><i class="fab fa-google"></i> Google Analytics 4 ID</label>
-        <input name="ga_tracking_id" class="form-control" value="{{landing.ga_tracking_id or ''}}" placeholder="G-XXXXXXXXXX">
-      </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <label class="form-label"><i class="fab fa-facebook"></i> Facebook Pixel ID</label>
         <input name="fb_pixel_id" class="form-control" value="{{landing.fb_pixel_id or ''}}" placeholder="1234567890123456">
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <label class="form-label"><i class="fab fa-tiktok"></i> TikTok Pixel ID</label>
         <input name="tiktok_pixel_id" class="form-control" value="{{landing.tiktok_pixel_id or ''}}" placeholder="XXXXXXXXXXXXXXXXXX">
       </div>
+      <div class="col-md-4">
+        <label class="form-label">Mã chuyển đổi Google Ads (AW)</label>
+        <input name="google_ads_conversion_id" class="form-control" value="{{landing.google_ads_conversion_id or ''}}" placeholder="16590250699 hoặc AW-16590250699">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Nhãn chuyển đổi SĐT</label>
+        <input name="google_ads_label_phone" class="form-control" value="{{landing.google_ads_label_phone or ''}}" placeholder="GoKSCL2gqoEcEMvF7OY9">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Nhãn chuyển đổi Zalo</label>
+        <input name="google_ads_label_zalo" class="form-control" value="{{landing.google_ads_label_zalo or ''}}" placeholder="nuf0CMCgqoEcEMvF7OY9">
+      </div>
       <div class="col-12">
         <label class="form-label">Global Site Tag (Legacy - Optional)</label>
-        <textarea name="global_site_tag" class="form-control" rows="3">{{landing.global_site_tag}}</textarea>
+        <textarea name="global_site_tag" class="form-control" rows="12" placeholder="<!-- Google tag (gtag.js) AW-XXXXXXXXXX -->">{{landing.global_site_tag}}</textarea>
         <small class="text-muted">Dành cho tracking code tùy chỉnh khác</small>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Phone Tracking</label>
-        <input name="phone_tracking" class="form-control" value="{{landing.phone_tracking}}">
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Form Tracking</label>
-        <input name="form_tracking" class="form-control" value="{{landing.form_tracking}}">
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Zalo/Messenger Tracking</label>
-        <input name="zalo_tracking" class="form-control" value="{{landing.zalo_tracking}}">
+        {% include '_google_ads_conversion_guide.html' %}
       </div>
       <div class="col-md-4">
         <label class="form-label">Hotline Phone</label>
@@ -73,35 +70,6 @@
       <div class="col-md-4">
         <label class="form-label">Zalo Phone</label>
         <input name="zalo_phone" class="form-control" value="{{landing.zalo_phone}}">
-      </div>
-    </div>
-  </fieldset>
-  
-  <fieldset class="border rounded p-3 mb-3">
-    <legend class="float-none w-auto px-2 small">File & Ảnh</legend>
-    <div class="row g-3">
-      <div class="col-md-6">
-        <label class="form-label">File index.html (Tùy chọn)</label>
-        <input type="file" name="file" accept=".html,.htm" class="form-control">
-        <div class="form-text">Hiện tại: {{landing.original_filename}}</div>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Cập nhật ảnh (Tối đa 7 ảnh)</label>
-        <input type="file" name="images" accept="image/*" class="form-control" multiple>
-        <small class="text-muted">Chọn ảnh mới sẽ thay thế tất cả ảnh cũ. Đặt tên: anh1.jpg, anh2.png, ...</small>
-      </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col-12">
-        <div class="alert alert-info">
-          <h6><i class="fas fa-info-circle"></i> Hướng dẫn sử dụng ảnh trong HTML:</h6>
-          <ul class="mb-0">
-            <li>Ảnh sẽ được đặt tên: <code>anh1.jpg</code>, <code>anh2.png</code>, <code>anh3.gif</code>, ... (tối đa 7 ảnh)</li>
-            <li>Trong HTML sử dụng: <code>&lt;img src="./anh1.jpg"&gt;</code></li>
-            <li>Background: <code>background-image: url('./anh2.jpg')</code></li>
-            <li>Thứ tự upload = thứ tự đặt tên</li>
-          </ul>
-        </div>
       </div>
     </div>
   </fieldset>
@@ -141,3 +109,4 @@
   })
 </script>
 {% endblock %}
+

@@ -8,6 +8,10 @@ services:
       PORT: "5000"
       PUBLISHED_ROOT: /app/published
       UPLOAD_FOLDER: /app/uploads
+      CLICK_TRACKING_ENABLED: "true"
+      TRUST_CLOUDFLARE_IP: "true"
+      CLICK_TRACKING_RETENTION_DAYS: "90"
+      CLICK_TRACKING_ALLOWED_COUNTRIES: "VN"
     volumes:
       - ./uploads:/app/uploads
       - ./published:/app/published

@@ -102,8 +102,14 @@ Copy các file sau từ máy phát triển lên server:
 
 **Cách 1: Dùng scp (từ máy Windows)**
 ```powershell
-# Copy file lên server (thay user@server-ip bằng thông tin server thật)
-scp docker-compose.prod.yml .env.example deploy-server.sh user@server-ip:~/ladifinal/
+# Copy file lên server (ưu tiên alias trong ~/.ssh/config: vippro, vippro-proj-a, vippro-proj-b)
+./deploy-to-vippro.sh --host vippro
+
+# Hoặc copy thủ công (không khuyến nghị nếu đang bị fail2ban)
+scp -oBatchMode=yes -oIdentitiesOnly=yes -oIdentityAgent=none -oPreferredAuthentications=publickey `
+  -oPubkeyAuthentication=yes -oPasswordAuthentication=no -oStrictHostKeyChecking=yes `
+  -oConnectTimeout=15 -oServerAliveInterval=30 -oServerAliveCountMax=3 `
+  docker-compose.prod.yml .env.example deploy-server.sh vippro:~/ladifinal/
 ```
 
 **Cách 2: Dùng Git (nếu có repository)**

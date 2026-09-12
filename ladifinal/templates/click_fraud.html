@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="mb-3"><a class="btn btn-primary" href="{{ url_for('click_tracking.admin_click_fraud', view='conversions', conversion='contact') }}">Lọc chuyển đổi · Nhập khách hàng & đơn hàng</a></div>
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+  <div>
+    <h2 class="mb-1"><i class="fas fa-shield-halved text-primary"></i> Đề xuất IP click tặc</h2>
+    <p class="text-muted mb-0">Danh sách tham khảo để người dùng tự kiểm tra và nhập vào Google Ads.</p>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn btn-primary" id="copySelected" type="button">
+      <i class="fas fa-copy"></i> Sao chép IP đã chọn
+    </button>
+    <div class="dropdown">
+      <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" type="button">
+        <i class="fas fa-download"></i> Tải xuống
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><a class="dropdown-item" href="/admin-panel-xyz123/click-fraud/export?days={{ filters.days }}&risk={{ filters.risk }}&format=txt">Danh sách TXT</a></li>
+        <li><a class="dropdown-item" href="/admin-panel-xyz123/click-fraud/export?days={{ filters.days }}&risk={{ filters.risk }}&format=csv">Báo cáo CSV</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="alert alert-warning d-flex gap-2 align-items-start" role="alert">
+  <i class="fas fa-triangle-exclamation mt-1"></i>
+  <div>
+    <strong>Không tự động chặn.</strong> Điểm rủi ro là đề xuất dựa trên hành vi. Hãy kiểm tra IP, thời gian và chiến dịch trước khi thêm vào Google Ads; IP dùng chung của nhà mạng có thể chứa khách thật.
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-xl-3">
+    <div class="card border-0 shadow-sm h-100"><div class="card-body">
+      <div class="text-muted small">Lượt vào từ Ads</div>
+      <div class="fs-3 fw-bold">{{ stats.total_visits }}</div>
+    </div></div>
+  </div>
+  <div class="col-6 col-xl-3">
+    <div class="card border-0 shadow-sm h-100"><div class="card-body">
+      <div class="text-muted small">IP duy nhất</div>
+      <div class="fs-3 fw-bold">{{ stats.unique_ips }}</div>
+    </div></div>
+  </div>
+  <div class="col-6 col-xl-3">
+    <div class="card border-0 shadow-sm h-100"><div class="card-body">
+      <div class="text-muted small">IP được đề xuất</div>
+      <div class="fs-3 fw-bold text-warning">{{ stats.suggested_ips }}</div>
+    </div></div>
+  </div>
+  <div class="col-6 col-xl-3">
+    <div class="card border-0 shadow-sm h-100"><div class="card-body">
+      <div class="text-muted small">Rủi ro cao</div>
+      <div class="fs-3 fw-bold text-danger">{{ stats.high_risk_ips }}</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+  <div class="card-body">
+    <form class="row g-3 align-items-end" method="get">
+      <div class="col-md-2">
+        <label class="form-label">Khoảng thời gian</label>
+        <select class="form-select" name="days">
+          {% for value, label in [(1, '24 giờ'), (3, '3 ngày'), (7, '7 ngày'), (14, '14 ngày'), (30, '30 ngày'), (90, '90 ngày')] %}
+            <option value="{{ value }}" {% if filters.days == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Mức rủi ro</label>
+        <select class="form-select" name="risk">
+          <option value="suggested" {% if filters.risk == 'suggested' %}selected{% endif %}>Được đề xuất chặn</option>
+          <option value="high" {% if filters.risk == 'high' %}selected{% endif %}>Cao</option>
+          <option value="medium" {% if filters.risk == 'medium' %}selected{% endif %}>Trung bình</option>
+          <option value="watch" {% if filters.risk == 'watch' %}selected{% endif %}>Theo dõi</option>
+          <option value="low" {% if filters.risk == 'low' %}selected{% endif %}>Thấp</option>
+          <option value="all" {% if filters.risk == 'all' %}selected{% endif %}>Tất cả IP</option>
+        </select>
+      </div>
+      <div class="col-md-5">
+        <label class="form-label">Tìm kiếm</label>
+        <input class="form-control" name="q" value="{{ filters.q }}" placeholder="IP, campaign, keyword hoặc landing page">
+      </div>
+      <div class="col-md-2 d-grid">
+        <button class="btn btn-dark" type="submit"><i class="fas fa-filter"></i> Lọc</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+    <div>
+      <strong>{{ rows|length }} IP đang hiển thị</strong>
+      {% if allowed_countries %}<span class="text-muted small ms-2">Khu vực mục tiêu: {{ allowed_countries|join(', ') }}</span>{% endif %}
+    </div>
+    <div class="form-check mb-0">
+      <input class="form-check-input" id="selectAll" type="checkbox">
+      <label class="form-check-label" for="selectAll">Chọn tất cả</label>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th style="width: 42px"></th>
+          <th>IP / mức độ</th>
+          <th class="text-center">Lượt Ads</th>
+          <th class="text-center">Không tương tác</th>
+          <th>Chiến dịch / landing</th>
+          <th>Lý do đề xuất</th>
+          <th>Lần cuối</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td><input class="form-check-input ip-checkbox" type="checkbox" value="{{ row.ip_address }}" aria-label="Chọn IP {{ row.ip_address }}"></td>
+          <td>
+            <div class="font-monospace fw-semibold">{{ row.ip_address }}</div>
+            {% if row.risk_level == 'high' %}
+              <span class="badge bg-danger">Cao · {{ row.score }}/100</span>
+            {% elif row.risk_level == 'medium' %}
+              <span class="badge bg-warning text-dark">Trung bình · {{ row.score }}/100</span>
+            {% elif row.risk_level == 'watch' %}
+              <span class="badge bg-info text-dark">Theo dõi · {{ row.score }}/100</span>
+            {% else %}
+              <span class="badge bg-secondary">Thấp · {{ row.score }}/100</span>
+            {% endif %}
+            {% if row.countries %}<span class="small text-muted ms-1">{{ row.countries|join(', ') }}</span>{% endif %}
+          </td>
+          <td class="text-center">
+            <div class="fs-5 fw-semibold">{{ row.visit_count }}</div>
+            <small class="text-muted">{{ row.unique_click_ids }} click ID</small>
+          </td>
+          <td class="text-center">
+            <div class="fw-semibold {% if row.short_rate >= 80 %}text-danger{% endif %}">{{ row.short_rate }}%</div>
+            <small class="text-muted">{{ row.short_visits }}/{{ row.visit_count }} lượt</small>
+          </td>
+          <td style="min-width: 190px">
+            {% if row.campaigns %}<div><i class="fas fa-bullhorn text-muted me-1"></i>{{ row.campaigns|join(', ') }}</div>{% endif %}
+            <div class="small text-muted text-truncate" style="max-width: 260px" title="{{ row.landings|join(', ') }}">{{ row.landings|join(', ') }}</div>
+            {% if row.top_keywords %}<div class="small"><i class="fas fa-key text-muted me-1"></i>{{ row.top_keywords|join(', ') }}</div>{% endif %}
+          </td>
+          <td style="min-width: 260px">
+            <ul class="small mb-0 ps-3">
+              {% for reason in row.reasons %}<li>{{ reason }}</li>{% endfor %}
+            </ul>
+          </td>
+          <td class="small text-nowrap">{{ row.last_seen }}<br><span class="text-muted">Liên hệ: {{ row.contact_actions }}</span></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center py-5 text-muted">
+          <i class="fas fa-shield-circle-check fa-2x mb-2"></i>
+          <div>Chưa có IP phù hợp với bộ lọc.</div>
+          <small>Đảm bảo URL quảng cáo có GCLID hoặc UTM Google CPC.</small>
+        </td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div class="toast" id="copyToast" role="status">
+    <div class="toast-body bg-dark text-white rounded">Đã sao chép danh sách IP.</div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const selectAll = document.getElementById('selectAll');
+  const checkboxes = Array.from(document.querySelectorAll('.ip-checkbox'));
+  const copyButton = document.getElementById('copySelected');
+
+  selectAll.addEventListener('change', function () {
+    checkboxes.forEach(function (checkbox) { checkbox.checked = selectAll.checked; });
+  });
+
+  copyButton.addEventListener('click', async function () {
+    const ips = checkboxes.filter(function (checkbox) { return checkbox.checked; }).map(function (checkbox) { return checkbox.value; });
+    if (!ips.length) {
+      alert('Hãy chọn ít nhất một IP.');
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(ips.join('\n'));
+      bootstrap.Toast.getOrCreateInstance(document.getElementById('copyToast')).show();
+    } catch (error) {
+      window.prompt('Sao chép danh sách IP:', ips.join('\n'));
+    }
+  });
+})();
+</script>
+{% endblock %}

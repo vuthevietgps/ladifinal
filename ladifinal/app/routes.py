@@ -13,7 +13,7 @@ from . import repository
 from . import agents_repository as agents
 from .auth import User
 from .forms import LoginForm
-from .constants import (TRACKING_TEMPLATE_HEAD, TRACKING_TEMPLATE_BODY, 
+from .constants import (TRACKING_TEMPLATE_HEAD,
                         ALLOWED_EXTENSIONS, MAX_FILE_SIZE, MAX_TOTAL_SIZE, MAX_FILES,
                         HOMEPAGE_DEFAULT_SUBDOMAIN, ERROR_MESSAGES, BLOCKED_ROUTE_PREFIXES)
 from .exceptions import ValidationError, FileUploadError, ZipProcessingError, SubdomainError

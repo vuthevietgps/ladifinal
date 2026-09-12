@@ -1,232 +1,422 @@
+{% set phone_display = '0986 284 840' %}
+{% set phone_href = '0986284840' %}
+{% set zalo_url = 'https://zalo.me/0986284840' %}
+{% set page_url = 'https://nghiepvuvantai.com/dich-vu-lam-phu-hieu-xe' %}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Phù hiệu xe là gì? Xe nào bắt buộc phải gắn phù hiệu? Hướng dẫn chi tiết về quy định, cách gắn, thời hạn phù hiệu xe tải, xe container, xe khách theo quy định mới nhất.">
-    <title>Phù Hiệu Xe - Quy Định, Cách Gắn, Thời Hạn Mới Nhất 2026</title>
+    <title>Dịch vụ làm phù hiệu xe tải | Hồ sơ, thời gian, báo giá qua Zalo</title>
+    <meta name="description" content="Dịch vụ làm phù hiệu xe tải, phù hiệu xe biển vàng, đăng ký phù hiệu xe tải. Kiểm tra điều kiện, hồ sơ, thời gian xử lý và báo giá qua Zalo {{ phone_display }}.">
+    <meta name="keywords" content="phù hiệu xe, phù hiệu xe tải, thủ tục làm phù hiệu xe tải, phù hiệu xe biển vàng, đăng ký phù hiệu xe tải, xin phù hiệu xe tải ở đâu">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="{{ page_url }}">
+    <meta property="og:title" content="Dịch vụ làm phù hiệu xe tải - Kiểm tra hồ sơ qua Zalo">
+    <meta property="og:description" content="Gửi ảnh giấy tờ xe qua Zalo để được kiểm tra điều kiện, hồ sơ còn thiếu, thời gian và chi phí xử lý phù hiệu xe tải.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ page_url }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/phu-hieu-dan-xe.webp', _external=True) }}">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230f7b5c'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-family='Arial' font-size='18' font-weight='700' fill='white'%3ENVVT%3C/text%3E%3C/svg%3E">
+    <link rel="preload" as="image" href="{{ url_for('static', filename='images/phu-hieu-dan-xe.webp') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/phu-hieu-xe.css') }}">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Nghiệp Vụ Vận Tải - Dịch vụ làm phù hiệu xe",
+        "url": "{{ page_url }}",
+        "telephone": "+84{{ phone_href[1:] }}",
+        "areaServed": "Việt Nam",
+        "priceRange": "Báo giá theo hồ sơ",
+        "description": "Dịch vụ tư vấn và hỗ trợ hồ sơ làm phù hiệu xe tải, xe hợp đồng, xe taxi và xe kinh doanh vận tải.",
+        "knowsAbout": [
+            "phù hiệu xe",
+            "phù hiệu xe tải",
+            "thủ tục làm phù hiệu xe tải",
+            "phù hiệu xe biển vàng",
+            "đăng ký phù hiệu xe tải"
+        ],
+        "address": [
+            {
+                "@type": "PostalAddress",
+                "streetAddress": "504 Quốc lộ 13, Khu phố 6, Phường Hiệp Bình",
+                "addressLocality": "TP. Hồ Chí Minh",
+                "addressCountry": "VN"
+            },
+            {
+                "@type": "PostalAddress",
+                "streetAddress": "387 Hoàng Quốc Việt, Phường Cầu Giấy",
+                "addressLocality": "Hà Nội",
+                "addressCountry": "VN"
+            }
+        ]
+    }
+    </script>
 </head>
 <body>
-    <!-- Hero Section - ATTENTION -->
-    <section class="hero">
-        <div class="container">
-            <h1>Phù hiệu xe là gì? Xe nào bắt buộc phải gắn phù hiệu theo quy định mới nhất?</h1>
-            <p class="subtitle">Rất nhiều chủ xe, tài xế bị phạt oan chỉ vì không biết xe mình có cần phù hiệu hay không, hoặc gắn sai – hết hạn – không kiểm tra được.</p>
-            <p class="cta-text">👉 Bài viết này giúp bạn <strong>hiểu đúng – làm đúng – tránh bị xử phạt.</strong></p>
-            <a href="#form" class="btn btn-primary btn-hero">Tư vấn phù hiệu xe miễn phí</a>
-        </div>
-    </section>
-
-    <!-- What is Section - INTEREST -->
-    <section class="content-section bg-light">
-        <div class="container">
-            <h2>❓ Phù hiệu xe là gì?</h2>
-            <p>Phù hiệu xe là dấu hiệu nhận biết do cơ quan có thẩm quyền cấp cho các phương tiện kinh doanh vận tải, dùng để:</p>
-            <ul class="check-list">
-                <li>Quản lý hoạt động vận tải</li>
-                <li>Phân biệt xe kinh doanh và xe cá nhân</li>
-                <li>Kiểm tra, xử phạt khi lưu thông</li>
-            </ul>
-            <div class="alert">👉 Không phải xe nào cũng cần, nhưng gắn sai hoặc không gắn khi bắt buộc sẽ bị phạt.</div>
-        </div>
-    </section>
-
-    <!-- Vehicle Types Section -->
-    <section class="content-section">
-        <div class="container">
-            <h2>🚚 Những loại xe nào bắt buộc phải gắn phù hiệu?</h2>
-            <p>Theo quy định hiện hành, các loại xe sau phải gắn phù hiệu:</p>
-            <div class="vehicle-grid">
-                <div class="vehicle-card">
-                    <div class="vehicle-icon">🚛</div>
-                    <h3>Xe tải kinh doanh vận tải hàng hóa</h3>
-                </div>
-                <div class="vehicle-card">
-                    <div class="vehicle-icon">🚚</div>
-                    <h3>Xe container, xe đầu kéo</h3>
-                </div>
-                <div class="vehicle-card">
-                    <div class="vehicle-icon">🚌</div>
-                    <h3>Xe khách, xe hợp đồng, xe du lịch</h3>
-                </div>
-                <div class="vehicle-card">
-                    <div class="vehicle-icon">🚐</div>
-                    <h3>Xe tải dưới 3,5 tấn nếu có hoạt động kinh doanh vận tải</h3>
-                </div>
-            </div>
-            <div class="alert alert-warning">👉 Nhiều người hiểu nhầm xe tải nhỏ không cần phù hiệu → dễ bị xử phạt.</div>
-        </div>
-    </section>
-
-    <!-- Badge Types Section -->
-    <section class="content-section bg-light">
-        <div class="container">
-            <h2>📌 Các loại phù hiệu xe phổ biến hiện nay</h2>
-            <ul class="badge-list">
-                <li><span class="badge-icon">🔷</span> Phù hiệu xe tải</li>
-                <li><span class="badge-icon">🔷</span> Phù hiệu xe container</li>
-                <li><span class="badge-icon">🔷</span> Phù hiệu xe hợp đồng</li>
-                <li><span class="badge-icon">🔷</span> Phù hiệu xe du lịch</li>
-                <li><span class="badge-icon">🔷</span> Phù hiệu xe kinh doanh vận tải</li>
-            </ul>
-            <div class="alert">👉 Mỗi loại xe → phù hiệu khác nhau, không dùng chung.</div>
-        </div>
-    </section>
-
-    <!-- Expiration Section -->
-    <section class="content-section">
-        <div class="container">
-            <h2>⏳ Thời hạn của phù hiệu xe tải</h2>
-            <p><strong>Phù hiệu có thời hạn nhất định</strong></p>
-            <p>Khi hết hạn mà vẫn sử dụng → bị xử phạt như không có phù hiệu</p>
-            <div class="warning-box">
-                <h3>⚠️ Rất nhiều xe bị phạt vì:</h3>
-                <ul>
-                    <li>Không biết phù hiệu đã hết hạn</li>
-                    <li>Không kiểm tra được tình trạng phù hiệu</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Check Section -->
-    <section class="content-section bg-light">
-        <div class="container">
-            <h2>🔍 Cách kiểm tra & tra cứu phù hiệu xe tải</h2>
-            <p>Bạn có thể:</p>
-            <div class="check-grid">
-                <div class="check-card">
-                    <div class="check-number">1</div>
-                    <p>Tra cứu phù hiệu xe tải theo thông tin phương tiện</p>
-                </div>
-                <div class="check-card">
-                    <div class="check-number">2</div>
-                    <p>Kiểm tra tình trạng: còn hạn / hết hạn</p>
-                </div>
-                <div class="check-card">
-                    <div class="check-number">3</div>
-                    <p>Đối chiếu với dữ liệu quản lý vận tải</p>
-                </div>
-            </div>
-            <div class="alert">👉 Kiểm tra định kỳ giúp tránh bị phạt bất ngờ khi lưu thông.</div>
-        </div>
-    </section>
-
-    <!-- Installation Section -->
-    <section class="content-section">
-        <div class="container">
-            <h2>📐 Kích thước – cách gắn – cách dán phù hiệu xe</h2>
-            <p>Phù hiệu phải:</p>
-            <ul class="check-list">
-                <li>Gắn đúng vị trí quy định</li>
-                <li>Dán đúng kích thước</li>
-                <li>Không che khuất, không bong tróc</li>
-            </ul>
-            <div class="installation-warning">
-                <p>❌ Gắn sai vị trí<br>
-                ❌ Dán không đúng chuẩn<br>
-                <strong>👉 Vẫn bị xử phạt như không có phù hiệu</strong></p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Problems Section - DESIRE -->
-    <section class="content-section bg-primary">
-        <div class="container">
-            <h2>⚠️ Thực tế nhiều chủ xe gặp phải</h2>
-            <div class="problems-grid">
-                <div class="problem-card">
-                    <p>❌ Không rõ xe mình có cần phù hiệu hay không</p>
-                </div>
-                <div class="problem-card">
-                    <p>❌ Không nắm quy định mới nhất</p>
-                </div>
-                <div class="problem-card">
-                    <p>❌ Không biết phù hiệu còn hạn hay đã hết</p>
-                </div>
-                <div class="problem-card">
-                    <p>❌ Sợ làm sai hồ sơ – mất thời gian đi lại</p>
-                </div>
-            </div>
-            <div class="solution-box">
-                <h3>👉 Vì vậy, nhiều người chọn được tư vấn trước khi làm phù hiệu, để:</h3>
-                <ul>
-                    <li>✅ Làm đúng ngay từ đầu</li>
-                    <li>✅ Tránh bị phạt</li>
-                    <li>✅ Không mất thời gian chỉnh sửa hồ sơ</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section - ACTION -->
-    <section class="cta-section" id="form">
-        <div class="container">
-            <h2>📞 Bạn đang băn khoăn?</h2>
-            <ul class="question-list">
-                <li>❓ Xe của bạn có bắt buộc gắn phù hiệu không?</li>
-                <li>❓ Phù hiệu hiện tại còn hạn hay đã hết?</li>
-                <li>❓ Trường hợp xe tải nhỏ, xe cá nhân kinh doanh xử lý thế nào?</li>
-            </ul>
-            <div class="benefits-box">
-                <h3>👉 Hãy để lại thông tin, bạn sẽ được:</h3>
-                <ul class="benefits-list">
-                    <li>✅ Kiểm tra miễn phí trường hợp xe</li>
-                    <li>✅ Tư vấn đúng loại phù hiệu cần làm</li>
-                    <li>✅ Hướng dẫn thủ tục đúng quy định</li>
-                </ul>
-            </div>
-
-            <!-- Form -->
-            <div class="form-wrapper">
-                <form id="consultForm" class="consult-form">
-                    <div class="form-group">
-                        <input type="text" id="fullname" name="fullname" placeholder="Họ và tên *" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" id="phone" name="phone" placeholder="Số điện thoại *" required pattern="[0-9]{10,11}">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="vehicle_type" name="vehicle_type" placeholder="Loại xe (xe tải, container, khách...)">
-                    </div>
-                    <div class="form-group">
-                        <textarea id="note" name="note" rows="4" placeholder="Ghi chú thêm (nếu có)"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-submit">
-                        👉 TƯ VẤN PHÙ HIỆU XE MIỄN PHÍ
-                    </button>
-                </form>
-                <div id="successMessage" class="success-message" style="display:none;">
-                    <p>✅ Cảm ơn bạn! Chúng tôi sẽ liên hệ tư vấn trong thời gian sớm nhất.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Floating Contact Buttons -->
-    <div class="floating-contact">
-        <a href="tel:0862221188" class="contact-btn phone-btn" title="Gọi điện">
-            <span class="icon">☎️</span>
-            <span class="label">Gọi ngay</span>
+    <header class="site-header" aria-label="Thanh điều hướng">
+        <a class="brand" href="#top" aria-label="Nghiệp Vụ Vận Tải">
+            <span>NVVT</span>
+            <strong>Nghiệp Vụ Vận Tải</strong>
         </a>
-        <a href="https://zalo.me/0862221188" target="_blank" class="contact-btn zalo-btn" title="Zalo">
-            <span class="icon">💬</span>
-            <span class="label">Zalo</span>
+        <nav class="nav-links" aria-label="Liên kết nhanh">
+            <a href="#dich-vu">Dịch vụ</a>
+            <a href="#ho-so">Hồ sơ</a>
+            <a href="#chi-phi">Chi phí</a>
+            <a href="#quy-trinh">Quy trình</a>
+        </nav>
+        <a class="header-call" href="tel:{{ phone_href }}" data-track-contact="phone" aria-label="Gọi {{ phone_display }}">
+            <i data-lucide="phone-call" aria-hidden="true"></i>
+            <span>{{ phone_display }}</span>
         </a>
-        <a href="#form" class="contact-btn form-btn" title="Liên hệ">
-            <span class="icon">📝</span>
-            <span class="label">Để lại info</span>
-        </a>
-    </div>
+    </header>
 
-    <!-- Footer -->
+    <main>
+        <section class="hero" id="top" aria-labelledby="hero-title">
+            <div class="hero-bg" aria-hidden="true"></div>
+            <div class="hero-overlay" aria-hidden="true"></div>
+            <div class="container hero-inner">
+                <p class="eyebrow">Dịch vụ làm phù hiệu xe tải</p>
+                <h1 id="hero-title">Dịch vụ làm phù hiệu xe tải, xe biển vàng</h1>
+                <p class="hero-lead">Gửi ảnh giấy tờ qua Zalo để được kiểm tra điều kiện, hồ sơ còn thiếu, thời gian dự kiến và báo giá trước khi xử lý.</p>
+                <div class="hero-actions" aria-label="Liên hệ tư vấn">
+                    <a class="btn btn-zalo" href="{{ zalo_url }}" target="_blank" rel="noopener" data-track-contact="zalo">
+                        <i data-lucide="message-circle" aria-hidden="true"></i>
+                        Nhắn Zalo gửi hồ sơ
+                    </a>
+                    <a class="btn btn-call" href="tel:{{ phone_href }}" data-track-contact="phone">
+                        <i data-lucide="phone-call" aria-hidden="true"></i>
+                        Gọi {{ phone_display }}
+                    </a>
+                </div>
+                <div class="hero-points" aria-label="Cam kết dịch vụ">
+                    <span>Kiểm tra hồ sơ trước</span>
+                    <span>Báo phí rõ ràng</span>
+                    <span>Hỗ trợ toàn quốc qua Zalo</span>
+                    <span>Không nhận nếu hồ sơ chưa đủ điều kiện</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="notice" aria-label="Lưu ý dịch vụ">
+            <div class="container notice-inner">
+                <i data-lucide="info" aria-hidden="true"></i>
+                <p><strong>Lưu ý:</strong> Chúng tôi là đơn vị tư vấn, hỗ trợ chuẩn bị hồ sơ. Phù hiệu xe được xét duyệt và cấp bởi cơ quan có thẩm quyền theo hồ sơ thực tế và quy định tại địa phương.</p>
+            </div>
+        </section>
+
+        <section class="section service-section" id="dich-vu" aria-labelledby="service-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="eyebrow">Nhóm dịch vụ</p>
+                    <h2 id="service-title">Hỗ trợ làm phù hiệu xe tải và xe kinh doanh vận tải</h2>
+                    <p>Dành cho chủ xe, hộ kinh doanh, hợp tác xã và doanh nghiệp cần đăng ký phù hiệu xe tải, phù hiệu xe biển vàng, cấp lại hoặc gia hạn phù hiệu.</p>
+                </div>
+                <div class="service-grid">
+                    <article class="service-card">
+                        <span class="card-icon"><i data-lucide="truck" aria-hidden="true"></i></span>
+                        <h3>Phù hiệu xe tải</h3>
+                        <p>Kiểm tra hồ sơ cho xe tải, xe đầu kéo, container và xe kinh doanh vận tải hàng hóa.</p>
+                    </article>
+                    <article class="service-card">
+                        <span class="card-icon"><i data-lucide="badge-check" aria-hidden="true"></i></span>
+                        <h3>Phù hiệu xe biển vàng</h3>
+                        <p>Rà soát biển số, loại hình khai thác, đơn vị quản lý và điều kiện trước khi đăng ký.</p>
+                    </article>
+                    <article class="service-card">
+                        <span class="card-icon"><i data-lucide="rotate-cw" aria-hidden="true"></i></span>
+                        <h3>Cấp lại, gia hạn</h3>
+                        <p>Hỗ trợ khi phù hiệu hết hạn, mất, hỏng, đổi biển số, đổi thông tin hoặc chuyển đơn vị.</p>
+                    </article>
+                    <article class="service-card">
+                        <span class="card-icon"><i data-lucide="file-search" aria-hidden="true"></i></span>
+                        <h3>Tư vấn hồ sơ thiếu</h3>
+                        <p>Hướng dẫn bổ sung giấy phép vận tải, GPS/camera, hợp đồng thuê xe hoặc ủy quyền nếu cần.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section conditions-section" id="ho-so" aria-labelledby="conditions-title">
+            <div class="container split">
+                <div>
+                    <p class="eyebrow">Điều kiện và hồ sơ</p>
+                    <h2 id="conditions-title">Trước khi làm phù hiệu xe tải cần kiểm tra gì?</h2>
+                    <p class="section-lead">Điều kiện cụ thể phụ thuộc loại xe, chủ thể khai thác và địa phương xử lý. Bạn có thể gửi ảnh giấy tờ để được rà soát bước đầu trước khi quyết định làm dịch vụ.</p>
+                    <figure class="proof-photo">
+                        <img src="{{ url_for('static', filename='images/phu-hieu-mau.webp') }}" alt="Mẫu phù hiệu xe tải và xe hợp đồng" loading="lazy">
+                        <figcaption>Mẫu phù hiệu xe thực tế dùng để đối chiếu loại phù hiệu cần làm.</figcaption>
+                    </figure>
+                </div>
+                <div class="checklist">
+                    <article>
+                        <i data-lucide="clipboard-check" aria-hidden="true"></i>
+                        <div>
+                            <h3>Điều kiện thường kiểm tra</h3>
+                            <ul>
+                                <li>Xe đang kinh doanh vận tải hoặc chuẩn bị khai thác kinh doanh vận tải.</li>
+                                <li>Đăng ký xe, đăng kiểm và thông tin biển số khớp hồ sơ.</li>
+                                <li>Đơn vị/hộ kinh doanh/hợp tác xã có giấy tờ vận tải phù hợp hoặc phương án bổ sung.</li>
+                                <li>Thiết bị giám sát hành trình, camera nếu xe thuộc nhóm phải lắp theo quy định.</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article>
+                        <i data-lucide="files" aria-hidden="true"></i>
+                        <div>
+                            <h3>Hồ sơ nên gửi qua Zalo</h3>
+                            <ul>
+                                <li>Đăng ký xe, đăng kiểm còn hiệu lực, ảnh biển số và thông tin chủ xe.</li>
+                                <li>Giấy phép kinh doanh vận tải hoặc giấy tờ đơn vị đang quản lý xe.</li>
+                                <li>Thông tin thiết bị giám sát hành trình, camera nếu có.</li>
+                                <li>Hợp đồng thuê xe, ủy quyền hoặc giấy tờ liên quan nếu xe không đứng tên đơn vị khai thác.</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section timing-section" id="thoi-gian" aria-labelledby="timing-title">
+            <div class="container timeline-layout">
+                <div class="section-head left">
+                    <p class="eyebrow">Thời gian thực hiện</p>
+                    <h2 id="timing-title">Báo mốc xử lý sau khi xem hồ sơ thật</h2>
+                    <p>Không có một mốc cố định cho mọi xe. Hồ sơ đủ điều kiện thường thuận lợi hơn; hồ sơ thiếu giấy phép, thiếu thiết bị hoặc sai thông tin chủ xe cần thêm thời gian bổ sung.</p>
+                </div>
+                <div class="time-grid">
+                    <article>
+                        <strong>10-30 phút</strong>
+                        <span>Kiểm tra sơ bộ qua ảnh giấy tờ trong giờ làm việc.</span>
+                    </article>
+                    <article>
+                        <strong>Trong ngày</strong>
+                        <span>Báo giấy tờ còn thiếu, hướng xử lý và chi phí dự kiến nếu hồ sơ đủ thông tin.</span>
+                    </article>
+                    <article>
+                        <strong>Theo hồ sơ</strong>
+                        <span>Tiến độ nộp, bổ sung và nhận kết quả phụ thuộc hồ sơ hợp lệ và cơ quan xử lý.</span>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section pricing-section" id="chi-phi" aria-labelledby="price-title">
+            <div class="container price-layout">
+                <div>
+                    <p class="eyebrow">Chi phí minh bạch</p>
+                    <h2 id="price-title">Nhận báo giá sau khi kiểm tra hồ sơ phù hiệu xe</h2>
+                    <p class="section-lead">Chi phí phụ thuộc loại xe, tình trạng hồ sơ, địa phương nộp và nhu cầu cấp mới, cấp lại hoặc gia hạn. Chúng tôi báo phí trước, không tự động thu tiền trên website.</p>
+                    <div class="price-table" aria-label="Thông tin chi phí">
+                        <div>
+                            <span>Kiểm tra hồ sơ qua Zalo</span>
+                            <strong>Miễn phí</strong>
+                        </div>
+                        <div>
+                            <span>Làm mới phù hiệu xe tải</span>
+                            <strong>Báo theo hồ sơ</strong>
+                        </div>
+                        <div>
+                            <span>Cấp lại, gia hạn, đổi thông tin</span>
+                            <strong>Báo sau rà soát</strong>
+                        </div>
+                    </div>
+                </div>
+                <aside class="quote-box" id="bao-gia" aria-labelledby="quote-title">
+                    <h3 id="quote-title">Nhận báo giá qua Zalo</h3>
+                    <p>Điền nhanh thông tin xe, hệ thống sẽ mở Zalo với nội dung sẵn có để bạn gửi.</p>
+                    <form class="quote-form" id="quoteForm">
+                        <label>
+                            Loại xe
+                            <select id="vehicleType" name="vehicleType">
+                                <option value="Xe tải">Xe tải</option>
+                                <option value="Xe đầu kéo/container">Xe đầu kéo/container</option>
+                                <option value="Xe hợp đồng">Xe hợp đồng</option>
+                                <option value="Xe taxi">Xe taxi</option>
+                                <option value="Cấp lại/gia hạn phù hiệu">Cấp lại/gia hạn phù hiệu</option>
+                            </select>
+                        </label>
+                        <label>
+                            Tỉnh/thành
+                            <input id="province" name="province" type="text" placeholder="Ví dụ: Hà Nội, TP.HCM, Đồng Nai">
+                        </label>
+                        <label>
+                            Biển số hoặc ghi chú
+                            <textarea id="quoteNote" name="quoteNote" rows="3" placeholder="Ví dụ: xe biển vàng, đã có đăng kiểm, chưa có GPS..."></textarea>
+                        </label>
+                        <button class="btn btn-zalo full" type="submit" data-track-contact="zalo">
+                            <i data-lucide="send" aria-hidden="true"></i>
+                            Mở Zalo nhận báo giá
+                        </button>
+                    </form>
+                    <a class="text-call" href="tel:{{ phone_href }}" data-track-contact="phone">Hoặc gọi trực tiếp {{ phone_display }}</a>
+                </aside>
+            </div>
+        </section>
+
+        <section class="section process-section" id="quy-trinh" aria-labelledby="process-title">
+            <div class="container">
+                <div class="section-head">
+                    <p class="eyebrow">Quy trình xử lý</p>
+                    <h2 id="process-title">5 bước làm việc gọn qua điện thoại và Zalo</h2>
+                </div>
+                <div class="process-grid">
+                    <article>
+                        <span>01</span>
+                        <h3>Tiếp nhận nhu cầu</h3>
+                        <p>Gửi loại xe, tỉnh thành, biển số và tình trạng đang cần làm mới, cấp lại hay gia hạn.</p>
+                    </article>
+                    <article>
+                        <span>02</span>
+                        <h3>Rà soát điều kiện</h3>
+                        <p>Kiểm tra đăng ký xe, đăng kiểm, giấy phép vận tải, chủ xe và thiết bị giám sát.</p>
+                    </article>
+                    <article>
+                        <span>03</span>
+                        <h3>Báo hồ sơ còn thiếu</h3>
+                        <p>Nêu rõ giấy tờ cần bổ sung và hướng xử lý nếu xe chưa đủ điều kiện.</p>
+                    </article>
+                    <article>
+                        <span>04</span>
+                        <h3>Báo giá, nhận xử lý</h3>
+                        <p>Báo chi phí, thời gian dự kiến và chỉ tiến hành khi khách đồng ý.</p>
+                    </article>
+                    <article>
+                        <span>05</span>
+                        <h3>Theo dõi, bàn giao</h3>
+                        <p>Cập nhật tiến độ, bàn giao kết quả và hướng dẫn cách lưu/dán phù hiệu trên xe.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section visual-section" aria-labelledby="visual-title">
+            <div class="container visual-grid">
+                <div>
+                    <p class="eyebrow">Vị trí dán phù hiệu</p>
+                    <h2 id="visual-title">Nhận kết quả xong cần dán và lưu hồ sơ đúng cách</h2>
+                    <p class="section-lead">Sau khi có phù hiệu, bạn sẽ được hướng dẫn vị trí dán, thời hạn theo dõi và giấy tờ nên mang theo xe để thuận tiện khi kiểm tra.</p>
+                    <a class="btn btn-call" href="tel:{{ phone_href }}" data-track-contact="phone">
+                        <i data-lucide="phone" aria-hidden="true"></i>
+                        Hỏi trường hợp xe của tôi
+                    </a>
+                </div>
+                <figure class="vehicle-photo">
+                    <img src="{{ url_for('static', filename='images/phu-hieu-dan-xe.webp') }}" alt="Phù hiệu xe tải được dán trên kính xe" loading="lazy">
+                    <figcaption>Ảnh minh họa vị trí nhận diện phù hiệu trên kính xe.</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="section faq-section" aria-labelledby="faq-title">
+            <div class="container faq-layout">
+                <div>
+                    <p class="eyebrow">Câu hỏi thường gặp</p>
+                    <h2 id="faq-title">Giải đáp nhanh trước khi xin phù hiệu xe tải</h2>
+                    <p class="section-lead">Các câu trả lời dưới đây giúp bạn chuẩn bị trước khi gửi hồ sơ.</p>
+                </div>
+                <div class="faq-list">
+                    <article class="faq-item active">
+                        <button type="button" aria-expanded="true">
+                            Xin phù hiệu xe tải ở đâu?
+                            <i data-lucide="chevron-down" aria-hidden="true"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Hồ sơ được nộp/xử lý theo cơ quan quản lý vận tải có thẩm quyền tại địa phương hoặc hệ thống tiếp nhận phù hợp. Dịch vụ của chúng tôi hỗ trợ kiểm tra, chuẩn bị và theo dõi hồ sơ, không phải cơ quan cấp phép.</p>
+                        </div>
+                    </article>
+                    <article class="faq-item">
+                        <button type="button" aria-expanded="false">
+                            Chưa có giấy phép kinh doanh vận tải có làm được không?
+                            <i data-lucide="chevron-down" aria-hidden="true"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Cần kiểm tra trước. Một số trường hợp phải hoàn thiện giấy phép kinh doanh vận tải hoặc hồ sơ đơn vị quản lý trước khi đăng ký phù hiệu xe tải.</p>
+                        </div>
+                    </article>
+                    <article class="faq-item">
+                        <button type="button" aria-expanded="false">
+                            Xe biển vàng đã đủ điều kiện làm phù hiệu chưa?
+                            <i data-lucide="chevron-down" aria-hidden="true"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Biển vàng là một tín hiệu cần kiểm tra, nhưng chưa đủ để kết luận. Cần xem thêm đăng kiểm, giấy phép vận tải, chủ xe, loại hình kinh doanh và thiết bị giám sát nếu thuộc diện bắt buộc.</p>
+                        </div>
+                    </article>
+                    <article class="faq-item">
+                        <button type="button" aria-expanded="false">
+                            Thủ tục làm phù hiệu xe tải mất bao lâu?
+                            <i data-lucide="chevron-down" aria-hidden="true"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Thời gian phụ thuộc hồ sơ hợp lệ, địa phương và lịch xử lý của cơ quan có thẩm quyền. Sau khi xem giấy tờ, chúng tôi sẽ báo mốc dự kiến để bạn chủ động kế hoạch chạy xe.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta" aria-labelledby="final-title">
+            <div class="container final-inner">
+                <div>
+                    <p class="eyebrow">Cần kiểm tra xe ngay?</p>
+                    <h2 id="final-title">Nhắn Zalo {{ phone_display }} để gửi ảnh hồ sơ</h2>
+                    <p>Gửi đăng ký xe, đăng kiểm, giấy tờ đơn vị và tình trạng cần xử lý. Chúng tôi phản hồi hướng làm phù hiệu xe phù hợp trước khi bạn quyết định sử dụng dịch vụ.</p>
+                </div>
+                <div class="final-actions">
+                    <a class="btn btn-zalo" href="{{ zalo_url }}" target="_blank" rel="noopener" data-track-contact="zalo">
+                        <i data-lucide="message-circle" aria-hidden="true"></i>
+                        Nhắn Zalo
+                    </a>
+                    <a class="btn btn-call" href="tel:{{ phone_href }}" data-track-contact="phone">
+                        <i data-lucide="phone-call" aria-hidden="true"></i>
+                        Gọi tư vấn
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="legal-section" id="thong-tin-don-vi" aria-labelledby="legal-title">
+            <div class="container legal-grid">
+                <div>
+                    <h2 id="legal-title">Thông tin đơn vị</h2>
+                    <p><strong>Nghiệp Vụ Vận Tải</strong> là đơn vị tư vấn, hỗ trợ chuẩn bị hồ sơ nghiệp vụ vận tải, trong đó có hồ sơ phù hiệu xe tải, phù hiệu xe biển vàng, xe hợp đồng và các trường hợp cấp lại/gia hạn.</p>
+                    <ul class="company-list">
+                        <li><strong>Hotline/Zalo:</strong> <a href="tel:{{ phone_href }}">{{ phone_display }}</a></li>
+                        <li><strong>Văn phòng TP.HCM:</strong> 504 Quốc lộ 13, Khu phố 6, Phường Hiệp Bình, TP. Hồ Chí Minh</li>
+                        <li><strong>Văn phòng Hà Nội:</strong> 387 Hoàng Quốc Việt, Phường Cầu Giấy, TP. Hà Nội</li>
+                        <li><strong>Phạm vi hỗ trợ:</strong> Kiểm tra hồ sơ qua Zalo trên toàn quốc.</li>
+                    </ul>
+                </div>
+                <div class="privacy-box">
+                    <h3>Chính sách bảo mật</h3>
+                    <p>Thông tin khách hàng và ảnh giấy tờ chỉ dùng để tư vấn, kiểm tra điều kiện, báo giá và hỗ trợ hồ sơ theo yêu cầu. Chúng tôi không bán dữ liệu cá nhân, không công khai hồ sơ xe và chỉ chia sẻ thông tin khi cần thiết cho việc xử lý hồ sơ hoặc theo yêu cầu của cơ quan có thẩm quyền.</p>
+                    <p>Nếu muốn chỉnh sửa hoặc yêu cầu xóa thông tin đã gửi, vui lòng liên hệ hotline/Zalo {{ phone_display }}.</p>
+                    <a href="https://vanban.chinhphu.vn/?docid=212082&pageid=27160" target="_blank" rel="noopener">Tham khảo Nghị định 158/2024/NĐ-CP</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
     <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Dịch Vụ Phù Hiệu Xe. Hotline: <a href="tel:0862221188">0862 221 188</a></p>
-            <p>Tư vấn 24/7 - Thủ tục nhanh chóng - Đúng quy định</p>
+        <div class="container footer-inner">
+            <p><strong>Dịch vụ làm phù hiệu xe tải</strong><br>Hỗ trợ hồ sơ, không phải cơ quan nhà nước.</p>
+            <p><a href="tel:{{ phone_href }}">{{ phone_display }}</a> | <a href="{{ zalo_url }}" target="_blank" rel="noopener">Zalo {{ phone_display }}</a></p>
         </div>
     </footer>
+
+    <div class="fixed-cta" aria-label="Liên hệ nhanh">
+        <a class="fixed-call" href="tel:{{ phone_href }}" data-track-contact="phone">
+            <i data-lucide="phone-call" aria-hidden="true"></i>
+            Gọi ngay
+        </a>
+        <a class="fixed-zalo" href="{{ zalo_url }}" target="_blank" rel="noopener" data-track-contact="zalo">
+            <i data-lucide="message-circle" aria-hidden="true"></i>
+            Zalo tư vấn
+        </a>
+    </div>
 
     <script src="{{ url_for('static', filename='js/phu-hieu-xe.js') }}"></script>
 </body>

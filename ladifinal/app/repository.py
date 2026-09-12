@@ -4,7 +4,7 @@ from .db import get_db
 FIELDS = [
     'id','subdomain','page_type','agent','global_site_tag',
     'ga_tracking_id','fb_pixel_id','tiktok_pixel_id',
-    'phone_tracking','zalo_tracking','form_tracking',
+    'google_ads_conversion_id','google_ads_label_phone','google_ads_label_zalo',
     'hotline_phone','zalo_phone','google_form_link',
     'status','is_active','original_filename','upload_type','folder_structure',
     'created_at','updated_at'
