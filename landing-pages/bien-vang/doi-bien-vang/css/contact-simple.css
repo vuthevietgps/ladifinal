@@ -1,0 +1,7 @@
+.contact-layout.contact-simple{grid-template-columns:1fr;max-width:900px;text-align:center}
+.contact-simple .contact-copy{max-width:760px;margin:0 auto}
+.contact-simple .contact-direct{justify-content:center}
+.service-disclosure{margin-top:20px;padding:16px 18px;border:1px solid #8da2b8;border-radius:12px;background:#10243f;color:#fff;font-size:14px;line-height:1.65}
+.service-disclosure strong{display:block;margin-bottom:6px}
+.service-disclosure a{color:#ffe69a;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:560px){.contact-simple .contact-direct{justify-content:stretch}.contact-simple .contact-direct a{text-align:left}}

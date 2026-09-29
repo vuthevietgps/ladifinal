@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "projectId": "nghiepvuvantai-com",
+  "name": "nghiepvuvantai.com",
+  "status": "historical_unverified",
+  "productGroupKeys": [
+    "phu-hieu-xe",
+    "bien-vang",
+    "the-lai-xe"
+  ],
+  "domains": [
+    "https://nghiepvuvantai.com"
+  ],
+  "owner": null,
+  "hotline": "0986284840",
+  "zalo": "0986284840",
+  "trackingSourceKeys": [
+    "nghiepvuvantai-com-20260825"
+  ],
+  "adsAccounts": [],
+  "landingSourcePaths": [
+    "landing-pages/phu-hieu-xe/dich-vu-lam-phu-hieu-xe-nghiepvuvantai",
+    "landing-pages/bien-vang/doi-bien-vang-nghiepvuvantai",
+    "landing-pages/the-lai-xe/the-nhan-dang-lai-xe-rfid-nghiepvuvantai"
+  ],
+  "executionSystem": "erp",
+  "newGoogleSearchCampaignStatus": "PAUSED",
+  "lastRuntimeVerifiedAt": null,
+  "notes": "Source reorganized 2026-09-17. Product group keys classify local documents only, not verified ERP group IDs. Runtime/account/campaign/adgroup mappings still require verification."
+}

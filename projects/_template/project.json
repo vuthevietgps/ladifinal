@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "projectId": "replace-project-id",
+  "name": "CHƯA ĐIỀN",
+  "status": "draft",
+  "productGroupKeys": [],
+  "domains": [],
+  "owner": null,
+  "hotline": null,
+  "zalo": null,
+  "trackingSourceKeys": [],
+  "adsAccounts": [],
+  "landingSourcePaths": [],
+  "executionSystem": "erp",
+  "newGoogleSearchCampaignStatus": "PAUSED",
+  "lastRuntimeVerifiedAt": null,
+  "notes": "Hồ sơ phát triển, không phải cấu hình runtime. Điền thông tin dự án; không kế thừa credentials, ngân sách hay approval."
+}

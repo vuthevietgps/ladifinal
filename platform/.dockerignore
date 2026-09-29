@@ -1,0 +1,25 @@
+# Docker build context is platform/, not the repository root.
+**/__pycache__/
+**/*.py[cod]
+**/.venv/
+**/venv/
+**/node_modules/
+**/.git/
+**/.env
+**/.env.*
+.env
+.env.*
+**/*.db
+**/*.db-*
+**/*.db.*
+**/*.sqlite*
+**/uploads/
+**/published/
+**/logs/
+**/*.log
+**/*.zip
+**/*.bak
+**/*.backup
+docs/
+**/*.md
+ladifinal/tests/

@@ -1,7 +1,13 @@
-# Quy tac thiet ke va dong goi Landing Page
+# Quy tắc thiết kế và đóng gói Landing Page
+
+Phiên bản 1.2 — 27/09/2026. File này giữ quy cách giao diện/asset/ZIP;
+[quytrinh.md](quytrinh.md) giữ các phase. Quyền thực thi và quick/targeted/full theo
+[nguồn chung ERP–Ladifinal](../htxbachgia.shop/final8-version16/docs/operations/shared-operating-policy.md).
+Dự án mới dùng `landing-pages/<group-key>/<landing-key>/`. Tên trường admin, giới
+hạn và route minh họa phải đối chiếu runtime; ví dụ không phải dữ liệu mặc định.
 
 > File nay danh cho AI (Claude, Codex, ChatGPT) doc de thiet ke landing page tuong thich voi he thong ladifinal.
-> **QUY TRINH BAT BUOC: 2 PHA** - Thiet ke truoc, test bang link, chi dong goi sau khi user yeu cau ro rang.
+> **Hai bước kỹ thuật:** thiết kế/kiểm chứng rồi đóng gói khi phạm vi đã giao cần đến. Nếu đã yêu cầu đóng gói hoặc triển khai, tiếp tục sau kiểm chứng; không xin lại quyền hoặc bắt nhắc từ “ZIP”. Xuất bản vẫn theo đích và phạm vi đã được giao.
 > **CAP NHAT:** Admin hien tai co the tao page ma khong can upload ZIP. Neu khong co ZIP, he thong tao trang mac dinh.
 > Tuy nhien, de co landing page day du giao dien/noi dung, van nen chuan bi bo file va dong goi ZIP.
 
@@ -11,7 +17,7 @@
 
 ### PHA 1: THIET KE & PREVIEW (Mac dinh)
 
-> Khi nhan yeu cau thiet ke landing page, **CHI THUC HIEN PHA 1**. KHONG dong goi ZIP.
+> Yêu cầu chỉ thiết kế kết thúc ở preview. Nếu đã giao đóng gói/triển khai, hoàn tất kiểm chứng rồi tiếp tục bước tương ứng trong cùng tác vụ.
 
 **Viec can lam:**
 
@@ -24,24 +30,24 @@
    - Neu moi truong khong mo duoc link truc tiep: phai gui ro lenh de user tu chay va URL sau khi chay
 
 5. Tra ve danh sach file da tao/sua (`index.html`, `css/style.css`, `js/script.js`, ...).
-6. **Ket thuc Pha 1** bang cau: *"Da thiet ke xong. Ban co the test tai [link]. Neu ung y va muon dong goi, hay gui prompt dong goi ZIP."*
-7. Neu user bao "chua ung", "sua lai", "lam lai", AI quay lai PHA 1, sua code va tra link moi. Van KHONG dong goi ZIP.
+6. Báo preview thực sự đã chạy và kiểm chứng, hoặc ghi rõ lệnh/URL dự kiến nếu chưa chạy được. Yêu cầu chỉ thiết kế thì dừng ở kết quả này; yêu cầu đã gồm đóng gói/triển khai thì tiếp tục.
+7. Khi người dùng yêu cầu sửa, kiểm tra targeted phần sửa và phụ thuộc theo quy định chung. Giữ phạm vi đã giao, trừ khi người dùng thay đổi hoặc yêu cầu dừng.
 
-**KHONG DUOC** tu dong dong goi ZIP o pha nay.
-
-**Mau phan hoi bat buoc o cuoi PHA 1:**
-```
-Da thiet ke xong. Ban test tai: http://localhost:8080
-Neu ung y, hay gui prompt: "Dong goi ZIP".
-Neu chua ung, noi ro muc can sua, toi se viet lai.
-```
+Không hỏi lại việc đã được giao rõ. Thiếu quyết định như domain/hotline/đích triển
+khai thì hỏi gộp phần thiếu, tiếp tục chuẩn bị phần độc lập.
 
 ---
 
-### PHA 2: DONG GOI ZIP (Chi khi nguoi dung yeu cau)
+### PHA 2: Đóng gói ZIP theo phạm vi đã giao
 
-> Chi thuc hien khi nguoi dung yeu cau ro rang ve dong goi, vi du: "dong goi ZIP", "tao file zip", "nen file lai".
-> KHONG dong goi neu user chi noi "OK", "duoc", "on roi" ma chua nhac den ZIP.
+> Thực hiện khi đã yêu cầu đóng gói, hoặc khi đóng gói là bước cần thiết cho việc triển khai đã được giao. Không cần một lượt xác nhận riêng sau preview. “OK” được hiểu theo đề nghị và phạm vi cụ thể trước đó; nếu chưa có yêu cầu đóng gói/triển khai thì không suy ra quyền xuất bản.
+
+**Deploy qua phần quản lý landingpage nhận ZIP vẫn bắt buộc có ZIP của bản thiết kế.**
+Luồng đầy đủ: kiểm chứng source → tạo ZIP → kiểm tra `index.html`/asset trong archive
+→ upload/cập nhật đúng landing trong phần quản lý server → kiểm tra URL live.
+“Không xác nhận ZIP riêng” không có nghĩa bỏ đóng gói/upload. Không báo deploy xong
+khi mới có ZIP local hoặc khi server chỉ tạo trang mặc định. Thiếu server/landing
+đích thì hỏi đúng thông tin thiếu; nếu đã rõ và đã được giao deploy thì làm tiếp.
 
 **Lenh dong goi:**
 
@@ -266,7 +272,8 @@ Form quan tri hien tai co cac o lien quan tracking:
 | Nhan chuyen doi Zalo | Chu + so + `_` + `-` | `nuf0CMCgqoEcEMvF7OY9` |
 | Global Site Tag (Legacy - Optional) | Doan script/ma tuy chinh | Script tuy bien them |
 
-**Khong con truong "Google Analytics 4 ID / Google tag ID" tren form admin.**
+Tên trường và khả năng GA4/Google tag phải đối chiếu form/runtime hiện hành; không
+kết luận thiếu chức năng từ mô tả form cũ. Không tự chèn script thứ hai để bù trường chưa tìm thấy.
 
 ### Google Ads conversion (chi tiet can nho)
 
@@ -291,12 +298,14 @@ Co che he thong:
 - `Global Site Tag (Legacy - Optional)` chi dung khi can chen them script tuy bien.
 - Khong can copy event snippet vao HTML thu cong neu da dien dung 3 o tren.
 
-**Da loai bo khoi he thong:**
+Các trường riêng sau thuộc giao diện cũ, kiểm tra phiên bản đang chạy trước khi hướng dẫn:
 - `Phone Tracking`
 - `Form Tracking`
 - `Zalo/Messenger Tracking`
 
-Phone/Zalo/Form van duoc do luong qua hanh vi thuc te (`tel:`, `zalo.me`, `form submit`), khong can field rieng.
+Việc đo Phone/Zalo/Form phải kiểm chứng qua handler thực tế (`tel:`, `zalo.me`,
+`form submit`); có trường hoặc có script không chứng minh đã nhận sự kiện. CTA click
+không tự là lead xác minh/đơn; kiểm tra collector và Google tag riêng, không đếm trùng.
 
 **He thong tu dong theo doi:**
 - Page view (xem trang)
@@ -306,7 +315,7 @@ Phone/Zalo/Form van duoc do luong qua hanh vi thuc te (`tel:`, `zalo.me`, `form 
 - CTA button click (nut `.btn-buy`, `.btn-order`, `.cta-button`)
 - Scroll depth (25%, 50%, 75%, 100%)
 
-**Dieu can lam de do conversion Google Ads dung:** 
+**Dieu can lam de do conversion Google Ads dung:**
 1. Dien dung `Ma chuyen doi Google Ads (AW)`.
 2. Dien `Nhan chuyen doi SDT` va `Nhan chuyen doi Zalo` dung label trong Google Ads.
 3. Dam bao link dien thoai va Zalo dung format chuan:
@@ -341,6 +350,10 @@ font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
 
 ## KIEM TRA TRUOC KHI BAO "DA XONG PHA 1"
 
+Landing mới kiểm tra đủ checklist dưới đây. Sửa landing hiện có dùng targeted theo
+phần thay đổi và phụ thuộc; ghi rõ evidence còn hợp lệ được dùng lại. Sửa shared
+template phải xét các landing phụ thuộc. Không đóng lỗi chỉ dựa vào preview cũ.
+
 - [ ] `index.html` o thu muc goc
 - [ ] Tat ca asset dung duong dan tuyet doi (`/css/`, `/js/`, `/images/`)
 - [ ] Responsive tren mobile (Chrome DevTools > Toggle device)
@@ -353,7 +366,7 @@ font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
 
 ## KIEM TRA TRUOC KHI DONG GOI ZIP (PHA 2)
 
-- [ ] Tat ca checklist Pha 1 da dat
+- [ ] Checklist Pha 1 đủ bằng chứng còn hợp lệ cho phiên bản đóng gói; phần thay đổi đã kiểm tra lại
 - [ ] `index.html` nam o root cua ZIP (khong lot trong subfolder)
 - [ ] Khong co file thua (README, .DS_Store, node_modules, ...)
 - [ ] Ten ZIP ro rang, khong dau cach
@@ -373,7 +386,7 @@ Thiet ke landing page cho dich vu "Phu hieu xe tai":
 
 ### AI tra loi (Pha 1):
 > Tao folder, viet code HTML/CSS/JS, cho link preview.
-> Ket thuc: "Da thiet ke xong. Xem tai http://localhost:8080. Neu ung y, bao toi dong goi ZIP."
+> Báo link preview đã kiểm chứng và kết quả. Với yêu cầu chỉ thiết kế, kết thúc ở preview; không yêu cầu một câu xác nhận đóng gói theo mẫu bắt buộc.
 
 ### Nguoi dung xac nhan:
 ```
@@ -382,6 +395,10 @@ OK, dong goi ZIP cho toi
 
 ### AI thuc hien (Pha 2):
 > Dong goi ZIP, thong bao ten file va vi tri.
+
+Nếu prompt ban đầu đã là “Thiết kế và đóng gói landing ...”, thực hiện cả hai bước
+sau kiểm chứng, không chờ thêm câu “OK, đóng gói ZIP”. Nếu đã yêu cầu triển khai,
+tiếp tục Phase 4 của quytrinh.md với đích đã xác minh và kiểm tra URL sau phát hành.
 
 ---
 
@@ -399,6 +416,6 @@ OK, dong goi ZIP cho toi
 
 ## FILE MAU THAM KHAO
 
-- `ladipagetest1/`, `ladipagetest2/` - Cau truc chuan da test thanh cong
-- `ho-chieu-service/` - Vi du dich vu lam ho chieu day du tinh nang
-- Luon tham khao cac file mau nay khi tao landing page moi
+- Xem [danh mục landing](landing-pages/README.md) để chọn source tham khảo đúng nhóm sản phẩm.
+- Source chuẩn nằm tại `landing-pages/<group-key>/<landing-key>/`.
+- Ứng dụng quản lý, tracking và Docker nằm trong `platform/`; không đưa mã ứng dụng vào ZIP landing.

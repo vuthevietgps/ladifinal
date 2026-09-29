@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "projectId": "dichvuvantai-site",
+  "name": "dichvuvantai.site",
+  "status": "historical_unverified",
+  "productGroupKeys": [
+    "bien-vang",
+    "giay-phep-kinh-doanh-van-tai",
+    "the-lai-xe"
+  ],
+  "domains": [
+    "https://dichvuvantai.site"
+  ],
+  "owner": null,
+  "hotline": "0363614511",
+  "zalo": "0363614511",
+  "trackingSourceKeys": [
+    "dichvuvantai-site-20260915"
+  ],
+  "adsAccounts": [
+    {
+      "provider": "google",
+      "accountId": "8955711884",
+      "verificationStatus": "historical_unverified",
+      "evidence": "docs/operations/tracking-projects.md"
+    }
+  ],
+  "landingSourcePaths": [
+    "landing-pages/bien-vang/doi-bien-vang",
+    "landing-pages/bien-vang/combo-dich-vu-van-tai-toan-quoc",
+    "landing-pages/bien-vang/doi-bien-vang-phu-hieu-xe-dichvuvantai",
+    "landing-pages/the-lai-xe/the-nhan-dang-lai-xe-rfid",
+    "landing-pages/giay-phep-kinh-doanh-van-tai/tu-van-giay-phep-kinh-doanh-van-tai-toan-quoc"
+  ],
+  "executionSystem": "erp",
+  "newGoogleSearchCampaignStatus": "PAUSED",
+  "lastRuntimeVerifiedAt": null,
+  "notes": "Source reorganized 2026-09-17. Product group keys classify local documents only, not verified ERP group IDs. Runtime/account/campaign/adgroup mappings still require verification."
+}

@@ -1,0 +1,119 @@
+{
+  "planName": "Phù hiệu mới — 3 ý tưởng hỗ trợ thủ tục — 18/09/2026",
+  "actions": [
+    {
+      "actionType": "create_responsive_search_ad",
+      "customerId": "1396730688",
+      "campaignId": "24254559545",
+      "adGroupId": "205916274371",
+      "idempotencyKey": "PHUHIEU-20260918-RSA-A-CONDITIONS-V1",
+      "reason": "Mẫu A: thử nhu cầu kiểm tra điều kiện xe trước khi làm hồ sơ. Người dùng yêu cầu tạo vài mẫu và Ad Strength tối thiểu GOOD; tạo PAUSED, chưa kích hoạt khi landing mới và tracking chưa nghiệm thu live.",
+      "payload": {
+        "finalUrl": "https://nghiepvuvantai.com/landing/dich-vu-lam-phu-hieu-xe",
+        "headlines": [
+          "Hỗ Trợ Thủ Tục Phù Hiệu Xe",
+          "Xe Bạn Đủ Điều Kiện Chưa?",
+          "Tư Vấn Phù Hiệu Xe Tải",
+          "Kiểm Tra Hồ Sơ Trước Khi Làm",
+          "Xe Biển Vàng Cần Giấy Tờ Gì?",
+          "Gửi Giấy Tờ Qua Zalo",
+          "Hướng Dẫn Phần Hồ Sơ Còn Thiếu",
+          "Tư Vấn Theo Tình Trạng Xe",
+          "Chuẩn Bị Hồ Sơ Đúng Loại Xe",
+          "Báo Phí Rõ Trước Khi Làm",
+          "Nhận Kết Quả Rồi Thanh Toán",
+          "Hỗ Trợ Hồ Sơ Cấp Lại",
+          "Tư Vấn Gia Hạn Phù Hiệu",
+          "Hỏi Trường Hợp Xe Của Bạn",
+          "Nghiệp Vụ Vận Tải"
+        ],
+        "descriptions": [
+          "Tư vấn thủ tục phù hiệu xe, kiểm tra điều kiện. Không phải cơ quan cấp phù hiệu.",
+          "Xe tải, xe biển vàng: gửi đăng ký và đăng kiểm qua Zalo để được rà soát hồ sơ.",
+          "Hướng dẫn giấy tờ còn thiếu theo tình trạng xe. Báo rõ phần việc và phí trước khi làm.",
+          "Bạn đồng ý báo phí mới tiến hành hỗ trợ. Nhận kết quả rồi mới thanh toán."
+        ],
+        "headlinePins": [],
+        "descriptionPins": [{"index": 0, "pinnedField": "DESCRIPTION_1"}],
+        "path1": "phu-hieu-xe",
+        "path2": "kiem-tra-ho-so"
+      }
+    },
+    {
+      "actionType": "create_responsive_search_ad",
+      "customerId": "1396730688",
+      "campaignId": "24254559545",
+      "adGroupId": "205916274371",
+      "idempotencyKey": "PHUHIEU-20260918-RSA-B-DOCUMENTS-V1",
+      "reason": "Mẫu B: thử nhu cầu biết và bổ sung giấy tờ còn thiếu. Người dùng yêu cầu tạo vài mẫu và Ad Strength tối thiểu GOOD; tạo PAUSED, dự phòng cho lượt thử tiếp theo sau A/C và sau nghiệm thu landing/tracking live.",
+      "payload": {
+        "finalUrl": "https://nghiepvuvantai.com/landing/dich-vu-lam-phu-hieu-xe",
+        "headlines": [
+          "Hồ Sơ Phù Hiệu Xe Còn Thiếu?",
+          "Hỗ Trợ Thủ Tục Phù Hiệu Xe",
+          "Hướng Dẫn Bổ Sung Giấy Tờ",
+          "Tư Vấn Hồ Sơ Phù Hiệu Xe Tải",
+          "Gửi Giấy Tờ Hiện Có Qua Zalo",
+          "Kiểm Tra Đăng Ký, Đăng Kiểm",
+          "Tư Vấn Hồ Sơ Xe Biển Vàng",
+          "Chưa Rõ Thủ Tục? Hỏi Qua Zalo",
+          "Hỗ Trợ Chuẩn Bị Hồ Sơ",
+          "Làm Rõ Từng Phần Cần Bổ Sung",
+          "Hồ Sơ Cấp Lại, Gia Hạn",
+          "Báo Phần Việc Trước Khi Làm",
+          "Biết Chi Phí Rồi Quyết Định",
+          "Nhận Kết Quả Rồi Thanh Toán",
+          "Nghiệp Vụ Vận Tải"
+        ],
+        "descriptions": [
+          "Hỗ trợ chuẩn bị hồ sơ phù hiệu xe; không phải cơ quan xét duyệt hoặc cấp phù hiệu.",
+          "Chưa biết thiếu giấy tờ gì? Gửi hồ sơ hiện có qua Zalo để được kiểm tra và hướng dẫn.",
+          "Tư vấn theo loại xe, đơn vị khai thác và tình trạng hồ sơ. Nêu rõ phần cần bổ sung.",
+          "Báo rõ phần việc, tổng chi phí trước khi bạn đồng ý. Nhận kết quả rồi mới thanh toán."
+        ],
+        "headlinePins": [],
+        "descriptionPins": [{"index": 0, "pinnedField": "DESCRIPTION_1"}],
+        "path1": "phu-hieu-xe",
+        "path2": "huong-dan-ho-so"
+      }
+    },
+    {
+      "actionType": "create_responsive_search_ad",
+      "customerId": "1396730688",
+      "campaignId": "24254559545",
+      "adGroupId": "205916274371",
+      "idempotencyKey": "PHUHIEU-20260918-RSA-C-FEES-V1",
+      "reason": "Mẫu C: thử thông điệp phí minh bạch, nhận kết quả rồi thanh toán đã được người dùng xác nhận. Mục tiêu Ad Strength tối thiểu GOOD; tạo PAUSED, chỉ thử sau khi landing mới và tracking được nghiệm thu live.",
+      "payload": {
+        "finalUrl": "https://nghiepvuvantai.com/landing/dich-vu-lam-phu-hieu-xe",
+        "headlines": [
+          "Hỗ Trợ Thủ Tục Phù Hiệu Xe",
+          "Báo Phí Rõ Trước Khi Làm",
+          "Nhận Kết Quả Rồi Thanh Toán",
+          "Chi Phí Hồ Sơ Phù Hiệu Xe",
+          "Tư Vấn Phù Hiệu Xe Tải",
+          "Xem Hồ Sơ Rồi Báo Chi Phí",
+          "Bạn Đồng Ý Mới Tiến Hành",
+          "Nêu Rõ Phí Dịch Vụ Hỗ Trợ",
+          "Nhận Báo Phí Qua Zalo",
+          "Kiểm Tra Điều Kiện Xe Trước",
+          "Hướng Dẫn Giấy Tờ Còn Thiếu",
+          "Tư Vấn Hồ Sơ Xe Biển Vàng",
+          "Báo Phí Theo Từng Hồ Sơ",
+          "Hỗ Trợ Hồ Sơ Cấp Lại",
+          "Nghiệp Vụ Vận Tải"
+        ],
+        "descriptions": [
+          "Dịch vụ hỗ trợ hồ sơ phù hiệu xe, báo phí rõ. Chúng tôi không phải cơ quan cấp phù hiệu.",
+          "Nhận kết quả rồi mới thanh toán theo báo phí đã thống nhất. Hỏi trường hợp xe qua Zalo.",
+          "Báo riêng phí dịch vụ, giải thích khoản khác nếu có. Bạn biết tổng phí trước khi đồng ý.",
+          "Kiểm tra điều kiện và giấy tờ còn thiếu trước khi hỗ trợ. Gửi ảnh hồ sơ qua Zalo."
+        ],
+        "headlinePins": [],
+        "descriptionPins": [{"index": 0, "pinnedField": "DESCRIPTION_1"}],
+        "path1": "phu-hieu-xe",
+        "path2": "bao-phi-ro"
+      }
+    }
+  ]
+}

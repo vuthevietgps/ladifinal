@@ -1,142 +1,20 @@
-# 🚀 Ladipage System - Complete Landing Page Management
+# Landing & Ads
 
-Hệ thống tạo và quản lý landing page chuyên nghiệp với Flask, hỗ trợ tải lên ZIP và triển khai tự động.
+Bắt đầu với [quytrinh.md](quytrinh.md). Khi thiết kế landing, đọc thêm [QUYTAC.md](QUYTAC.md); hướng dẫn dành cho Codex ở [AGENTS.md](AGENTS.md).
 
-**Current Version**: Complete System with Ho Chieu Service (Oct 2025)
-**Package Size**: 45.52KB (optimized)
-**Architecture**: 6 modular blueprints for maintainability
-
-## ✨ Tính năng chính
-
-- 📱 **Landing Page Management**: Tạo, chỉnh sửa và quản lý landing page
-- � **Homepage Management**: Quản lý trang chủ với khả năng thay đổi nhanh
-- � **Agent System**: Hệ thống quản lý đại lý và phân quyền
-- � **ZIP Upload**: Hỗ trợ tải lên file ZIP với cấu trúc chuẩn
-- 🔄 **Auto Rewrite**: Tự động chuyển đổi đường dẫn asset khi deploy
-- 📊 **Analytics**: Theo dõi và phân tích lưu lượng truy cập
-- 🛡️ **Google Ads IP Suggestions**: Ghi nhận IP qua Cloudflare và đề xuất IP nghi ngờ để kiểm tra/chặn thủ công
-- 🔐 **Secure Admin Panel**: Role-based access control
-- 🐳 **Docker Optimized**: Production-ready containerization
-
-### Server Requirements
-- Ubuntu 22.04+ (or compatible Linux)
-- Docker and Docker Compose installed
-- Traefik reverse proxy running
-- Domain with SSL certificates
-
-### Quick Deployment
-
-1. **Upload Package**
-   ```bash
-   # Upload ladifinal-clean-20251011-2206.zip to server
-   cd /opt/websites/sites/
-   # Upload via SCP, SFTP, or web interface
-   unzip ladifinal-clean-20251011-2206.zip
-   cd ladifinal
-   ```
-
-2. **Set Permissions**
-   ```bash
-   chmod +x deploy.sh
-   sudo chown -R $USER:docker .
-   ```
-
-3. **Deploy Application**
-   ```bash
-   ./deploy.sh
-   ```
-
-### Configuration
-
-- **Domain**: landing.htxbachgia.shop
-- **Port**: 5001
-- **Traefik Labels**: Configured for subdomain routing
-- **Health Check**: Available at `/health` endpoint
-
-### Modular Architecture
-```
-ladifinal/
-├── app/
-│   ├── routes/          # 6 Modular Route Blueprints
-│   │   ├── homepage_routes.py    # Company homepage management
-│   │   ├── landing_routes.py     # Landing page CRUD & API
-│   │   ├── auth_routes.py        # Authentication & admin
-│   │   ├── agents_routes.py      # Agent management
-│   │   ├── health_routes.py      # Health checks
-│   │   └── file_handler.py       # ZIP processing utilities
-│   ├── __init__.py      # Flask app factory
-│   ├── auth.py         # User authentication
-│   ├── db.py           # Database operations
-│   └── repository.py   # Data access layer
-├── templates/          # Jinja2 HTML templates
-├── uploads/           # User uploads (auto-created)
-├── published/         # Published sites (auto-created)
-├── main.py           # Application entry point
-├── Dockerfile        # Optimized container config
-├── docker-compose.yml # Production orchestration
-├── requirements.txt   # Python dependencies
-├── .env.production   # Production environment
-├── deploy.sh         # Deployment script
-└── README.md         # This file
+```text
+landing-pages/    Landing theo 3 nhóm: biển vàng, thẻ lái xe, giấy phép vận tải
+platform/         Ứng dụng quản lý, tracking, đăng nhập và Docker
+projects/         Brief, mapping, kế hoạch Ads và checklist từng dự án
+product-groups/   Kiến thức sản phẩm dùng chung và mẫu nhóm mới
+docs/             Kiến trúc ERP, cấu hình tham chiếu và ghi nhận kiểm tra
 ```
 
-### Management Commands
+- [Chọn landing để sửa hoặc preview](landing-pages/README.md)
+- [Chạy ứng dụng và kiểm thử](platform/README.md)
+- [Tạo hoặc tiếp tục dự án](projects/README.md)
+- [Tracking và ranh giới với ERP](docs/architecture/landing-ads-erp.md)
+- [Cấu hình tham chiếu theo website](docs/operations/tracking-projects.md)
+- [Kết quả dọn thư mục](docs/cleanup-20260917.md)
 
-- **View logs**: `docker-compose logs -f`
-- **Restart**: `docker-compose restart`
-- **Stop**: `docker-compose down`
-- **Update**: `git pull && docker-compose up -d --build`
-
-### Troubleshooting
-
-1. **Container won't start**:
-   ```bash
-   docker-compose logs
-   docker ps -a
-   ```
-
-2. **Network issues**:
-   ```bash
-   docker network ls
-   docker network inspect traefik-network
-   ```
-
-3. **Permissions issues**:
-   ```bash
-   sudo chown -R $USER:docker /opt/websites/sites/ladifinal
-   ```
-
-4. **Traefik not routing**:
-   - Check Traefik dashboard
-   - Verify labels in docker-compose.yml
-   - Ensure traefik-network exists
-
-### API Endpoints
-
-- **Health Check**: `/health` - System status
-- **Admin Panel**: `/admin-panel-xyz123/` - Management interface
-- **Landing Pages**: `/landing/{subdomain}` - Published pages
-- **API**: `/api/landing-pages` - RESTful API
-
-### Modular Benefits
-
-✅ **Maintainable**: Each feature in separate module
-✅ **Scalable**: Easy to add new functionality
-✅ **Testable**: Isolated components
-✅ **Clean**: Clear separation of concerns
-✅ **Reusable**: Modular blueprints
-
-### Development Workflow
-
-1. **Local Testing**: `docker-compose up --build`
-2. **Code Changes**: Edit specific route modules
-3. **Package**: Create optimized ZIP (45KB)
-4. **Deploy**: Upload and restart container
-
-### Support
-
-For issues, check:
-1. **Logs**: `docker-compose logs -f`
-2. **Health**: Visit `/health` endpoint
-3. **Modules**: Each route module has isolated errors
-4. **Database**: Auto-created SQLite with proper schema
+ERP vẫn quản lý CRM, đơn hàng và thực thi Google Ads. Tổ chức thư mục local không thay đổi website/campaign đang chạy. Tên thư mục project vẫn là `ladifinal`.

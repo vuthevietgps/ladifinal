@@ -1,57 +1,43 @@
-# Ignore embedded git repositories
-cloudflare-tunnel-deploy/
-
-# Python
+# Local runtime and dependencies
+.venv/
+venv/
+node_modules/
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
 
-# Database
+# Secrets (keep templates)
+.env
+.env.*
+!.env.example
+
+# Databases and local runtime files
 *.db
 *.db-*
 *.db.*
-*.sqlite3
-database.db
-
-# Logs
+*.sqlite*
+platform/ladifinal/published/
+platform/ladifinal/uploads/
+platform/published/
+platform/uploads/
+platform/logs/
+platform/app/data/
+platform/data/
 logs/
 *.log
 
-# Environment files
-.env
-.env.local
-.env.production
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Temporary files
-temp-check/
-.codex_tmp/
-outputs/
-*.tmp
-*.temp
-
-# Generated archives (keep source directories in Git)
+# Generated releases / private project artifacts
 *.zip
-
-# Node modules (if any)
-node_modules/
-
-# Build outputs
+projects/**/private/
+projects/**/artifacts/
+outputs/
 dist/
 build/
+
+# Editor and temporary files
+.vscode/
+.idea/
+.codex_tmp/
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
